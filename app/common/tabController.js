@@ -41,7 +41,6 @@ const tabBarItems = [
                           source={require('../../img/tab/tab_me.png')} /> ,
         component: AboutMe
     }
-
 ]
 
 
