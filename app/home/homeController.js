@@ -9,10 +9,12 @@ import {
     View,
     ScrollView,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import Swiper from 'react-native-swiper'
 
+var {width,height} = Dimensions.get('window')
 const bannerHeight = 90
 class Banner extends Component{
     render(){
@@ -96,13 +98,21 @@ class StockRank extends Component{
                 <View>
                     <Text>股神争霸</Text>
                 </View>
-                <View style={[styles.row,{paddingRight:15}]}>
+                <View style={[styles.row,{paddingRight:15,paddingVertical:10}]}>
                     <Text>本年排行</Text>
                     <Text>本月排行</Text>
                     <Text>本周排行</Text>
                 </View>
             </View>
-            <View></View>
+            <View>
+                <ScrollView>
+                    <Text>1</Text>
+                    <Text>2</Text>
+                    <Text>3</Text>
+                    <Text>4</Text>
+                    <Text>5</Text>
+                </ScrollView>
+            </View>
         </View>
     }
 }
@@ -126,6 +136,14 @@ class RecentBet extends Component{
         </Swiper>
     }
 }
+
+class AnnualPrize extends Component{
+    render(){
+        return <Image source={{uri:'http://pic.58pic.com/58pic/16/62/63/97m58PICyWM_1024.jpg'}}
+        style={{width:width,height:120,marginBottom:10}}/>
+    }
+}
+
 export default class homeController extends Component{
     render(){
         return <ScrollView style={{flex:1}}>
@@ -140,6 +158,7 @@ export default class homeController extends Component{
             </View>
             <RecentBet />
             <StockRank />
+            <AnnualPrize />
         </ScrollView>
     }
 }
