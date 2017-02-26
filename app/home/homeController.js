@@ -88,6 +88,25 @@ class StockCell extends Component{
     }
 }
 
+
+class StockRank extends Component{
+    render(){
+        return <View>
+            <View style={[styles.row,{justifyContent:'space-between',alignItems:'center'}]}>
+                <View>
+                    <Text>股神争霸</Text>
+                </View>
+                <View style={[styles.row,{paddingRight:15}]}>
+                    <Text>本年排行</Text>
+                    <Text>本月排行</Text>
+                    <Text>本周排行</Text>
+                </View>
+            </View>
+            <View></View>
+        </View>
+    }
+}
+
 class RecentBet extends Component{
     render(){
         return  <Swiper
@@ -119,9 +138,8 @@ export default class homeController extends Component{
                 <StockCell />
                 <StockCell />
             </View>
-            <View>
-                <RecentBet />
-            </View>
+            <RecentBet />
+            <StockRank />
         </ScrollView>
     }
 }
