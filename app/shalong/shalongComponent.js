@@ -15,15 +15,16 @@ import {
     ListView,
     Modal,
     NativeModules,
-    Navigator
+    Navigator,
+    InteractionManager
 } from 'react-native';
 import Image from 'react-native-image-progress'
 import SGListView from 'react-native-sglistview'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import {shalongcommentlist} from '../util/NetUtil'
-import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 import {types} from './reducer/shalongReducer'
-
+import {NavigationBarRouteMapper} from '../common/navigatorConfig'
+import {shalongAction} from './action/shalongAction'
 const {width, height} = Dimensions.get('window')
 
 const picMargin = 10
@@ -169,7 +170,6 @@ class Footer extends Component {
     }
 
     render() {
-        // alert(JSON.stringify(this.props.data))
         return <View
             style={[styles.row,{marginTop:20,justifyContent:'space-between',alignItems:'center',borderBottomColor:'#f5f5f5',borderBottomWidth:1}]}>
             <View style={[styles.row,{paddingBottom:6,width:100,flexGrow:3}]}>
@@ -226,24 +226,27 @@ class ShaLong extends Component {
     }
 
     componentDidMount() {
-        this.fetchData()
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch, ShaLongReducer} = this.props;
+            dispatch(shalongAction(0,20,false,true))
+        });
     }
 
     fetchData() {
-        shalongcommentlist(pageNo, pageSize).then((data) => {
-            var list = data["content"]
-            var last = data.last
-            var oldlist = this.state.commentlist
-            if (list.length) {
-                oldlist = oldlist.concat(list)
-                pageNo++
-            }
-            this.setState({
-                commentlist: oldlist,
-                dataSource: this.state.dataSource.cloneWithRows(oldlist),
-                last: last
-            })
-        })
+        // shalongcommentlist(pageNo, pageSize).then((data) => {
+        //     var list = data["content"]
+        //     var last = data.last
+        //     var oldlist = this.state.commentlist
+        //     if (list.length) {
+        //         oldlist = oldlist.concat(list)
+        //         pageNo++
+        //     }
+        //     this.setState({
+        //         commentlist: oldlist,
+        //         dataSource: this.state.dataSource.cloneWithRows(oldlist),
+        //         last: last
+        //     })
+        // })
     }
 
 
@@ -256,9 +259,12 @@ class ShaLong extends Component {
     }
 
     render() {
+        var {ShaLongReducer} = this.props
+        let list = []
+        // alert(this.props)
         return <View style={{flex:1,justifyContent:'space-between',marginTop:64}}>
             <SGListView
-                dataSource={this.state.dataSource}
+                dataSource={this.state.dataSource.cloneWithRows(list.module ? list.module : []) }
                 renderRow={this.renderData.bind(this)}
                 initialListSize={1}
                 onEndReached={this.fetchData.bind(this)}
@@ -266,6 +272,7 @@ class ShaLong extends Component {
                 pageSize={pageSize}
                 scrollRenderAheadDistance={1}
                 stickyHeaderIndices={[]}
+                enableEmptySections={true}
                 renderFooter={()=>{
                 if(this.state.isLast)return null
                 return <LoadMoreFooter/>
@@ -283,7 +290,7 @@ export default class shalongController extends Component{
                 let Component = route.component
                 return <Component {...route.params}
                 navigator={navigator}
-                store={this.props.store}/>
+                {...this.props}/>
               }}
             configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
             navigationBar={

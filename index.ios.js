@@ -16,10 +16,8 @@ import {
 
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import {shalongReducer} from './app/shalong/reducer/shalongReducer'
-import {configureStore} from './app/store/configure-store'
+import store from './app/store/configure-store'
 
-var store = configureStore()
 import Root from './app/common/tabController'
 export default class xitenggame extends Component {
     render() {

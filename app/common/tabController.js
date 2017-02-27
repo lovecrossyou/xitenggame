@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 
 import homeController from '../home/homeController'
-import shalongController from '../shalong/shalongController'
+import shalongController from '../shalong/shalongComponent'
 import faxianController from '../faxian/faxianController'
 import AboutMe from '../me/meController'
 
@@ -68,8 +68,7 @@ export default class Root extends Component {
                             onPress={() => this.setState({ selectedTab: controller.title }) }>
 
                             <Component
-                                navigator = {this.props.navigator} {...this.props}
-                                store={store}/>
+                                navigator = {this.props.navigator} {...this.props}/>
                         </TabNavigator.Item>
                     )
                 })

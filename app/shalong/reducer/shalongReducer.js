@@ -1,45 +1,29 @@
 /**
  * Created by huibei on 17/2/27.
  */
-export const types = {
-    HEAD_ACTION: 'head_action',
-    CONTENT_ACTION: 'content_action',
-    PRAISE_ACTION: 'praise_action',
-    REQUEST_COMMENTS_ACTION:'request_action'
-}
+import * as types from '../../actions/ActionTypes'
 
 const defaultState = {
-    commentlist:[{
-        data:'xxxxx'
-    }]
+    commentlist:[]
 }
 
-export const shalongReducer = (state=defaultState, action)=>{
-    var {comment} = action
+const shalongReducer = (state=defaultState, action)=>{
     switch(action.type){
-        case types.HEAD_ACTION:{
-            return state
+        case types.FETCH_SHALONG_LIST:{
+            return Object.assign({}, state, {
+                isRefreshing: action.isRefreshing,
+                isLoading: action.isLoading
+            })
         }
-        case types.CONTENT_ACTION:{
-            return state
-        }
-        case types.PRAISE_ACTION:{
-            // commentlist
-            return state
-        }
-        case types.REQUEST_COMMENTS_ACTION:{
-            var list = state.commentlist
-            var newlist = []
-            newlist = newlist.concat(list)
-            var newState = {
-                ...state,
-                commentlist:newlist
-            }
-            console.log(newlist)
-            return newState
+        case types.RECEIVE_SHALONG_LIST:{
+            return Object.assign({}, state, {
+                commentlist:action.list
+            })
         }
         default:
             return state
     }
 }
+
+export default shalongReducer
 
