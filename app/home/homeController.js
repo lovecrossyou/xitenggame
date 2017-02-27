@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import Swiper from 'react-native-swiper'
 import {NavigationBarRouteMapper} from '../common/navigatorConfig'
-
+import RankCell from '../common/component/RankCell'
 var {width,height} = Dimensions.get('window')
 const bannerHeight = 110
 
@@ -41,43 +41,45 @@ class Banner extends Component{
 
 class StockCell extends Component{
     render(){
+        var {stock} = this.props
+
         return <View style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}>
             <View style={[styles.center,{marginVertical:15}]}>
-                <Text>上证指数</Text>
+                <Text>{stock.stockGameName}</Text>
+            </View>
+            <View style={[styles.row,{justifyContent:'space-around',paddingHorizontal:20,paddingVertical:10}]}>
+                    <Text>{stock.stockModel.currentPoint}</Text>
+                    <Text>{stock.stockModel.chg}</Text>
+                    <Text>{stock.stockModel.changeRate}</Text>
             </View>
             <View style={[styles.row,{justifyContent:'space-around',paddingHorizontal:20}]}>
-                    <Text>3253.43</Text>
-                    <Text>+2.06</Text>
-                    <Text>0.06</Text>
-            </View>
-            <View style={[styles.row,{justifyContent:'space-around',paddingHorizontal:20}]}>
                 <Image
-                    style={{width:30,height:30}}
-                    source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                    style={{width:40,height:32}}
+                    source={require('../../img/home/icon_cow.png')}
                 />
                 <Image
-                    style={{width:30,height:30}}
-                    source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                    style={{width:30,height:18}}
+                    source={require('../../img/home/PK.png')}
                 />
                 <Image
-                    style={{width:30,height:30}}
-                    source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                    style={{width:23,height:35}}
+                    source={require('../../img/home/icon_bear.png')}
                 />
             </View>
             <View style={[styles.row,{justifyContent:'space-between',paddingHorizontal:20,paddingVertical:10}]}>
                 <View style={styles.row}>
                     <Image
-                        style={{width:20,height:20}}
-                        source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                        style={{width:14,height:17}}
+                        source={require('../../img/home/home-red-flag.png')}
                     />
-                    <Text>4410</Text>
+                    <Text style={{paddingHorizontal:6}}>{stock.guessUpXtBAmount}</Text>
                 </View>
                 <View style={styles.row}>
                     <Image
-                        style={{width:20,height:20}}
-                        source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+                        style={{width:14,height:17}}
+                        source={require('../../img/home/home-green-flag.png')}
                     />
-                    <Text>4410</Text>
+                    <Text style={{paddingHorizontal:6}}>{stock.guessDownXtBAmount}</Text>
                 </View>
             </View>
             <View style={[styles.row,{justifyContent:'space-between',paddingHorizontal:20,paddingBottom:10}]}>
@@ -95,24 +97,24 @@ class StockCell extends Component{
 
 class StockRank extends Component{
     render(){
+        var ranklist = this.props.list.map((rank,index)=>{
+            return <RankCell key={index} rank={rank}/>
+        })
+
         return <View>
             <View style={[styles.row,{justifyContent:'space-between',alignItems:'center'}]}>
                 <View>
-                    <Text>股神争霸</Text>
+                    <Text style={{padding:10}}>股神争霸</Text>
                 </View>
                 <View style={[styles.row,{paddingRight:15,paddingVertical:10}]}>
                     <Text>本年排行</Text>
-                    <Text>本月排行</Text>
+                    <Text style={{paddingHorizontal:10}}>本月排行</Text>
                     <Text>本周排行</Text>
                 </View>
             </View>
             <View>
                 <ScrollView>
-                    <Text>1</Text>
-                    <Text>2</Text>
-                    <Text>3</Text>
-                    <Text>4</Text>
-                    <Text>5</Text>
+                    {ranklist}
                 </ScrollView>
             </View>
         </View>
@@ -141,8 +143,14 @@ class RecentBet extends Component{
 
 class AnnualPrize extends Component{
     render(){
-        return <Image source={{uri:'http://pic.58pic.com/58pic/16/62/63/97m58PICyWM_1024.jpg'}}
-        style={{width:width,height:120,marginBottom:10}}/>
+        var {awards} = this.props
+        if(awards.length){
+            var award = awards[0]
+            return <Image
+                source={{uri:award.home_prize}}
+                style={{width:width,height:120,marginBottom:10}}/>
+        }
+        return null
     }
 }
 
@@ -150,11 +158,26 @@ class AnnualPrize extends Component{
 class StockContent extends Component{
     render(){
         var stocklist = this.props.list.map((stock,index)=>{
-            return <StockCell key={index}/>
+            return <StockCell key={index} stock={stock}/>
         })
         return <View>
             {stocklist}
         </View>
+    }
+}
+
+
+class EndTimeView extends Component{
+    render(){
+        var stocklist = this.props.list
+        if(stocklist.length){
+            var stockM = stocklist[0]
+            return <View style={styles.center}>
+                <Text style={{paddingVertical:5}}>{`${stockM.stage} ${stockM.tradeDay}`}</Text>
+                <Text style={{paddingVertical:5}}>截止投注：{stockM.gameEndTime}</Text>
+            </View>
+        }
+        return null
     }
 }
 
@@ -164,7 +187,9 @@ class Home extends Component{
         super(props)
         this.state = ({
             bannerlist:[],
-            stocklist:[]
+            stocklist:[],
+            rakingList:[],
+            awards:[]
         })
     }
     componentDidMount() {
@@ -193,19 +218,38 @@ class Home extends Component{
                 stocklist:list
             })
         })
+        //anuual rank
+        param = {
+            'pageNo':0,
+            'size':3,
+            'type':'currentYear'
+        }
+        requestData('rakingList',param).then((json)=>{
+            var list = json['content']
+            this.setState({
+                rakingList:list
+            })
+        })
+        //footer peize logo
+        param = {
+            'awardType':3
+        }
+        requestData('award/list',param).then((json)=>{
+            var list = json['awards']
+            this.setState({
+                awards:list
+            })
+        })
     }
 
     render(){
         return <ScrollView style={{flex:1,marginTop:64}}>
             <Banner list={this.state.bannerlist}/>
-            <View style={styles.center}>
-                <Text style={{paddingVertical:5}}>201702277期 02月27（周一）</Text>
-                <Text style={{paddingVertical:5}}>截止投注：1天8时50分3秒</Text>
-            </View>
+            <EndTimeView list={this.state.stocklist}/>
             <StockContent list={this.state.stocklist}/>
             <RecentBet />
-            <StockRank />
-            <AnnualPrize />
+            <StockRank list={this.state.rakingList}/>
+            <AnnualPrize awards={this.state.awards}/>
         </ScrollView>
     }
 }
