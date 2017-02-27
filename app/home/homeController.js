@@ -147,7 +147,7 @@ class AnnualPrize extends Component{
         if(awards.length){
             var award = awards[0]
             return <Image
-                source={{uri:award.home_prize}}
+                source={{uri:award.picUrl}}
                 style={{width:width,height:120,marginBottom:10}}/>
         }
         return null

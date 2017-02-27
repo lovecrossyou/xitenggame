@@ -22,6 +22,7 @@ import SGListView from 'react-native-sglistview'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import {shalongcommentlist} from '../util/NetUtil'
 import {NavigationBarRouteMapper} from '../common/navigatorConfig'
+import {types} from './reducer/shalongReducer'
 
 const {width, height} = Dimensions.get('window')
 
@@ -72,7 +73,7 @@ class ImageItem extends Component{
     }
 }
 
-class RowCell extends Component{
+class RowImageCell extends Component{
     render(){
         var {rowM,showModal,showBigImage} = this.props
         var rowViews = rowM.map((m,index)=>{
@@ -97,7 +98,9 @@ class Content extends Component {
         const {content, contentImages}  = this.props.data
         var imgUrls = []
         contentImages.forEach(function (img,index) {
-            imgUrls.push({'url': img.big_img})
+            imgUrls.push({
+                'url': img.big_img
+            })
         })
 
         var picModels = [];
@@ -106,7 +109,7 @@ class Content extends Component {
         }
 
         var rowCells = picModels.map((rowM,index)=>{
-            return (<RowCell rowM={rowM} key={index} showModal={this.state.showModal} showBigImage={()=>{
+            return (<RowImageCell rowM={rowM} key={index} showModal={this.state.showModal} showBigImage={()=>{
                 this.setState({
                      showModal:true
                 })
@@ -140,7 +143,12 @@ class Content extends Component {
 class MoreItem extends Component{
     render(){
         var {text,icon} = this.props.data
-        return <TouchableOpacity style={{alignItems:'center',flexDirection:'row',justifyContent:'space-around'}}>
+        var {click} = this.props
+        return <TouchableOpacity
+            style={{alignItems:'center',flexDirection:'row',justifyContent:'space-around'}}
+            onPress={()=>{
+                click(text)
+            }}>
             <Image source={icon} style={{width:28,height:28}}/>
             <Text style={{fontSize:11,color:'gray',paddingRight:4}}>{text}</Text>
         </TouchableOpacity>
@@ -156,7 +164,12 @@ class Footer extends Component {
         }
     }
 
+    _clickItem(text){
+        alert(text)
+    }
+
     render() {
+        // alert(JSON.stringify(this.props.data))
         return <View
             style={[styles.row,{marginTop:20,justifyContent:'space-between',alignItems:'center',borderBottomColor:'#f5f5f5',borderBottomWidth:1}]}>
             <View style={[styles.row,{paddingBottom:6,width:100,flexGrow:3}]}>
@@ -167,9 +180,9 @@ class Footer extends Component {
             <View style={[styles.row,{justifyContent:'flex-end',flexGrow:4}]}>
                 <View
                     style={[styles.row,{marginBottom:4,justifyContent:'space-around',alignItems:'center',backgroundColor:'#f5f5f5',borderRadius:4,opacity:this.state.more_opacity},styles.border_1]}>
-                    <MoreItem data={{text:'点赞',icon:require('../../img/shalong/operation_more.png')}}/>
-                    <MoreItem data={{text:'评论',icon:require('../../img/shalong/operation_more.png')}}/>
-                    <MoreItem data={{text:'赞赏',icon:require('../../img/shalong/operation_more.png')}}/>
+                    <MoreItem click={this._clickItem.bind(this)} data={{text:'点赞',icon:require('../../img/shalong/operation_more.png')}}/>
+                    <MoreItem click={this._clickItem.bind(this)} data={{text:'评论',icon:require('../../img/shalong/operation_more.png')}}/>
+                    <MoreItem click={this._clickItem.bind(this)} data={{text:'赞赏',icon:require('../../img/shalong/operation_more.png')}}/>
                 </View>
                 <TouchableOpacity
                     style={{paddingRight:6}}
@@ -189,8 +202,10 @@ class Footer extends Component {
 
 class ShalongCell extends Component {
     render() {
-        const {data} = this.props
-        return <TouchableOpacity style={[styles.container]}>
+        const {data,cellClick} = this.props
+        return <TouchableOpacity
+            style={[styles.container]}
+             onPress={cellClick}>
             <Header data={data}/>
             <Content data={data}/>
             <Footer data={data}/>
@@ -211,6 +226,10 @@ class ShaLong extends Component {
     }
 
     componentDidMount() {
+        // var {commentlist} = this.props.store.getState()
+        // this.setState({
+        //     commentlist:commentlist
+        // })
         this.fetchData()
     }
 
@@ -233,14 +252,18 @@ class ShaLong extends Component {
 
 
     renderData(data) {
-        return <ShalongCell data={data}/>
+        var {store} = this.props
+        // alert(store)
+        return <ShalongCell data={data} cellClick={()=>{
+
+        }}/>
     }
 
     render() {
         return <View style={{flex:1,justifyContent:'space-between',marginTop:64}}>
             <SGListView
                 dataSource={this.state.dataSource}
-                renderRow={this.renderData}
+                renderRow={this.renderData.bind(this)}
                 initialListSize={1}
                 onEndReached={this.fetchData.bind(this)}
                 onEndReachedThreshold={10}
@@ -261,8 +284,10 @@ export default class shalongController extends Component{
         return <Navigator
             initialRoute={{title: '沙龙', component:ShaLong}}
             renderScene={(route, navigator) => {
-                let Component = route.component;
-                return <Component {...route.params} navigator={navigator} />
+                let Component = route.component
+                return <Component {...route.params}
+                navigator={navigator}
+                store={this.props.store}/>
               }}
             configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
             navigationBar={

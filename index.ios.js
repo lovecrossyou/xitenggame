@@ -14,10 +14,14 @@ import {
     TouchableOpacity
 } from 'react-native';
 
+import {createStore} from 'redux'
+import {reducer} from './app/shalong/reducer/shalongReducer'
+const store = createStore(reducer)
+
 import Root from './app/common/tabController'
 export default class xitenggame extends Component {
     render() {
-        return <Root />
+        return <Root store={store}/>
     }
 }
 AppRegistry.registerComponent('xitenggame', () => xitenggame);

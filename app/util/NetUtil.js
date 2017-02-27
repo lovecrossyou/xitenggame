@@ -5,18 +5,36 @@
 
 import {NativeModules} from 'react-native'
 
-const Base_url  = "http://114.251.53.22/xitenggamejar/"
-const ImageUrl  ="http://114.251.53.22/imageserver/"
-const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
-const AppSecret = "71838ae252714085bc0fb2fc3f420110"
-
-//生产环境
-// const Base_url  = "http://www.xiteng.com/xitenggame/"
-// const ImageUrl  ="http://www.xiteng.com/imageserver/"
+// const Base_url  = "http://114.251.53.22/xitenggamejar/"
+// const ImageUrl  ="http://114.251.53.22/imageserver/"
 // const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
 // const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 
+//生产环境
+const Base_url  = "http://www.xiteng.com/xitenggame/"
+const ImageUrl  ="http://www.xiteng.com/imageserver/"
+const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
+const AppSecret = "71838ae252714085bc0fb2fc3f420110"
+
 // var PersonManager = NativeModules.PersonManager
+
+const accessInfo = {
+    "phone_num":"18310066927",
+    "version":"1.4.3",
+    "os":"ios",
+    "loginType":"",
+    "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
+    "access_token":"7e43e0752bfc4e948fab0197939624b4",
+    "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
+}
+
+// phone_num = "18310066927";
+// version = "1.4.3";
+// os = "ios";
+// loginType = "";
+// signature = "9499CF9A69EBD7F586E42F0DDA1F7C06";
+// access_token = "7e43e0752bfc4e948fab0197939624b4";
+// app_key = "b5958b665e0b4d8cae77d28e1ad3f521"
 
 function sendNetRequest(...props) {
     this.url = props.shift(1);
@@ -29,14 +47,14 @@ function sendNetRequest(...props) {
 
 function getAccessInfo() {
     var p = new Promise(function (resolve, reject) {
-        var accessInfo = {
-            "access_token": "5cdf787ba57e475bb411e0131455ab29",
-            "app_key": "b5958b665e0b4d8cae77d28e1ad3f521",
-            "os": "ios",
-            "phone_num": "13220168837",
-            "signature":"1D7D3E2F1B8F1CE810181B5F17E6DBF4",
-            "version":"1.3.2"
-        }
+        // var accessInfo = {
+        //     "access_token": "5cdf787ba57e475bb411e0131455ab29",
+        //     "app_key": "b5958b665e0b4d8cae77d28e1ad3f521",
+        //     "os": "ios",
+        //     "phone_num": "13220168837",
+        //     "signature":"1D7D3E2F1B8F1CE810181B5F17E6DBF4",
+        //     "version":"1.3.2"
+        // }
         resolve(accessInfo)
     })
     return p
