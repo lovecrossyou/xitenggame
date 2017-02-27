@@ -226,10 +226,6 @@ class ShaLong extends Component {
     }
 
     componentDidMount() {
-        // var {commentlist} = this.props.store.getState()
-        // this.setState({
-        //     commentlist:commentlist
-        // })
         this.fetchData()
     }
 
@@ -328,7 +324,6 @@ const styles = {
         width: picSize,
         height: picSize,
         marginLeft: picMargin
-        // marginBottom: picMargin / 2
     },
     footerText: {
         color: 'gray',

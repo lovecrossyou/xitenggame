@@ -15,13 +15,17 @@ import {
 } from 'react-native';
 
 import {createStore} from 'redux'
-import {reducer} from './app/shalong/reducer/shalongReducer'
-const store = createStore(reducer)
+import {Provider} from 'react-redux'
+import {shalongReducer} from './app/shalong/reducer/shalongReducer'
+import {configureStore} from './app/store/configure-store'
 
+var store = configureStore()
 import Root from './app/common/tabController'
 export default class xitenggame extends Component {
     render() {
-        return <Root store={store}/>
+        return <Provider store={store}>
+            <Root/>
+            </Provider>
     }
 }
 AppRegistry.registerComponent('xitenggame', () => xitenggame);

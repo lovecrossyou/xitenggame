@@ -14,7 +14,7 @@ const defaultState = {
     }]
 }
 
-export const reducer = (state=defaultState,action)=>{
+export const shalongReducer = (state=defaultState, action)=>{
     var {comment} = action
     switch(action.type){
         case types.HEAD_ACTION:{
