@@ -15,7 +15,7 @@ import {
     NativeModules
 } from 'react-native';
 
-import {NavigationBarRouteMapper} from '../common/NavigatorConfig'
+import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 var personManager = NativeModules.PersonManager
 
 

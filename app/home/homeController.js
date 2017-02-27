@@ -10,28 +10,30 @@ import {
     ScrollView,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    Navigator
 } from 'react-native';
 import Swiper from 'react-native-swiper'
+import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 
 var {width,height} = Dimensions.get('window')
-const bannerHeight = 90
+const bannerHeight = 110
+
+import {requestData} from '../util/NetUtil'
 class Banner extends Component{
     render(){
+        var banners = this.props.list.map((data,index)=>{
+            return <Image
+                style={styles.slide}
+                key={index}
+                source={{uri:data.picUrl}}/>
+        })
         return (
             <Swiper
                 style={styles.wrapper}
                 height={bannerHeight}
             >
-                <View style={styles.slide1}>
-                    <Text style={styles.text}>Hello Swiper</Text>
-                </View>
-                <View style={styles.slide2}>
-                    <Text style={styles.text}>Beautiful</Text>
-                </View>
-                <View style={styles.slide3}>
-                    <Text style={styles.text}>And simple</Text>
-                </View>
+                {banners}
             </Swiper>
         )
     }
@@ -144,22 +146,85 @@ class AnnualPrize extends Component{
     }
 }
 
-export default class homeController extends Component{
+
+class StockContent extends Component{
     render(){
-        return <ScrollView style={{flex:1}}>
-            <Banner></Banner>
+        var stocklist = this.props.list.map((stock,index)=>{
+            return <StockCell key={index}/>
+        })
+        return <View>
+            {stocklist}
+        </View>
+    }
+}
+
+
+class Home extends Component{
+    constructor(props){
+        super(props)
+        this.state = ({
+            bannerlist:[],
+            stocklist:[]
+        })
+    }
+    componentDidMount() {
+        this.fetchData()
+    }
+
+    fetchData() {
+        //banner data
+        var param = {
+            activityCategory:'home'
+        }
+        requestData('activity/list',param).then((json)=>{
+            var list = json['content']
+            this.setState({
+                bannerlist:list
+            })
+        })
+        //stock data pageNo
+        param = {
+            'pageNo':0,
+            'size':5
+        }
+        requestData('stockGameList',param).then((json)=>{
+            var list = json['content']
+            this.setState({
+                stocklist:list
+            })
+        })
+    }
+
+    render(){
+        return <ScrollView style={{flex:1,marginTop:64}}>
+            <Banner list={this.state.bannerlist}/>
             <View style={styles.center}>
                 <Text style={{paddingVertical:5}}>201702277期 02月27（周一）</Text>
                 <Text style={{paddingVertical:5}}>截止投注：1天8时50分3秒</Text>
             </View>
-            <View>
-                <StockCell />
-                <StockCell />
-            </View>
+            <StockContent list={this.state.stocklist}/>
             <RecentBet />
             <StockRank />
             <AnnualPrize />
         </ScrollView>
+    }
+}
+
+export default class homeController extends Component{
+    render(){
+        return <Navigator
+            initialRoute={{title: '喜腾', component:Home}}
+            renderScene={(route, navigator) => {
+                let Component = route.component;
+                return <Component {...route.params} navigator={navigator} />
+              }}
+            configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
+            navigationBar={
+                    <Navigator.NavigationBar
+                        routeMapper={NavigationBarRouteMapper}
+                        style={{backgroundColor: '#4964ef'}}/>
+                }
+        />
     }
 }
 
@@ -174,23 +239,12 @@ var styles = {
         justifyContent: 'center',
         alignItems: 'center'
     },
-    slide1: {
+    slide: {
         height:bannerHeight,
+        width:width,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#9DD6EB',
-    },
-    slide2: {
-        height:bannerHeight,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#97CAE5',
-    },
-    slide3: {
-        height:bannerHeight,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#92BBD9',
     },
     text: {
         color: '#fff',
