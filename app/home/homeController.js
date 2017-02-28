@@ -20,6 +20,7 @@ var {width,height} = Dimensions.get('window')
 const bannerHeight = 110
 
 import {requestData} from '../util/NetUtil'
+import {dateRemainByNow} from '../util/DateUtil'
 class Banner extends Component{
     render(){
         var banners = this.props.list.map((data,index)=>{
@@ -168,13 +169,34 @@ class StockContent extends Component{
 
 
 class EndTimeView extends Component{
+    constructor(){
+        super()
+        this.gameEndTime = new Date().toTimeString()
+        this.state = {
+            remainTime:''
+        }
+    }
+    componentDidMount() {
+        this.timer = setInterval(()=>{
+            let timeStr = dateRemainByNow(this.gameEndTime)
+            this.setState({
+                remainTime:timeStr
+            })
+        },1000)
+    }
+
+    componentWillUnMount() {
+        this.timer && clearTimeout(this.timer)
+    }
+
     render(){
         var stocklist = this.props.list
         if(stocklist.length){
             var stockM = stocklist[0]
+            this.gameEndTime = stockM.gameEndTime
             return <View style={styles.center}>
                 <Text style={{paddingVertical:5}}>{`${stockM.stage} ${stockM.tradeDay}`}</Text>
-                <Text style={{paddingVertical:5}}>截止投注：{stockM.gameEndTime}</Text>
+                <Text style={{paddingVertical:5}}>截止投注：{this.state.remainTime}</Text>
             </View>
         }
         return null

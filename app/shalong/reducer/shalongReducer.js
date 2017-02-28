@@ -17,7 +17,7 @@ const shalongReducer = (state=defaultState, action)=>{
         }
         case types.RECEIVE_SHALONG_LIST:{
             return Object.assign({}, state, {
-                commentlist:action.list
+                commentlist:[...action.list,...state.commentlist]
             })
         }
         default:

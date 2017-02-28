@@ -7,11 +7,6 @@
 import React, {Component} from 'react';
 import {
     AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableOpacity
 } from 'react-native';
 
 import {createStore} from 'redux'
