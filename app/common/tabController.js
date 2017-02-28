@@ -75,7 +75,7 @@ class Root extends Component {
     }
 }
 
-let mapStateToProps = function (state) {
+let mapStateToProps = (state)=>{
     var {shalongReducer} = state
     return {shalongReducer}
 }

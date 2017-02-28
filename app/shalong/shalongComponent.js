@@ -226,21 +226,21 @@ class ShaLong extends Component {
     }
 
     componentDidMount() {
-        InteractionManager.runAfterInteractions(() => {
-            const {dispatch} = this.props
-            dispatch(shalongAction(0,5,false,true))
-        });
+        this.fetchData()
     }
 
+
     renderData(data) {
-        var {store} = this.props
         return <ShalongCell data={data} cellClick={()=>{
 
         }}/>
     }
 
     fetchData(){
-
+        InteractionManager.runAfterInteractions(() => {
+            const {dispatch} = this.props
+            dispatch(shalongAction(0,5,false,true))
+        });
     }
 
     render() {
