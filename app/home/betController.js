@@ -25,6 +25,8 @@ class NumberItem extends Component{
 
 export default class betController extends Component{
     render(){
+        let {stock} = this.props
+        // alert(stock)
         return <View style={styles.container}>
             <View style={styles.center}>
                 <Text style={{paddingVertical:20,color:'white',fontSize:16}}>上证指数 20170301期 猜涨</Text>
@@ -55,7 +57,11 @@ export default class betController extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,borderRadius:10}]}>
+                <TouchableOpacity
+                    style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,borderRadius:10}]}
+                    onPress={()=>{
+                        alert(JSON.stringify(stock))
+                    }}>
                     <Text style={{color:'black',fontSize:24,paddingHorizontal:40}}>立即投注</Text>
                 </TouchableOpacity>
             </View>

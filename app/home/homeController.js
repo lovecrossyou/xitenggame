@@ -273,7 +273,10 @@ export default class homeController extends Component{
     _guessUp(stock){
         this.props.navigator.push({
             component:betController,
-            title:'投注'
+            title:'投注',
+            passProps:{
+                stock:stock
+            }
         })
     }
     _guessDown(stock){

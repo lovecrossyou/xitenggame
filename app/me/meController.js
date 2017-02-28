@@ -18,7 +18,7 @@ import {
 import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
-
+import betController from '../home/betController'
 class Header extends Component {
     render() {
         return <View style={styles.userinfo_container}>
@@ -40,7 +40,7 @@ class Header extends Component {
 }
 
 
-class AboutMeHome extends Component{
+export default class AboutMe  extends Component{
     render(){
         const {navigator} = this.props;
         return <ScrollView style={{flex:1,marginTop:64,backgroundColor:'#f5f5f5'}}>
@@ -50,7 +50,10 @@ class AboutMeHome extends Component{
             <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
             <CellItem marginBot={10} title="喜鹊计划" desc=""
                       click={()=>{
-
+                          navigator.push({
+                                component:betController,
+                                title:'投注'
+                            })
                       }}
                       icon={require('../../img/me/me_icon_plan.png')}/>
             <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
@@ -61,24 +64,24 @@ class AboutMeHome extends Component{
     }
 }
 
-export default class AboutMe extends Component{
-    render(){
-        return (
-            <Navigator
-                initialRoute={{title: '我', component:AboutMeHome}}
-                renderScene={(route, navigator) => {
-                let Component = route.component;
-                return <Component {...route.params} navigator={navigator} />
-              }}
-                configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
-                navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={{backgroundColor: '#4964ef'}}/>
-                }
-            />)
-    }
-}
+// export default class AboutMe extends Component{
+//     render(){
+//         return (
+//             <Navigator
+//                 initialRoute={{title: '我', component:AboutMeHome}}
+//                 renderScene={(route, navigator) => {
+//                 let Component = route.component;
+//                 return <Component {...route.params} navigator={navigator} />
+//               }}
+//                 configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
+//                 navigationBar={
+//                     <Navigator.NavigationBar
+//                         routeMapper={NavigationBarRouteMapper}
+//                         style={{backgroundColor: '#4964ef'}}/>
+//                 }
+//             />)
+//     }
+// }
 
 const styles = {
     container: {
