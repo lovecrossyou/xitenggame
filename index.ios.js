@@ -12,13 +12,12 @@ import {
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import store from './app/store/configure-store'
-
-import {RootContainer} from './app/common/tabController'
+import {Navigation} from './app/common/entry'
 export default class xitenggame extends Component {
     render() {
         return <Provider store={store}>
-            <RootContainer/>
-            </Provider>
+            <Navigation/>
+        </Provider>
     }
 }
 AppRegistry.registerComponent('xitenggame', () => xitenggame);

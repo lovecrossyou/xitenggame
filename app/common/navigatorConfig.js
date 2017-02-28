@@ -19,7 +19,6 @@ export var NavigationBarRouteMapper = {
                 <TouchableOpacity style={{ margin: 15,width:60,height:40}} onPress={() => {
                     if (index > 0) {
                         navigator.pop();
-                        personManager.showTab()
                     }
                 } }>
                     <Text style={{color:'white'}}>返回</Text>

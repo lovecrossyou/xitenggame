@@ -14,8 +14,9 @@ import {
     Navigator
 } from 'react-native';
 import Swiper from 'react-native-swiper'
-import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 import RankCell from '../common/component/RankCell'
+import betController from './betController'
+
 var {width,height} = Dimensions.get('window')
 const bannerHeight = 110
 
@@ -211,7 +212,7 @@ class EndTimeView extends Component{
 }
 
 
-class Home extends Component{
+export default class homeController extends Component{
     constructor(props){
         super(props)
         this.state = ({
@@ -224,7 +225,6 @@ class Home extends Component{
     componentDidMount() {
         this.fetchData()
     }
-
     fetchData() {
         //banner data
         var param = {
@@ -270,15 +270,15 @@ class Home extends Component{
             })
         })
     }
-
     _guessUp(stock){
-
+        this.props.navigator.push({
+            component:betController,
+            title:'投注'
+        })
     }
-
     _guessDown(stock){
 
     }
-
     render(){
         return <ScrollView style={{flex:1,marginTop:64}}>
             <Banner list={this.state.bannerlist}/>
@@ -294,23 +294,6 @@ class Home extends Component{
     }
 }
 
-export default class homeController extends Component{
-    render(){
-        return <Navigator
-            initialRoute={{title: '喜腾', component:Home}}
-            renderScene={(route, navigator) => {
-                let Component = route.component;
-                return <Component {...route.params} navigator={navigator} />
-              }}
-            configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
-            navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={{backgroundColor: '#4964ef'}}/>
-                }
-        />
-    }
-}
 
 var styles = {
     wrapper: {
