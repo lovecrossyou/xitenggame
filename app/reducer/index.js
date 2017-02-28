@@ -3,9 +3,9 @@
  */
 'use strict';
 
-import ShaLongReducer from '../shalong/reducer/shalongReducer'
+import shalongReducer from '../shalong/reducer/shalongReducer'
 import {combineReducers} from 'redux';
 const rootReducer = combineReducers({
-    ShaLongReducer
+    shalongReducer
 })
 export default rootReducer;

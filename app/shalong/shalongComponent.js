@@ -227,44 +227,28 @@ class ShaLong extends Component {
 
     componentDidMount() {
         InteractionManager.runAfterInteractions(() => {
-            const {dispatch, ShaLongReducer} = this.props;
-            dispatch(shalongAction(0,20,false,true))
+            const {dispatch} = this.props
+            dispatch(shalongAction(0,5,false,true))
         });
     }
 
-    fetchData() {
-        // shalongcommentlist(pageNo, pageSize).then((data) => {
-        //     var list = data["content"]
-        //     var last = data.last
-        //     var oldlist = this.state.commentlist
-        //     if (list.length) {
-        //         oldlist = oldlist.concat(list)
-        //         pageNo++
-        //     }
-        //     this.setState({
-        //         commentlist: oldlist,
-        //         dataSource: this.state.dataSource.cloneWithRows(oldlist),
-        //         last: last
-        //     })
-        // })
-    }
-
-
     renderData(data) {
         var {store} = this.props
-        // alert(store)
         return <ShalongCell data={data} cellClick={()=>{
 
         }}/>
     }
 
+    fetchData(){
+
+    }
+
     render() {
-        var {ShaLongReducer} = this.props
-        let list = []
-        // alert(this.props)
+        var {shalongReducer} = this.props
+        let list = shalongReducer.commentlist
         return <View style={{flex:1,justifyContent:'space-between',marginTop:64}}>
             <SGListView
-                dataSource={this.state.dataSource.cloneWithRows(list.module ? list.module : []) }
+                dataSource={this.state.dataSource.cloneWithRows(list) }
                 renderRow={this.renderData.bind(this)}
                 initialListSize={1}
                 onEndReached={this.fetchData.bind(this)}

@@ -16,6 +16,7 @@ import faxianController from '../faxian/faxianController'
 import AboutMe from '../me/meController'
 
 import TabNavigator from 'react-native-tab-navigator'
+import {connect} from "react-redux";
 const tabBarItems = [
     {
         title: '首页',
@@ -43,9 +44,7 @@ const tabBarItems = [
     }
 ]
 
-
-
-export default class Root extends Component {
+class Root extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -54,7 +53,6 @@ export default class Root extends Component {
     }
 
     render() {
-        var {store} = this.props
         return (<TabNavigator tabBarStyle={{ height: 60 }}>
             {
                 tabBarItems.map((controller, i) => {
@@ -76,6 +74,17 @@ export default class Root extends Component {
         </TabNavigator>)
     }
 }
+
+let mapStateToProps = function (state) {
+    var {shalongReducer} = state
+    return {shalongReducer}
+}
+let  createContainer = (component)=>{
+    return connect(mapStateToProps)(component);
+}
+
+
+export let RootContainer = createContainer(Root)
 
 const styles = StyleSheet.create({
     container: {

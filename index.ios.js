@@ -18,11 +18,11 @@ import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import store from './app/store/configure-store'
 
-import Root from './app/common/tabController'
+import {RootContainer} from './app/common/tabController'
 export default class xitenggame extends Component {
     render() {
         return <Provider store={store}>
-            <Root/>
+            <RootContainer/>
             </Provider>
     }
 }
