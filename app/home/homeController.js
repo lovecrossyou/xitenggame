@@ -42,8 +42,7 @@ class Banner extends Component{
 
 class StockCell extends Component{
     render(){
-        var {stock} = this.props
-
+        var {guessUp,guessDown,stock} = this.props
         return <View style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}>
             <View style={[styles.center,{marginVertical:15}]}>
                 <Text>{stock.stockGameName}</Text>
@@ -84,10 +83,18 @@ class StockCell extends Component{
                 </View>
             </View>
             <View style={[styles.row,{justifyContent:'space-between',paddingHorizontal:20,paddingBottom:10}]}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity
+                    style={styles.btn}
+                    onPress={()=>{
+                        guessUp(stock)}
+                    }>
                     <Text>猜涨投注</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity
+                    style={styles.btn}
+                    onPress={()=>{
+                        guessDown(stock)
+                    }}>
                     <Text>猜跌投注</Text>
                 </TouchableOpacity>
             </View>
@@ -159,7 +166,7 @@ class AnnualPrize extends Component{
 class StockContent extends Component{
     render(){
         var stocklist = this.props.list.map((stock,index)=>{
-            return <StockCell key={index} stock={stock}/>
+            return <StockCell key={index} stock={stock} {...this.props}/>
         })
         return <View>
             {stocklist}
@@ -264,11 +271,22 @@ class Home extends Component{
         })
     }
 
+    _guessUp(stock){
+
+    }
+
+    _guessDown(stock){
+
+    }
+
     render(){
         return <ScrollView style={{flex:1,marginTop:64}}>
             <Banner list={this.state.bannerlist}/>
             <EndTimeView list={this.state.stocklist}/>
-            <StockContent list={this.state.stocklist}/>
+            <StockContent
+                list={this.state.stocklist}
+                guessUp={this._guessUp.bind(this)}
+                guessDown={this._guessDown.bind(this)}/>
             <RecentBet />
             <StockRank list={this.state.rakingList}/>
             <AnnualPrize awards={this.state.awards}/>
