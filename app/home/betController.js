@@ -55,8 +55,8 @@ export default class betController extends Component{
                         </TouchableOpacity>
                     </View>
                 </View>
-                <TouchableOpacity style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,borderRadius:30}]}>
-                    <Text style={{color:'black',fontSize:24,paddingHorizontal:30}}>立即投注</Text>
+                <TouchableOpacity style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,borderRadius:10}]}>
+                    <Text style={{color:'black',fontSize:24,paddingHorizontal:40}}>立即投注</Text>
                 </TouchableOpacity>
             </View>
             <View style={{alignItems:'center',paddingBottom:15}}>
