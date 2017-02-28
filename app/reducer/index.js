@@ -5,7 +5,7 @@
 
 import shalongReducer from '../shalong/reducer/shalongReducer'
 import {combineReducers} from 'redux';
-const rootReducer = combineReducers({
+const RootReducer = combineReducers({
     shalongReducer
 })
-export default rootReducer;
+export default RootReducer;

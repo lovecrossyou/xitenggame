@@ -5,13 +5,13 @@
 
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
-import rootReducer from '../reducer/index';
+import RootReducer from '../reducer/index';
 import promiseMiddleware from 'redux-promise';
 import createLogger from 'redux-logger'
 const logger = createLogger()
 var initState = {};
 const store = createStore(
-    rootReducer,
+    RootReducer,
     initState,
     applyMiddleware(thunk,promiseMiddleware,logger)
 )
