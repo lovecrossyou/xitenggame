@@ -13,7 +13,7 @@ import {
 import RootContainer from './tabController'
 import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 import {connect} from "react-redux";
-
+import LoginController from '../login/LoginController'
 class Entry extends Component{
     render(){
         // 判断是否登录
@@ -23,9 +23,16 @@ class Entry extends Component{
                 component:RootContainer
             }}
             renderScene={(route, navigator) => {
-                let Component = route.component;
+                let Component = route.component
                 return <Component {...route.params} navigator={navigator} {...this.props} {...route.params}/>
               }}
+            configureScene={(route, routeStack) => {
+                let Component = route.component
+                if(Component == LoginController){
+                   return Navigator.SceneConfigs.FloatFromBottom
+                }
+               return Navigator.SceneConfigs.FloatFromRight
+            }}
         />
     }
 }

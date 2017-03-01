@@ -62,8 +62,6 @@ export default class RootContainer extends Component {
     }
 
     static switchToLoginView() {
-        alert(this)
-        return
         this.props.navigator.push({
             component: LoginController,
             params: {}

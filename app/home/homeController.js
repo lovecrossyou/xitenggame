@@ -289,9 +289,7 @@ export default class HomeController extends Component{
     }
 
     _login(){
-        this.props.navigator.push({
-            component:LoginController,
-        })
+        RootContainer.switchToLoginView()
     }
     render(){
         return <View style={{flex:1}}>

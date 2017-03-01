@@ -7,17 +7,17 @@
 import React, {Component} from 'react';
 import {
     AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image,
-    TouchableOpacity
 } from 'react-native';
 
-import Root from './app/common/tabController'
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import store from './app/store/configure-store'
+import {Navigation} from './app/common/entry'
 export default class xitenggame extends Component {
     render() {
-        return <Root />
+        return <Provider store={store}>
+            <Navigation/>
+        </Provider>
     }
 }
 AppRegistry.registerComponent('xitenggame', () => xitenggame);

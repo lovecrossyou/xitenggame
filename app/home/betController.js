@@ -18,7 +18,7 @@ const {width, height} = Dimensions.get('window')
 class NumberItem extends Component{
     render(){
         var {text} = this.props
-        return <TouchableOpacity style={[styles.center,{height:45,width:98,backgroundColor:'#f5f5f5',marginHorizontal:8,marginVertical:10,borderRadius:4}]}>
+        return <TouchableOpacity style={[styles.center,{height:45,width:98,backgroundColor:'#f5f5f5',marginHorizontal:8,marginVertical:10,borderRadius:4,justifyContent:'center'}]}>
             <Text>{text}</Text>
         </TouchableOpacity>
     }

@@ -64,12 +64,16 @@ export default class LoginController extends Component {
                     access_token_secret:access_token_secret,
                 })
             })
-
-            let users = realm.objects('User')
-            users.map((user)=>{
-                alert(JSON.stringify(user))
-            })
+            this._pop()
+            // let users = realm.objects('User')
+            // users.map((user)=>{
+            //     alert(JSON.stringify(user))
+            // })
         })
+    }
+
+    _pop(){
+        this.props.navigator.pop()
     }
 
     render() {
