@@ -23,7 +23,7 @@ class Entry extends Component{
             }}
             renderScene={(route, navigator) => {
                 let Component = route.component;
-                return <Component {...route.params} navigator={navigator} {...this.props}/>
+                return <Component {...route.params} navigator={navigator} {...this.props} {...route.params}/>
               }}
         />
     }

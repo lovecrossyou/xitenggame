@@ -275,13 +275,15 @@ export default class homeController extends Component{
         this.props.navigator.push({
             component:betController,
             title:'投注',
-            passProps:{
-                stock:stock
-            }
+            params:{stock:stock}
         })
     }
     _guessDown(stock){
-
+        this.props.navigator.push({
+            component:betController,
+            title:'投注',
+            params:{stock:stock}
+        })
     }
     render(){
         return <View style={{flex:1}}>

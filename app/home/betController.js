@@ -26,8 +26,8 @@ class NumberItem extends Component{
 
 export default class betController extends Component{
     render(){
-        let {stock} = this.props
-        // alert(stock)
+        const {stock} = this.props;
+        console.log('##stock##',JSON.stringify(stock))
         return <View style={{flex:1,backgroundColor:'gray'}}>
             <NavigationBar
                 title={{title:'投注'}}
