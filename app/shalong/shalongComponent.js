@@ -23,7 +23,7 @@ import SGListView from 'react-native-sglistview'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import {shalongcommentlist} from '../util/NetUtil'
 import {types} from './reducer/shalongReducer'
-import {NavigationBarRouteMapper} from '../common/navigatorConfig'
+import NavigationBar from 'react-native-navbar'
 import {shalongAction} from './action/shalongAction'
 const {width, height} = Dimensions.get('window')
 
@@ -213,7 +213,7 @@ class ShalongCell extends Component {
     }
 }
 
-class ShaLong extends Component {
+export default class shalongController extends Component {
     constructor() {
         super()
         this.state = {
@@ -246,7 +246,8 @@ class ShaLong extends Component {
     render() {
         var {shalongReducer} = this.props
         let list = shalongReducer.commentlist
-        return <View style={{flex:1,justifyContent:'space-between',marginTop:64}}>
+        return <View style={{flex:1,justifyContent:'space-between'}}>
+            <NavigationBar title={{title:'沙龙'}}/>
             <SGListView
                 dataSource={this.state.dataSource.cloneWithRows(list) }
                 renderRow={this.renderData.bind(this)}
@@ -266,25 +267,25 @@ class ShaLong extends Component {
     }
 }
 
-export default class shalongController extends Component{
-    render(){
-        return <Navigator
-            initialRoute={{title: '沙龙', component:ShaLong}}
-            renderScene={(route, navigator) => {
-                let Component = route.component
-                return <Component {...route.params}
-                navigator={navigator}
-                {...this.props}/>
-              }}
-            configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
-            navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={{backgroundColor: '#4964ef'}}/>
-                }
-        />
-    }
-}
+// export default class shalongController extends Component{
+//     render(){
+//         return <Navigator
+//             initialRoute={{title: '沙龙', component:ShaLong}}
+//             renderScene={(route, navigator) => {
+//                 let Component = route.component
+//                 return <Component {...route.params}
+//                 navigator={navigator}
+//                 {...this.props}/>
+//               }}
+//             configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
+//             navigationBar={
+//                     <Navigator.NavigationBar
+//                         routeMapper={NavigationBarRouteMapper}
+//                         style={{backgroundColor: '#4964ef'}}/>
+//                 }
+//         />
+//     }
+// }
 
 class LoadMoreFooter extends Component {
     render() {

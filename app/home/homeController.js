@@ -14,6 +14,7 @@ import {
     Navigator
 } from 'react-native';
 import Swiper from 'react-native-swiper'
+import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
 
@@ -283,22 +284,40 @@ export default class homeController extends Component{
 
     }
     render(){
-        return <ScrollView style={{flex:1,marginTop:64}}>
-            <Banner list={this.state.bannerlist}/>
-            <EndTimeView list={this.state.stocklist}/>
-            <StockContent
-                list={this.state.stocklist}
-                guessUp={this._guessUp.bind(this)}
-                guessDown={this._guessDown.bind(this)}/>
-            <RecentBet />
-            <StockRank list={this.state.rakingList}/>
-            <AnnualPrize awards={this.state.awards}/>
-        </ScrollView>
+        const rightButtonConfig = {
+            title: '分享',
+            handler: () => alert('hello!'),
+        };
+
+        const titleConfig = {
+            title: '喜腾',
+        };
+
+        return <View style={{flex:1}}>
+            <NavigationBar
+                title={titleConfig}
+                rightButton={rightButtonConfig}
+            />
+            <ScrollView>
+                <Banner list={this.state.bannerlist}/>
+                <EndTimeView list={this.state.stocklist}/>
+                <StockContent
+                    list={this.state.stocklist}
+                    guessUp={this._guessUp.bind(this)}
+                    guessDown={this._guessDown.bind(this)}/>
+                <RecentBet />
+                <StockRank list={this.state.rakingList}/>
+                <AnnualPrize awards={this.state.awards}/>
+            </ScrollView>
+        </View>
     }
 }
 
 
 var styles = {
+    flex:{
+        flex:1
+    },
     wrapper: {
         marginBottom:10
     },

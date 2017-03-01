@@ -79,7 +79,6 @@ const styles = {
         justifyContent:'space-between',
         backgroundColor:'gray',
         flex:1,
-        marginTop:64,
         alignItems:'center'
     },
     row:{

@@ -25,12 +25,6 @@ class Entry extends Component{
                 let Component = route.component;
                 return <Component {...route.params} navigator={navigator} {...this.props}/>
               }}
-            configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
-            navigationBar={
-                    <Navigator.NavigationBar
-                        routeMapper={NavigationBarRouteMapper}
-                        style={{backgroundColor: '#4964ef'}}/>
-                }
         />
     }
 }

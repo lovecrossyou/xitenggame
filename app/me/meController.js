@@ -15,7 +15,7 @@ import {
     NativeModules
 } from 'react-native';
 
-import {NavigationBarRouteMapper} from '../common/navigatorConfig'
+import NavigationBar from 'react-native-navbar'
 import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
 import betController from '../home/betController'
@@ -43,24 +43,27 @@ class Header extends Component {
 export default class AboutMe  extends Component{
     render(){
         const {navigator} = this.props;
-        return <ScrollView style={{flex:1,marginTop:64,backgroundColor:'#f5f5f5'}}>
-            <Header />
-            <CellItem title="我的资产" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
-            <CellItem marginBot={10} title="投注记录" desc="" icon={require('../../img/me/me_icon-_record.png')}/>
-            <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
-            <CellItem marginBot={10} title="喜鹊计划" desc=""
-                      click={()=>{
+        return <View style={{flex:1}}>
+            <NavigationBar title={{title:'我'}}/>
+            <ScrollView style={{flex:1,backgroundColor:'#f5f5f5'}}>
+                <Header />
+                <CellItem title="我的资产" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
+                <CellItem marginBot={10} title="投注记录" desc="" icon={require('../../img/me/me_icon-_record.png')}/>
+                <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
+                <CellItem marginBot={10} title="喜鹊计划" desc=""
+                          click={()=>{
                           navigator.push({
                                 component:betController,
                                 title:'投注'
                             })
                       }}
-                      icon={require('../../img/me/me_icon_plan.png')}/>
-            <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
-            <CellItem marginBot={10} title="我的沙龙" desc="发表的评论" icon={require('../../img/me/me_icon_comment.png')}/>
-            <CellItem title="消息" desc="" icon={require('../../img/me/me_icon-_news.png')}/>
-            <CellItem title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}/>
-        </ScrollView>
+                          icon={require('../../img/me/me_icon_plan.png')}/>
+                <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
+                <CellItem marginBot={10} title="我的沙龙" desc="发表的评论" icon={require('../../img/me/me_icon_comment.png')}/>
+                <CellItem title="消息" desc="" icon={require('../../img/me/me_icon-_news.png')}/>
+                <CellItem title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}/>
+            </ScrollView>
+        </View>
     }
 }
 
