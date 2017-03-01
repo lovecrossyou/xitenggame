@@ -109,6 +109,8 @@ class Content extends Component {
             picModels.push(contentImages.slice(i,i+picRowCount));
         }
 
+
+
         var rowCells = picModels.map((rowM,index)=>{
             return (<RowImageCell rowM={rowM} key={index} showModal={this.state.showModal} showBigImage={()=>{
                 this.setState({
@@ -116,12 +118,12 @@ class Content extends Component {
                 })
             }}/>)
         })
-
+        let rows = rowCells.length
         return <View style={styles.container}>
             <View>
                 <Text numberOfLines={9} style={{marginHorizontal:10,marginVertical:10}}>{content}</Text>
             </View>
-            <View style={{flexDirection:'row',flexWrap:'wrap'}}>
+            <View style={{flexDirection:'row'}}>
                 {rowCells}
             </View>
             <Modal visible={this.state.showModal} transparent={false}>
