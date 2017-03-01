@@ -31,9 +31,9 @@ class Entry extends Component{
 }
 
 let mapStateToProps = (state)=>{
-    var {shalongReducer} = state
-    return {shalongReducer}
+    return {state}
 }
+
 let  createContainer = (component)=>{
     return connect(mapStateToProps)(component);
 }

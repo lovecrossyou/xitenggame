@@ -13,7 +13,7 @@ import {
 import CellItem from '../common/component/CommonCell'
 import NavigationBar from 'react-native-navbar'
 
-export default class faxianController extends Component{
+export default class FaXianController extends Component{
     render(){
         return <View style={{flex:1}}>
             <NavigationBar

@@ -13,6 +13,7 @@ import {
     Dimensions
 } from 'react-native'
 
+import {requestData,login} from '../util/NetUtil'
 var {width} = Dimensions.get('window')
 class InputCell extends Component{
     render(){
@@ -31,6 +32,32 @@ class InputCell extends Component{
 
 
 export default class LoginController extends Component {
+
+    constructor(){
+        super()
+        this.userName = '13220168837'
+        this.passsword = '123456'
+    }
+
+    _setUserName(text){
+        this.userName = text
+    }
+
+    _setPassword(text){
+        this.passsword = text
+    }
+
+    _login(){
+        let userName = this.userName
+        let passsword = this.passsword
+
+        console.log('userName',userName)
+        console.log('passsword',passsword)
+        login(userName,passsword).then((d)=>{
+            console.log('login ok',JSON.stringify(d))
+        })
+    }
+
     render() {
         return <View style={styles.container}>
             <View>
@@ -50,19 +77,14 @@ export default class LoginController extends Component {
                     justifyContent: 'center'
                 }}
                     onPress={()=>{
-
+                        this._login()
                 }}
                 >
                     <Text>登陆</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.botContainer}>
-                <View></View>
-                <Text>或</Text>
-                <View>
-                    <Image />
-                    <Text>微信快捷登陆</Text>
-                </View>
+
             </View>
         </View>
     }

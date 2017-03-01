@@ -214,7 +214,7 @@ class EndTimeView extends Component{
 }
 
 
-export default class homeController extends Component{
+export default class HomeController extends Component{
     constructor(props){
         super(props)
         this.state = ({

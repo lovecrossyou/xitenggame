@@ -16,7 +16,7 @@ const ImageUrl  ="http://www.xiteng.com/imageserver/"
 const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 
-// var PersonManager = NativeModules.PersonManager
+var XTUtil = NativeModules.XTUtil
 
 const accessInfo = {
     "phone_num":"18310066927",
@@ -111,16 +111,9 @@ export  function requestData(url, param, method='POST') {
         getAccInfo.then((accessInfo) => {
             param["accessInfo"] = accessInfo
             url = Base_url + url
-            var p = sendNetRequest(url, {
-                method: method,
-                body: JSON.stringify(param),
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+            netRequest(url,param).then((result)=>{
+                resolve(result)
             })
-            resolve(p.then((data) => data).catch((error) => {
-                reject(error)
-            }))
         })
     })
 }
@@ -148,13 +141,13 @@ export function getRecentBetList(pageNo, pageSize, method = 'post') {
  * @param name
  * @param pwd
  */
-export function login(name, pwd) {
-    var params = {
-        name: name,
-        password: pwd
-    }
-    return requestData('login', params, method)
-}
+// export function login(name, pwd) {
+//     var params = {
+//         name: name,
+//         password: pwd
+//     }
+//     return requestData('login', params, method)
+// }
 
 /**
  * 晒单详情
@@ -193,3 +186,102 @@ export function shalongcommentlist(pageNo,pageSize,commentType='all') {
     return requestData('commentList', params, 'POST')
 }
 
+
+function md5(str) {
+    return new Promise((res,rej)=>{
+        XTUtil.digest(AppSecret,(err, info)=> {
+            res(info[0])
+        })
+    })
+}
+
+
+function getLoginSignature(userName,password,md5key) {
+    return new Promise((res,rej)=>{
+        let p1 = userName+password+md5key
+        md5(p1).then((d)=>{
+            let p2 = AppSecret+d
+            md5(p2).then((d)=>{
+                res(d)
+            })
+        })
+    })
+}
+
+function getLoginAccessInfo(userName) {
+    return new Promise((res,rej)=>{
+        md5(AppSecret).then((signature)=>{
+            res({
+                'app_key':AppKey,
+                'access_token':'',
+                'phone_num':userName,
+                'signature':signature
+            })
+        })
+    })
+}
+
+function getMD5Key(userName,loginType) {
+    let signature = ''
+    return new Promise((res,rej)=>{
+        md5(AppSecret).then((signature)=>{
+            let accessInfo = {
+                'phone_num':userName,
+                'app_key':AppKey,
+                'loginType':loginType,
+                'access_token':'',
+                'signature':signature
+            }
+            let url = Base_url + 'userMD5'
+            let param = {
+                'accessInfo':accessInfo
+            }
+            netRequest(url,param).then((result)=>{
+                res(result)
+            })
+        })
+    })
+}
+
+export function login(userName,password,type='phonenum') {
+    return new Promise((resolve,reject)=>{
+        getMD5Key(userName,type).then((d)=>{
+            const userMD5 = d['userMD5']
+            console.log('##userMD5',userMD5)
+            getLoginSignature(userName,password,userMD5).then((signature)=>{
+                console.log('##signature',signature)
+                getLoginAccessInfo(userName).then((accessInfo)=>{
+                    accessInfo['loginType']=type
+                    accessInfo['signature']=signature
+                    console.log('##accessInfo',accessInfo)
+
+                    let params = {
+                        'userName':userName,
+                        'app_key':AppKey,
+                        'accessInfo':accessInfo
+                    }
+                    let url = Base_url + 'login'
+                    console.log('##params',params)
+                    netRequest(url,params).then((result)=>{
+                        resolve(result)
+                    })
+                })
+            })
+        })
+    })
+}
+
+function netRequest(url,params,method='POST') {
+    return new Promise((resolve,reject)=>{
+        var p = sendNetRequest(url, {
+            method: method,
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        p.then((result)=>{
+            resolve(result)
+        })
+    })
+}

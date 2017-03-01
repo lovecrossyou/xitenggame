@@ -213,7 +213,7 @@ class ShalongCell extends Component {
     }
 }
 
-export default class shalongController extends Component {
+export default class ShaLongController extends Component {
     constructor() {
         super()
         this.state = {
@@ -268,26 +268,6 @@ export default class shalongController extends Component {
         </View>
     }
 }
-
-// export default class shalongController extends Component{
-//     render(){
-//         return <Navigator
-//             initialRoute={{title: '沙龙', component:ShaLong}}
-//             renderScene={(route, navigator) => {
-//                 let Component = route.component
-//                 return <Component {...route.params}
-//                 navigator={navigator}
-//                 {...this.props}/>
-//               }}
-//             configureScene={(route, routeStack) => Navigator.SceneConfigs.PushFromRight}
-//             navigationBar={
-//                     <Navigator.NavigationBar
-//                         routeMapper={NavigationBarRouteMapper}
-//                         style={{backgroundColor: '#4964ef'}}/>
-//                 }
-//         />
-//     }
-// }
 
 class LoadMoreFooter extends Component {
     render() {
