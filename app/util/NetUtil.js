@@ -207,7 +207,6 @@ function md5(str) {
 function getLoginSignature(userName,password,md5key) {
     return new Promise((res,rej)=>{
         let p1 = userName+password+md5key
-        console.log('*************p1',p1)
         md5(p1).then((d)=>{
             let p2 = AppSecret+d
             md5(p2).then((dd)=>{
@@ -257,11 +256,9 @@ export function login(userName,password,type='phonenum') {
         getMD5Key(userName,type).then((d)=>{
             let userMD5 = d['userMD5']
             getLoginSignature(userName,password,userMD5).then((signature)=>{
-                console.log('##signature',signature)
                 getLoginAccessInfo(userName).then((accessInfo)=>{
                     accessInfo['loginType']=type
                     accessInfo['signature']=signature
-                    console.log('##accessInfo',accessInfo)
 
                     let params = {
                         'userName':userName,
@@ -269,8 +266,6 @@ export function login(userName,password,type='phonenum') {
                         'accessInfo':accessInfo
                     }
                     let url = Base_url + 'login'
-                    console.log('##params',params)
-                    console.log('##url',url)
                     netRequest(url,params).then((result)=>{
                         resolve(result)
                     })
