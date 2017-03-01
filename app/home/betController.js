@@ -11,6 +11,7 @@ import {
     Dimensions,
     TouchableOpacity
 } from 'react-native';
+import NavigationBar from 'react-native-navbar'
 
 const {width, height} = Dimensions.get('window')
 
@@ -27,8 +28,11 @@ export default class betController extends Component{
     render(){
         let {stock} = this.props
         // alert(stock)
-        return <View style={styles.container}>
-            <View style={styles.center}>
+        return <View style={{flex:1,backgroundColor:'gray'}}>
+            <NavigationBar
+                title={{title:'投注'}}
+                tintColor="#f7f7f8"/>
+            <View style={[styles.center,styles.container]}>
                 <Text style={{paddingVertical:20,color:'white',fontSize:16}}>上证指数 20170301期 猜涨</Text>
                 <View style={[styles.row,{alignItems:'center'}]}>
                     <Text>数额：</Text>
@@ -58,11 +62,11 @@ export default class betController extends Component{
                     </View>
                 </View>
                 <TouchableOpacity
-                    style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,borderRadius:10}]}
+                    style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,width:160,justifyContent:'center',borderRadius:20}]}
                     onPress={()=>{
                         alert(JSON.stringify(stock))
                     }}>
-                    <Text style={{color:'black',fontSize:24,paddingHorizontal:40}}>立即投注</Text>
+                    <Text style={{color:'black',fontSize:24}}>立即投注</Text>
                 </TouchableOpacity>
             </View>
             <View style={{alignItems:'center',paddingBottom:15}}>
@@ -76,8 +80,6 @@ export default class betController extends Component{
 
 const styles = {
     container:{
-        justifyContent:'space-between',
-        backgroundColor:'gray',
         flex:1,
         alignItems:'center'
     },
@@ -95,7 +97,7 @@ const styles = {
         color:'yellow'
     },
     center:{
-        justifyContent:'center',
+        // justifyContent:'center',
         alignItems:'center'
     }
 }
