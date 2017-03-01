@@ -297,7 +297,8 @@ const styles = {
     imageItem: {
         width: picSize,
         height: picSize,
-        marginLeft: picMargin
+        marginLeft: picMargin,
+        marginBottom:picMargin/2
     },
     footerText: {
         color: 'gray',
