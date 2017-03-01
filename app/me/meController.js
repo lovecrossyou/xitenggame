@@ -44,7 +44,9 @@ export default class AboutMe  extends Component{
     render(){
         const {navigator} = this.props;
         return <View style={{flex:1}}>
-            <NavigationBar title={{title:'我'}}/>
+            <NavigationBar
+                title={{title:'我'}}
+                tintColor="#f7f7f8"/>
             <ScrollView style={{flex:1,backgroundColor:'#f5f5f5'}}>
                 <Header />
                 <CellItem title="我的资产" desc="" icon={require('../../img/me/me_icon_assets.png')}/>

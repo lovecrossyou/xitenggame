@@ -16,7 +16,9 @@ import NavigationBar from 'react-native-navbar'
 export default class faxianController extends Component{
     render(){
         return <View style={{flex:1}}>
-            <NavigationBar title={{title:'发现'}}/>
+            <NavigationBar
+                title={{title:'发现'}}
+                tintColor="#f7f7f8"/>
             <ScrollView style={{flex:1,backgroundColor:'#f5f5f5',paddingTop:10}}>
                 <CellItem title="朋友圈" desc="朋友动态" icon={require('../../img/me/me_icon_assets.png')}/>
                 <CellItem title="喜信" marginBot={10} desc="及时聊天" icon={require('../../img/me/me_icon_assets.png')}/>

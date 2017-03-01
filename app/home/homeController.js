@@ -284,20 +284,10 @@ export default class homeController extends Component{
 
     }
     render(){
-        const rightButtonConfig = {
-            title: '分享',
-            handler: () => alert('hello!'),
-        };
-
-        const titleConfig = {
-            title: '喜腾',
-        };
-
         return <View style={{flex:1}}>
             <NavigationBar
-                title={titleConfig}
-                rightButton={rightButtonConfig}
-            />
+                title={{title:'喜腾'}}
+                tintColor="#f7f7f8"/>
             <ScrollView>
                 <Banner list={this.state.bannerlist}/>
                 <EndTimeView list={this.state.stocklist}/>

@@ -247,7 +247,9 @@ export default class shalongController extends Component {
         var {shalongReducer} = this.props
         let list = shalongReducer.commentlist
         return <View style={{flex:1,justifyContent:'space-between'}}>
-            <NavigationBar title={{title:'沙龙'}}/>
+            <NavigationBar
+                title={{title:'沙龙'}}
+                tintColor="#f7f7f8"/>
             <SGListView
                 dataSource={this.state.dataSource.cloneWithRows(list) }
                 renderRow={this.renderData.bind(this)}
