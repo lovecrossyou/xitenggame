@@ -123,9 +123,7 @@ class Content extends Component {
             <View>
                 <Text numberOfLines={9} style={{marginHorizontal:10,marginVertical:10}}>{content}</Text>
             </View>
-            <View style={{flexDirection:'row'}}>
-                {rowCells}
-            </View>
+            {rowCells}
             <Modal visible={this.state.showModal} transparent={false}>
                 <ImageViewer
                     imageUrls={imgUrls}
