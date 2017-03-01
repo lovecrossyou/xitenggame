@@ -18,11 +18,12 @@ import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
 
-var {width,height} = Dimensions.get('window')
-const bannerHeight = 110
 
+import RootContainer from '../common/tabController'
 import {requestData} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
+var {width,height} = Dimensions.get('window')
+const bannerHeight = 110
 class Banner extends Component{
     render(){
         var banners = this.props.list.map((data,index)=>{
@@ -289,7 +290,13 @@ export default class homeController extends Component{
         return <View style={{flex:1}}>
             <NavigationBar
                 title={{title:'喜腾'}}
-                tintColor="#f7f7f8"/>
+                tintColor="#f7f7f8"
+                rightButton={{
+                    title:'登录',
+                    handler:()=>{
+                        RootContainer.switchToLoginView()
+                    }
+                }}/>
             <ScrollView>
                 <Banner list={this.state.bannerlist}/>
                 <EndTimeView list={this.state.stocklist}/>

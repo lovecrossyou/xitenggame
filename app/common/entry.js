@@ -16,6 +16,7 @@ import {connect} from "react-redux";
 
 class Entry extends Component{
     render(){
+        // 判断是否登录
         return <Navigator
             initialRoute={{
                 title: '喜腾',

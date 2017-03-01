@@ -14,7 +14,7 @@ import homeController from '../home/homeController'
 import shalongController from '../shalong/shalongComponent'
 import faxianController from '../faxian/faxianController'
 import AboutMe from '../me/meController'
-
+import LoginController from '../login/LoginController'
 import TabNavigator from 'react-native-tab-navigator'
 const tabBarItems = [
     {
@@ -46,9 +46,25 @@ const tabBarItems = [
 export default class RootContainer extends Component {
     constructor(props) {
         super(props)
+        RootContainer.switchToLoginView = RootContainer.switchToLoginView.bind(this);
+        RootContainer.switchToMainView = RootContainer.switchToMainView.bind(this);
         this.state = {
             selectedTab: tabBarItems[0].title,
         }
+    }
+
+    static switchToMainView(){
+        this.props.navigator.push({
+            component: LoginController,
+            params: {}
+        });
+    }
+
+    static switchToLoginView(){
+        this.props.navigator.push({
+            component: LoginController,
+            params: {}
+        });
     }
 
     render() {
