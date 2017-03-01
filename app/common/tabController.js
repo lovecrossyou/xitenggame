@@ -17,6 +17,32 @@ import AboutMe from '../me/meController'
 import LoginController from '../login/LoginController'
 import TabNavigator from 'react-native-tab-navigator'
 
+const tabBarItems = [
+    {
+        title: '首页',
+        icon:() => <Image style={styles.item_img}
+                          source={require('../../img/tab/tab_xiteng.png')} /> ,
+        component: HomeController
+    },
+    {
+        title: '沙龙',
+        icon:() => <Image style={styles.item_img}
+                          source={require('../../img/tab/tab_shalong.png')} /> ,
+        component: ShaLongController
+    },
+    {
+        title: '发现',
+        icon:() => <Image style={styles.item_img}
+                          source={require('../../img/tab/tab_faxian.png')} /> ,
+        component: FaXianController
+    },
+    {
+        title: '我的',
+        icon:() => <Image style={styles.item_img}
+                          source={require('../../img/tab/tab_me.png')} /> ,
+        component: AboutMe
+    }
+]
 export default class RootContainer extends Component {
     constructor(props) {
         super(props)
@@ -36,6 +62,8 @@ export default class RootContainer extends Component {
     }
 
     static switchToLoginView() {
+        alert(this)
+        return
         this.props.navigator.push({
             component: LoginController,
             params: {}
@@ -61,7 +89,7 @@ export default class RootContainer extends Component {
                           source={require('../../img/tab/tab_xiteng.png')} />}
                 onPress={() => this.setState({ selectedTab:'喜腾' }) }>
                 <HomeController
-                    navigator={this.props.navigator}/>
+                    navigator={this.props.navigator} {...this.props} />
             </TabNavigator.Item>
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName[1]}
@@ -72,7 +100,7 @@ export default class RootContainer extends Component {
                 <ShaLongController
                     dispatch={this.props.dispatch}
                     shalongReducer={this.props.state.shalongReducer}
-                    navigator={this.props.navigator}/>
+                    navigator={this.props.navigator} />
             </TabNavigator.Item>
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName[2]}

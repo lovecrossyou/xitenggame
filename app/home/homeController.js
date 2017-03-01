@@ -17,6 +17,7 @@ import Swiper from 'react-native-swiper'
 import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
+import LoginController from '../login/LoginController'
 
 
 import RootContainer from '../common/tabController'
@@ -286,6 +287,12 @@ export default class HomeController extends Component{
             params:{stock:stock}
         })
     }
+
+    _login(){
+        this.props.navigator.push({
+            component:LoginController,
+        })
+    }
     render(){
         return <View style={{flex:1}}>
             <NavigationBar
@@ -294,7 +301,7 @@ export default class HomeController extends Component{
                 rightButton={{
                     title:'登录',
                     handler:()=>{
-                        RootContainer.switchToLoginView()
+                        this._login()
                     }
                 }}/>
             <ScrollView>

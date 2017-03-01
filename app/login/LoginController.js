@@ -12,9 +12,9 @@ import {
     PixelRatio,
     Dimensions
 } from 'react-native'
-
 import {requestData,login} from '../util/NetUtil'
-var {width} = Dimensions.get('window')
+const {width} = Dimensions.get('window')
+import  User from '../model/User'
 class InputCell extends Component{
     render(){
         var {title,placeholder} = this.props
@@ -48,14 +48,27 @@ export default class LoginController extends Component {
     }
 
     _login(){
+        var Realm = require('realm')
         let userName = this.userName
         let passsword = this.passsword
         login(userName,passsword).then((d)=>{
             let access_token_secret = d['access_token_secret']
             let access_token = d['access_token']
 
-            let realm = new Realm({schema: [Car, Person]});
+            let realm = new Realm({schema: [User]})
+            realm.write(()=>{
+                realm.create('User',{
+                    name:userName,
+                    online:true,
+                    access_token:access_token,
+                    access_token_secret:access_token_secret,
+                })
+            })
 
+            let users = realm.objects('User')
+            users.map((user)=>{
+                alert(JSON.stringify(user))
+            })
         })
     }
 
