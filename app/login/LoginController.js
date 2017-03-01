@@ -50,11 +50,12 @@ export default class LoginController extends Component {
     _login(){
         let userName = this.userName
         let passsword = this.passsword
-
-        console.log('userName',userName)
-        console.log('passsword',passsword)
         login(userName,passsword).then((d)=>{
-            console.log('login ok',JSON.stringify(d))
+            let access_token_secret = d['access_token_secret']
+            let access_token = d['access_token']
+
+            let realm = new Realm({schema: [Car, Person]});
+
         })
     }
 

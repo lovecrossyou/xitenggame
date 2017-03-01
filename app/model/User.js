@@ -8,6 +8,8 @@ User.schema = {
     properties: {
         name: {type: 'string'},
         sex: {type: 'string',optional: true},
+        access_token: {type: 'string'},
+        access_token_secret: {type: 'string'},
         picture: {type: 'data', optional: true}, // optional property
     }
 }

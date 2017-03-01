@@ -4,29 +4,37 @@
 
 
 import {NativeModules} from 'react-native'
-
-// const Base_url  = "http://114.251.53.22/xitenggamejar/"
-// const ImageUrl  ="http://114.251.53.22/imageserver/"
-// const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
-// const AppSecret = "71838ae252714085bc0fb2fc3f420110"
-
-//生产环境
-const Base_url  = "http://www.xiteng.com/xitenggame/"
-const ImageUrl  ="http://www.xiteng.com/imageserver/"
 const AppKey ="b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
+//生产环境
+// const Base_url  = "http://www.xiteng.com/xitenggame/"
+// const ImageUrl  ="http://www.xiteng.com/imageserver/"
+
+
+const Base_url  = "http://114.251.53.22/xitenggamejar/"
+const ImageUrl  ="http://114.251.53.22/imageserver/"
+
 
 var XTUtil = NativeModules.XTUtil
 
 const accessInfo = {
-    "phone_num":"18310066927",
-    "version":"1.4.3",
+    "phone_num":"13220168837",
+    "version":"1.3.2",
     "os":"ios",
-    "loginType":"",
-    "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
-    "access_token":"7e43e0752bfc4e948fab0197939624b4",
+    "signature":"1D7D3E2F1B8F1CE810181B5F17E6DBF4",
+    "access_token":"5cdf787ba57e475bb411e0131455ab29",
     "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
 }
+
+// const accessInfo = {
+//     "phone_num":"18310066927",
+//     "version":"1.4.3",
+//     "os":"ios",
+//     "loginType":"",
+//     "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
+//     "access_token":"7e43e0752bfc4e948fab0197939624b4",
+//     "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
+// }
 
 // phone_num = "18310066927";
 // version = "1.4.3";
@@ -189,7 +197,7 @@ export function shalongcommentlist(pageNo,pageSize,commentType='all') {
 
 function md5(str) {
     return new Promise((res,rej)=>{
-        XTUtil.digest(AppSecret,(err, info)=> {
+        XTUtil.digest(str,(err, info)=> {
             res(info[0])
         })
     })
@@ -199,10 +207,11 @@ function md5(str) {
 function getLoginSignature(userName,password,md5key) {
     return new Promise((res,rej)=>{
         let p1 = userName+password+md5key
+        console.log('*************p1',p1)
         md5(p1).then((d)=>{
             let p2 = AppSecret+d
-            md5(p2).then((d)=>{
-                res(d)
+            md5(p2).then((dd)=>{
+                res(dd)
             })
         })
     })
@@ -246,8 +255,7 @@ function getMD5Key(userName,loginType) {
 export function login(userName,password,type='phonenum') {
     return new Promise((resolve,reject)=>{
         getMD5Key(userName,type).then((d)=>{
-            const userMD5 = d['userMD5']
-            console.log('##userMD5',userMD5)
+            let userMD5 = d['userMD5']
             getLoginSignature(userName,password,userMD5).then((signature)=>{
                 console.log('##signature',signature)
                 getLoginAccessInfo(userName).then((accessInfo)=>{
@@ -262,6 +270,7 @@ export function login(userName,password,type='phonenum') {
                     }
                     let url = Base_url + 'login'
                     console.log('##params',params)
+                    console.log('##url',url)
                     netRequest(url,params).then((result)=>{
                         resolve(result)
                     })

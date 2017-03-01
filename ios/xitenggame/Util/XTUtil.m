@@ -23,7 +23,7 @@ RCT_EXPORT_METHOD(digest:(NSString*)source callback:(RCTResponseSenderBlock)call
     [md5str appendFormat:@"%02X", result[i]];
   }
   NSString* res = md5str.uppercaseString;
-  NSArray* events = @[@[res]];
+  NSArray* events = @[res];
   callBack(@[[NSNull null], events]);
 }
 @end
