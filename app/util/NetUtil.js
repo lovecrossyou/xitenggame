@@ -274,7 +274,6 @@ export function wechatlogin() {
             let unionid = wechatinfo['unionid']
             getWeChatLoginSignature(unionid).then((signature)=>{
                 getLoginAccessInfo(unionid).then((accessInfo)=>{
-                    alert('accessInfo',JSON.stringify(signature))
                     accessInfo['loginType']= 'weixin'
                     accessInfo['signature']= signature
                     let params = {
