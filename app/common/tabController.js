@@ -96,9 +96,7 @@ export default class RootContainer extends Component {
                           source={require('../../img/tab/tab_shalong.png')} />}
                 onPress={() => this.setState({ selectedTab:'沙龙' }) }>
                 <ShaLongController
-                    dispatch={this.props.dispatch}
-                    shalongReducer={this.props.state.shalongReducer}
-                    navigator={this.props.navigator} />
+                    navigator={this.props.navigator} {...this.props} />
             </TabNavigator.Item>
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName[2]}

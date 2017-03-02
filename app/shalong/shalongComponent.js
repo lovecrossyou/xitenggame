@@ -30,7 +30,7 @@ const {width, height} = Dimensions.get('window')
 const picMargin = 10
 const picRowCount = 4
 let pageNo = 1
-const pageSize = 15
+const pageSize = 45
 const picSize = (width - picMargin * (picRowCount + 1)) / picRowCount
 
 class Header extends Component {
@@ -238,14 +238,13 @@ export default class ShaLongController extends Component {
 
     fetchData(){
         InteractionManager.runAfterInteractions(() => {
-            const {dispatch} = this.props
-            dispatch(shalongAction(0,5,false,true))
+            this.props.actions.shalongAction(pageNo,pageSize,false,true);
+            // pageNo++
         });
     }
 
     render() {
-        var {shalongReducer} = this.props
-        let list = shalongReducer.commentlist
+        let list = this.props.state.shalongReducer.commentlist
         return <View style={{flex:1,justifyContent:'space-between'}}>
             <NavigationBar
                 title={{title:'沙龙'}}
@@ -306,7 +305,7 @@ const styles = {
         marginLeft: 6
     },
     border_1:{
-        borderColor:'#f5f5f5',
+        borderColor:'#DCDCDC',
         borderWidth:1/PixelRatio.get()
     }
 }

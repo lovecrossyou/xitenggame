@@ -4,7 +4,8 @@
 import * as types from '../../actions/ActionTypes'
 
 const defaultState = {
-    commentlist:[]
+    commentlist:[],
+    pageNo:0
 }
 
 const shalongReducer = (state=defaultState, action)=>{
@@ -12,7 +13,7 @@ const shalongReducer = (state=defaultState, action)=>{
         case types.FETCH_SHALONG_LIST:{
             return Object.assign({}, state, {
                 isRefreshing: action.isRefreshing,
-                isLoading: action.isLoading
+                isLoading: action.isLoading,
             })
         }
         case types.RECEIVE_SHALONG_LIST:{

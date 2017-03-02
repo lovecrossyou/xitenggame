@@ -10,17 +10,19 @@ import {
     View,
     Navigator
 } from 'react-native';
-import RootContainer from './tabController'
 import {NavigationBarRouteMapper} from '../common/navigatorConfig'
 import {connect} from "react-redux";
 import LoginController from '../login/LoginController'
+import {bindActionCreators} from "redux";
+import {actions} from '../shalong/action/shalongAction'
+import Splash from './Splash'
 class Entry extends Component{
     render(){
         // 判断是否登录
         return <Navigator
             initialRoute={{
                 title: '喜腾',
-                component:RootContainer
+                component:Splash
             }}
             renderScene={(route, navigator) => {
                 let Component = route.component
@@ -41,8 +43,17 @@ let mapStateToProps = (state)=>{
     return {state}
 }
 
-let  createContainer = (component)=>{
-    return connect(mapStateToProps)(component);
+
+let mapDispatchToProps = (dispatch)=>{
+    return {
+        actions:bindActionCreators(actions, dispatch)
+    }
 }
+
+let  createContainer = (component)=>{
+    return connect(mapStateToProps, mapDispatchToProps)(component);
+}
+
+
 
 export let Navigation = createContainer(Entry)
