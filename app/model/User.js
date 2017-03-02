@@ -14,5 +14,3 @@ User.schema = {
         online:{type:'bool'}, // optional property
     }
 }
-
-// export let User

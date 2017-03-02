@@ -12,33 +12,33 @@ const WechatSecret = "64ea45d0b288669706194b3a07726208"
 const AppKey = "b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 //生产环境
-// const Base_url  = "http://www.xiteng.com/xitenggame/"
-// const ImageUrl  ="http://www.xiteng.com/imageserver/"
+const Base_url  = "http://www.xiteng.com/xitenggame/"
+const ImageUrl  ="http://www.xiteng.com/imageserver/"
 
-const Base_url = "http://114.251.53.22/xitenggamejar/"
-const ImageUrl = "http://114.251.53.22/imageserver/"
+// const Base_url = "http://114.251.53.22/xitenggamejar/"
+// const ImageUrl = "http://114.251.53.22/imageserver/"
 
 
 var XTUtil = NativeModules.XTUtil
 
-const accessInfo = {
-    "phone_num": "13220168837",
-    "version": "1.3.2",
-    "os": "ios",
-    "signature": "1D7D3E2F1B8F1CE810181B5F17E6DBF4",
-    "access_token": "5cdf787ba57e475bb411e0131455ab29",
-    "app_key": "b5958b665e0b4d8cae77d28e1ad3f521"
-}
-
 // const accessInfo = {
-//     "phone_num":"18310066927",
-//     "version":"1.4.3",
-//     "os":"ios",
-//     "loginType":"",
-//     "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
-//     "access_token":"7e43e0752bfc4e948fab0197939624b4",
-//     "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
+//     "phone_num": "13220168837",
+//     "version": "1.3.2",
+//     "os": "ios",
+//     "signature": "1D7D3E2F1B8F1CE810181B5F17E6DBF4",
+//     "access_token": "5cdf787ba57e475bb411e0131455ab29",
+//     "app_key": "b5958b665e0b4d8cae77d28e1ad3f521"
 // }
+
+const accessInfo = {
+    "phone_num":"18310066927",
+    "version":"1.4.3",
+    "os":"ios",
+    "loginType":"",
+    "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
+    "access_token":"7e43e0752bfc4e948fab0197939624b4",
+    "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
+}
 
 function sendNetRequest(...props) {
     this.url = props.shift(1);
@@ -267,6 +267,23 @@ function getWeChatLoginSignature(unionid) {
     })
 }
 
+function checkBindPhone(wechatinfo) {
+    return new Promise((res,rej)=>{
+        let accessInfo = accessInfo
+        accessInfo['loginType'] = 'weixin'
+        accessInfo['phone_num'] = wechatinfo.unionid
+
+        let params = {
+            'cName':wechatinfo.nickname,
+            'userIconUrl':wechatinfo.headimgurl,
+            'accessInfo':accessInfo
+        }
+        requestData('checkBind',params).then((result)=>{
+            res(result)
+        })
+    })
+}
+
 
 export function wechatlogin() {
     return new Promise((res,rej)=>{
@@ -284,7 +301,8 @@ export function wechatlogin() {
                         'app_key':AppKey,
                         'accessInfo':accessInfo
                     }
-                    netRequest('login',params).then((response)=>{
+                    let url = Base_url + 'login'
+                    netRequest(url,params).then((response)=>{
                         res(response)
                     })
                 })

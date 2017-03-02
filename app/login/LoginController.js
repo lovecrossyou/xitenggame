@@ -88,6 +88,7 @@ export default class LoginController extends Component {
 
     _loginWeChat(){
         wechatlogin().then((res)=>{
+
             alert(JSON.stringify(res))
         })
     }
