@@ -12,9 +12,11 @@ import {
     PixelRatio,
     Dimensions
 } from 'react-native'
-import {requestData,login} from '../util/NetUtil'
+import {wechatlogin,WechatAppID,login} from '../util/NetUtil'
+import * as WeChat from 'react-native-wechat'
 const {width} = Dimensions.get('window')
 import  User from '../model/User'
+
 class InputCell extends Component{
     render(){
         var {title,placeholder} = this.props
@@ -39,12 +41,20 @@ export default class LoginController extends Component {
         this.passsword = '123456'
     }
 
+    componentDidMount (){
+        WeChat.registerApp(WechatAppID)
+    }
+
     _setUserName(text){
         this.userName = text
     }
 
     _setPassword(text){
         this.passsword = text
+    }
+
+    _sendWeChatRequest(){
+
     }
 
     _login(){
@@ -76,6 +86,12 @@ export default class LoginController extends Component {
         this.props.navigator.pop()
     }
 
+    _loginWeChat(){
+        wechatlogin().then((res)=>{
+            alert(JSON.stringify(res))
+        })
+    }
+
     render() {
         return <View style={styles.container}>
             <View>
@@ -102,7 +118,21 @@ export default class LoginController extends Component {
                 </TouchableOpacity>
             </View>
             <View style={styles.botContainer}>
-
+                <TouchableOpacity onPress={this._loginWeChat.bind(this)}>
+                    <Image
+                        style={styles.share}
+                        source={require('../../img/share/share_btn_wechat.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                        style={styles.share}
+                        source={require('../../img/share/share_btn_weibo.png')}/>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Image
+                        style={styles.share}
+                        source={require('../../img/share/share_btn_qq.png')}/>
+                </TouchableOpacity>
             </View>
         </View>
     }
@@ -122,8 +152,8 @@ const styles = {
     },
     botContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        bottom: 20
+        justifyContent: 'space-around',
+        bottom: 32
     },
     image: {
         width: 60,
@@ -131,6 +161,10 @@ const styles = {
         marginTop: 20 + 64,
         alignSelf: 'center',
         borderRadius: 30
+    },
+    share:{
+        width:44,
+        height:44
     }
 }
 

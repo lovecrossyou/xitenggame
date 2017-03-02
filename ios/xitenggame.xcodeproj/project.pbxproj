@@ -24,6 +24,10 @@
 		46EC566DA20A49248D26E73C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B548876B3C942FFB2EF9DCB /* libc++.tbd */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		75ED570B1E668CAF006D8B67 /* XTUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 75ED570A1E668CAF006D8B67 /* XTUtil.m */; };
+		7FDDF43E1E67EC8E00E6B76E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDDF43D1E67EC8E00E6B76E /* SystemConfiguration.framework */; };
+		7FDDF4401E67EC9700E6B76E /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDDF43F1E67EC9700E6B76E /* CoreTelephony.framework */; };
+		7FDDF4421E67ECA300E6B76E /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDDF4411E67ECA300E6B76E /* libsqlite3.0.tbd */; };
+		7FDDF4431E67ECEA00E6B76E /* libRCTWeChat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7FDDF43C1E67EC7500E6B76E /* libRCTWeChat.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		83CC071EDA2D4CD8991CF3F5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EBDA5571819049F9BDA7EABD /* libz.tbd */; };
 		FC1F74457CCE40A89F64A352 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51207AA404A5431888D39AFB /* libRealmReact.a */; };
@@ -212,6 +216,13 @@
 			remoteGlobalIDString = F60690131CA2766F0003FB26;
 			remoteInfo = RealmReact;
 		};
+		7FDDF43B1E67EC7500E6B76E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7FDDF4371E67EC7500E6B76E /* RCTWeChat.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 86D238421BD0BB9E00C75D01;
+			remoteInfo = RCTWeChat;
+		};
 		832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */;
@@ -246,6 +257,10 @@
 		75ED57091E668CAF006D8B67 /* XTUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XTUtil.h; sourceTree = "<group>"; };
 		75ED570A1E668CAF006D8B67 /* XTUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XTUtil.m; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7FDDF4371E67EC7500E6B76E /* RCTWeChat.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWeChat.xcodeproj; path = "../node_modules/react-native-wechat/ios/RCTWeChat.xcodeproj"; sourceTree = "<group>"; };
+		7FDDF43D1E67EC8E00E6B76E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		7FDDF43F1E67EC9700E6B76E /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		7FDDF4411E67ECA300E6B76E /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		DD92E02BD8154E1A9A6ABA29 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
 		EBDA5571819049F9BDA7EABD /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -264,6 +279,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FDDF4431E67ECEA00E6B76E /* libRCTWeChat.a in Frameworks */,
+				7FDDF4421E67ECA300E6B76E /* libsqlite3.0.tbd in Frameworks */,
+				7FDDF4401E67EC9700E6B76E /* CoreTelephony.framework in Frameworks */,
+				7FDDF43E1E67EC8E00E6B76E /* SystemConfiguration.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -393,6 +412,9 @@
 		5B08A81691124A93BC3B303C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7FDDF4411E67ECA300E6B76E /* libsqlite3.0.tbd */,
+				7FDDF43F1E67EC9700E6B76E /* CoreTelephony.framework */,
+				7FDDF43D1E67EC8E00E6B76E /* SystemConfiguration.framework */,
 				5B548876B3C942FFB2EF9DCB /* libc++.tbd */,
 				EBDA5571819049F9BDA7EABD /* libz.tbd */,
 			);
@@ -435,9 +457,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		7FDDF4381E67EC7500E6B76E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7FDDF43C1E67EC7500E6B76E /* libRCTWeChat.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				7FDDF4371E67EC7500E6B76E /* RCTWeChat.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -594,6 +625,10 @@
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
+				},
+				{
+					ProductGroup = 7FDDF4381E67EC7500E6B76E /* Products */;
+					ProjectRef = 7FDDF4371E67EC7500E6B76E /* RCTWeChat.xcodeproj */;
 				},
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
@@ -788,6 +823,13 @@
 			remoteRef = 7FDDF3FD1E6704A800E6B76E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		7FDDF43C1E67EC7500E6B76E /* libRCTWeChat.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTWeChat.a;
+			remoteRef = 7FDDF43B1E67EC7500E6B76E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		832341B51AAA6A8300B99B32 /* libRCTText.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -917,6 +959,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = VYW4NN9SFF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/Libraries/**";
 				INFOPLIST_FILE = xitenggame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -937,6 +980,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = VYW4NN9SFF;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../node_modules/react-native/Libraries/**";
 				INFOPLIST_FILE = xitenggame/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
