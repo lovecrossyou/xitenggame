@@ -14,18 +14,24 @@ import {
 } from 'react-native'
 import {wechatlogin,WechatAppID,login} from '../util/NetUtil'
 import * as WeChat from 'react-native-wechat'
+import Toast, {DURATION} from 'react-native-easy-toast'
+
 const {width} = Dimensions.get('window')
 import  User from '../model/User'
 
 class InputCell extends Component{
     render(){
-        var {title,placeholder} = this.props
+        var {title,placeholder,callback,keyboardType} = this.props
         return <View style={{marginTop: 20,flexDirection:'row',alignItems:'center',backgroundColor:'white'}}>
             <Text style={{fontSize:14,paddingLeft:10,width:60}}>{title}</Text>
             <View>
                 <TextInput
                     placeholder={placeholder}
                     style={styles.input}
+                    onChangeText={(text)=>{
+                        callback(text)
+                    }}
+                    keyboardType={keyboardType}
                 />
             </View>
         </View>
@@ -37,8 +43,8 @@ export default class LoginController extends Component {
 
     constructor(){
         super()
-        this.userName = '13220168837'
-        this.passsword = '123456'
+        this.userName = ''
+        this.passsword = ''
     }
 
     componentDidMount (){
@@ -64,32 +70,60 @@ export default class LoginController extends Component {
         login(userName,passsword).then((d)=>{
             let access_token_secret = d['access_token_secret']
             let access_token = d['access_token']
-
             let realm = new Realm({schema: [User]})
-            realm.write(()=>{
-                realm.create('User',{
-                    name:userName,
-                    online:true,
-                    access_token:access_token,
-                    access_token_secret:access_token_secret,
+            let users = realm.objects('User')
+            if(users && users.length!=0){
+            }
+            else{
+                //首次登陆
+                realm.write(()=>{
+                    realm.create('User',{
+                        phone:userName,
+                        online:true,
+                        access_token:access_token,
+                        access_token_secret:access_token_secret,
+                    })
                 })
-            })
+            }
             this._pop()
-            // let users = realm.objects('User')
-            // users.map((user)=>{
-            //     alert(JSON.stringify(user))
-            // })
         })
     }
 
     _pop(){
-        this.props.navigator.pop()
+        this.refs.toast.show('登陆成功！')
+        setTimeout(()=>{
+            this.props.navigator.pop()
+        },1000)
     }
 
     _loginWeChat(){
-        wechatlogin().then((res)=>{
+        wechatlogin().then((result)=>{
+            var {response, bindInfo,wechatinfo} = result
+            var {headimgurl,nickname,sex} = wechatinfo
+            var {access_token,access_token_secret} = response
+            const status = bindInfo.statue
+            const phoneNum = bindInfo.phoneNum
+            const xtNumber = bindInfo.xtNumber
+            if(status=='in_bind'){
+                //已绑定手机号 保存用户信息
+                let realm = new Realm({schema: [User]})
+                realm.write(()=>{
+                    let user = realm.create('User',{
+                        phone:phoneNum,
+                        picture:headimgurl,
+                        nickname:nickname,
+                        xtnumber:xtNumber,
+                        sex:sex+'',
+                        online:true,
+                        access_token:access_token,
+                        access_token_secret:access_token_secret
+                    })
+                })
+            }
+            else{
+                //弹出绑定手机号
 
-            alert(JSON.stringify(res))
+            }
         })
     }
 
@@ -99,8 +133,8 @@ export default class LoginController extends Component {
                 <Image
                     style={styles.image}
                     source={{uri: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=1502327020,2968128604&fm=116&gp=0.jpg'}}/>
-                <InputCell style={{marginTop: 20}} title="用户名" placeholder="请输入用户名" />
-                <InputCell style={{marginTop: 20,}} title="密码" placeholder="请输入密码"/>
+                <InputCell keyboardType="phone-pad" callback={this._setUserName.bind(this)} style={{marginTop: 20}} title="用户名" placeholder="请输入用户名" />
+                <InputCell keyboardType="default" callback={this._setPassword.bind(this)} style={{marginTop: 20,}} title="密码" placeholder="请输入密码"/>
                 <TouchableOpacity
                     style={{
                     alignItems: 'center',
@@ -135,6 +169,7 @@ export default class LoginController extends Component {
                         source={require('../../img/share/share_btn_qq.png')}/>
                 </TouchableOpacity>
             </View>
+            <Toast ref="toast"  position='top'/>
         </View>
     }
 }

@@ -3,8 +3,11 @@
  */
 import * as WeChat from 'react-native-wechat'
 import {GetRandomNum} from '../util/NumberUtil'
+var Realm = require('realm')
 
 import {NativeModules} from 'react-native'
+import  User from '../model/User'
+
 export const WechatAppID = "wx29fb35e25d660f0a"
 const WechatSecret = "64ea45d0b288669706194b3a07726208"
 
@@ -12,33 +15,15 @@ const WechatSecret = "64ea45d0b288669706194b3a07726208"
 const AppKey = "b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 //生产环境
-const Base_url  = "http://www.xiteng.com/xitenggame/"
-const ImageUrl  ="http://www.xiteng.com/imageserver/"
+// const Base_url  = "http://www.xiteng.com/xitenggame/"
+// const ImageUrl  ="http://www.xiteng.com/imageserver/"
 
-// const Base_url = "http://114.251.53.22/xitenggamejar/"
-// const ImageUrl = "http://114.251.53.22/imageserver/"
+const Base_url = "http://114.251.53.22/xitenggamejar/"
+const ImageUrl = "http://114.251.53.22/imageserver/"
+// const Base_url = "http://192.168.1.229:9931/xitenggamejar/"
 
 
 var XTUtil = NativeModules.XTUtil
-
-// const accessInfo = {
-//     "phone_num": "13220168837",
-//     "version": "1.3.2",
-//     "os": "ios",
-//     "signature": "1D7D3E2F1B8F1CE810181B5F17E6DBF4",
-//     "access_token": "5cdf787ba57e475bb411e0131455ab29",
-//     "app_key": "b5958b665e0b4d8cae77d28e1ad3f521"
-// }
-
-const accessInfo = {
-    "phone_num":"18310066927",
-    "version":"1.4.3",
-    "os":"ios",
-    "loginType":"",
-    "signature":"9499CF9A69EBD7F586E42F0DDA1F7C06",
-    "access_token":"7e43e0752bfc4e948fab0197939624b4",
-    "app_key":"b5958b665e0b4d8cae77d28e1ad3f521"
-}
 
 function sendNetRequest(...props) {
     this.url = props.shift(1);
@@ -48,30 +33,6 @@ function sendNetRequest(...props) {
             return response.json()
         })
 }
-
-function getAccessInfo() {
-    var p = new Promise(function (resolve, reject) {
-        // var accessInfo = {
-        //     "access_token": "5cdf787ba57e475bb411e0131455ab29",
-        //     "app_key": "b5958b665e0b4d8cae77d28e1ad3f521",
-        //     "os": "ios",
-        //     "phone_num": "13220168837",
-        //     "signature":"1D7D3E2F1B8F1CE810181B5F17E6DBF4",
-        //     "version":"1.3.2"
-        // }
-        resolve(accessInfo)
-    })
-    return p
-}
-
-
-// function getMd5(param) {
-//     return new Promise(function (res, rej) {
-//         PersonManager.getMd5(param, (err, info) => {
-//             res(info)
-//         })
-//     })
-// }
 
 export function uploadImageRequest(url, images) {
     var getAccInfo = getAccessInfo()
@@ -110,7 +71,7 @@ export function uploadImageRequest(url, images) {
 }
 
 export function requestData(url, param, method = 'POST') {
-    var getAccInfo = getAccessInfo()
+    var getAccInfo = createAccessInfo()
     return new Promise(function (resolve, reject) {
         getAccInfo.then((accessInfo) => {
             param["accessInfo"] = accessInfo
@@ -260,50 +221,128 @@ export function login(userName, password, type = 'phonenum') {
 }
 
 function getWeChatLoginSignature(unionid) {
-    return new Promise((res,rej)=>{
-         md5(AppSecret + unionid).then((result)=>{
+    return new Promise((res, rej) => {
+        md5(AppSecret + unionid).then((result) => {
             res(result)
         })
     })
 }
 
-function checkBindPhone(wechatinfo) {
-    return new Promise((res,rej)=>{
-        let accessInfo = accessInfo
-        accessInfo['loginType'] = 'weixin'
-        accessInfo['phone_num'] = wechatinfo.unionid
-
-        let params = {
-            'cName':wechatinfo.nickname,
-            'userIconUrl':wechatinfo.headimgurl,
-            'accessInfo':accessInfo
+function createAccessInfo(response) {
+    return new Promise((res, rej) => {
+        let realm = new Realm({schema: [User]})
+        let users = realm.objects('User')
+        let hasLogin = false
+        let user = {}
+        if(users && users.length){
+            user = users[0]
+            hasLogin = true
         }
-        requestData('checkBind',params).then((result)=>{
-            res(result)
+        let accessInfo = {}
+        if (!hasLogin) {
+            md5(AppSecret).then((signature) => {
+                XTUtil.currentVersion((err, info) => {
+                    let version = info[0]
+                    accessInfo = {
+                        access_token: '',
+                        phone_num: '',
+                        app_key: AppKey,
+                        signature: signature,
+                        os: 'ios',
+                        version: version
+                    }
+                    res(accessInfo)
+                })
+            })
+        }
+        else {
+            let str = AppSecret+'&'+user.access_token_secret
+            md5(str).then((signature) => {
+                XTUtil.currentVersion((err, info) => {
+                    let version = info[0]
+                    accessInfo = {
+                        access_token: user.access_token,
+                        phone_num: user.phone,
+                        app_key: AppKey,
+                        signature: signature,
+                        os: 'ios',
+                        version: version
+                    }
+                    res(accessInfo)
+                })
+            })
+        }
+    })
+}
+
+function createWechatAccessInfo(wechatinfo,response) {
+    return new Promise((res, rej) => {
+        let str = AppSecret + '&'+ response.access_token_secret
+        md5(str).then((signature) => {
+            XTUtil.currentVersion((err, info) => {
+                let version = info[0]
+                accessInfo = {
+                    access_token: response.access_token,
+                    phone_num: wechatinfo.unionid,
+                    app_key: AppKey,
+                    signature: signature,
+                    os: 'ios',
+                    version: version
+                }
+                res(accessInfo)
+            })
         })
     })
 }
 
+/**
+ * 检测绑定手机号
+ * @param wechatinfo
+ * @param tokenInfo
+ * @returns {Promise}
+ */
+function checkBindPhone(wechatinfo,response={}) {
+    return new Promise((res, rej) => {
+        createWechatAccessInfo(wechatinfo,response).then((accessInfo) => {
+            accessInfo['loginType'] = 'weixin'
+            let params = {
+                'cName': wechatinfo.nickname,
+                'userIconUrl': wechatinfo.headimgurl,
+                'accessInfo': accessInfo,
+            }
+            let url = Base_url + 'checkBind'
+            netRequest(url, params).then((result) => {
+                res(result)
+            })
+        })
+    })
+}
 
+/**
+ * 微信注册登陆
+ * @returns {Promise}
+ */
 export function wechatlogin() {
-    return new Promise((res,rej)=>{
-        getWechatUserInfo().then((wechatinfo)=>{
+    return new Promise((res, rej) => {
+        getWechatUserInfo().then((wechatinfo) => {
             let unionid = wechatinfo['unionid']
-            getWeChatLoginSignature(unionid).then((signature)=>{
-                getLoginAccessInfo(unionid).then((accessInfo)=>{
-                    accessInfo['loginType']= 'weixin'
-                    accessInfo['signature']= signature
+            getWeChatLoginSignature(unionid).then((signature) => {
+                getLoginAccessInfo(unionid).then((accessInfo) => {
+                    accessInfo['loginType'] = 'weixin'
+                    accessInfo['signature'] = signature
                     let params = {
-                        'sex':wechatinfo.sex,
-                        'userName':unionid,
-                        'nickName':wechatinfo.nickname,
-                        'headImageUrl':wechatinfo.headimgurl,
-                        'app_key':AppKey,
-                        'accessInfo':accessInfo
+                        'sex': wechatinfo.sex,
+                        'userName': unionid,
+                        'nickName': wechatinfo.nickname,
+                        'headImageUrl': wechatinfo.headimgurl,
+                        'app_key': AppKey,
+                        'accessInfo': accessInfo
                     }
                     let url = Base_url + 'login'
-                    netRequest(url,params).then((response)=>{
-                        res(response)
+                    netRequest(url, params).then((response) => {
+                        checkBindPhone(wechatinfo,response).then((bindInfo) => {
+                            res({response, bindInfo,wechatinfo})
+                        })
                     })
                 })
             })
@@ -314,6 +353,10 @@ export function wechatlogin() {
 
 // --------------------registe---------------------------
 
+/**
+ *
+ * @returns {Promise}
+ */
 function getWeChatCode() {
     let stateValue = GetRandomNum(1, 10000) + ''
     return new Promise((res, rej) => {
@@ -324,7 +367,10 @@ function getWeChatCode() {
     })
 }
 
-
+/**
+ *
+ * @returns {Promise}
+ */
 function getWechatUserInfo() {
     return new Promise((res, rej) => {
         getWeChatCode().then((code) => {

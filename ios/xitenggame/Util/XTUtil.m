@@ -26,4 +26,13 @@ RCT_EXPORT_METHOD(digest:(NSString*)source callback:(RCTResponseSenderBlock)call
   NSArray* events = @[res];
   callBack(@[[NSNull null], events]);
 }
+
+RCT_EXPORT_METHOD(currentVersion:(RCTResponseSenderBlock)callBack){
+  NSDictionary *infoDict = [[NSBundle mainBundle] infoDictionary];
+  NSString *currentVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
+  NSArray* events = @[currentVersion];
+  callBack(@[[NSNull null], events]);
+
+}
+
 @end

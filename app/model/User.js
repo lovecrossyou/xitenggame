@@ -6,11 +6,13 @@ export default class User {
 User.schema = {
     name: 'User',
     properties: {
-        name: {type: 'string',optional: true},
+        phone: {type: 'string',optional: true},
+        nickname:{type:'string',optional:true},
         sex: {type: 'string',optional: true},
         access_token: {type: 'string'},
         access_token_secret: {type: 'string'},
-        picture: {type: 'data', optional: true},
-        online:{type:'bool'}, // optional property
+        picture: {type: 'string', optional: true},
+        xtnumber: {type: 'string', optional: true},
+        online:{type:'bool',optional: true}, // optional property
     }
 }
