@@ -19,21 +19,24 @@ import NavigationBar from 'react-native-navbar'
 import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
 import betController from '../home/betController'
+ import {requestUserInfo} from '../util/NetUtil'
 class Header extends Component {
     render() {
+        let {userinfo} = this.props
+        let {phoneNumber,cnName,xtNumber,icon} = userinfo
         return <View style={styles.userinfo_container}>
             <TouchableOpacity onPress={()=>{
                 alert('xxx')
             }}>
                 <Image
                     style={{width: 60, height: 60, borderRadius: 3, marginLeft: 10}}
-                    source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}/>
+                    source={{uri: icon}}/>
             </TouchableOpacity>
-            <View style={{marginLeft: 10,justifyContent:'center'}}>
-                <View style={{flexDirection: 'row',alignItems:'flex-start'}}>
-                    <Text style={{color: '#333333', fontSize: 14}}>猪猪侠</Text>
+            <View style={{marginLeft: 10}}>
+                <View style={{flexDirection: 'row',alignItems:'flex-start',paddingVertical:10}}>
+                    <Text style={{color: '#333333', fontSize: 14}}>{cnName}</Text>
                 </View>
-                <Text style={{color: '#333333', fontSize: 11}}>9527</Text>
+                <Text style={{color: '#333333', fontSize: 11}}>{xtNumber}</Text>
             </View>
         </View>
     }
@@ -41,6 +44,34 @@ class Header extends Component {
 
 
 export default class AboutMe  extends Component{
+
+    _requestUserInfo(){
+        requestUserInfo().then((user)=>{
+            this.setState({
+                userinfo:user
+            })
+        })
+    }
+
+    constructor(props){
+        super(props)
+        this.state = {
+            userinfo: undefined
+        }
+    }
+
+    componentDidMount(){
+        this._requestUserInfo()
+    }
+
+    _header(){
+        const user = this.state.userinfo
+        if(user){
+            return <Header userinfo={user.userInfo}/>
+        }
+        return null
+    }
+
     render(){
         const {navigator} = this.props;
         return <View style={{flex:1}}>
@@ -48,7 +79,7 @@ export default class AboutMe  extends Component{
                 title={{title:'我'}}
                 tintColor="#f7f7f8"/>
             <ScrollView style={{flex:1,backgroundColor:'#f5f5f5'}}>
-                <Header />
+                {this._header()}
                 <CellItem title="我的资产" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
                 <CellItem marginBot={10} title="投注记录" desc="" icon={require('../../img/me/me_icon-_record.png')}/>
                 <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>

@@ -410,3 +410,8 @@ function netRequest(url, params, method = 'POST') {
         }
     })
 }
+
+export function requestUserInfo(){
+    // user/info
+    return requestData('user/info',{})
+}
