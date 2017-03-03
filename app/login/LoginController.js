@@ -124,6 +124,7 @@ export default class LoginController extends Component {
                 //弹出绑定手机号
 
             }
+            this._pop()
         })
     }
 
