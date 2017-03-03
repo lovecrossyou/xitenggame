@@ -67,7 +67,20 @@ export default class LoginController extends Component {
         var Realm = require('realm')
         let userName = this.userName
         let passsword = this.passsword
+        if(userName.length!=11){
+            this.refs.toast.show('请输入正确的用户名！')
+            return
+        }
+        if(!passsword.length){
+            this.refs.toast.show('请输入正确的密码！')
+            return
+        }
         login(userName,passsword).then((d)=>{
+            let errors = d.errors
+            if (errors){
+                this.refs.toast.show(errors)
+                return
+            }
             let access_token_secret = d['access_token_secret']
             let access_token = d['access_token']
             let realm = new Realm({schema: [User]})
@@ -170,7 +183,7 @@ export default class LoginController extends Component {
                         source={require('../../img/share/share_btn_qq.png')}/>
                 </TouchableOpacity>
             </View>
-            <Toast ref="toast"  position='top'/>
+            <Toast ref="toast"  position='center'/>
         </View>
     }
 }

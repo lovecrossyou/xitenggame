@@ -5,7 +5,7 @@ import * as WeChat from 'react-native-wechat'
 import {GetRandomNum} from '../util/NumberUtil'
 var Realm = require('realm')
 
-import {NativeModules} from 'react-native'
+import {NativeModules,DeviceEventEmitter} from 'react-native'
 import  User from '../model/User'
 
 export const WechatAppID = "wx29fb35e25d660f0a"
@@ -77,6 +77,11 @@ export function requestData(url, param, method = 'POST') {
             param["accessInfo"] = accessInfo
             url = Base_url + url
             netRequest(url, param).then((result) => {
+                let errors= result.errors
+                if(errors == '没有权限'){
+                    //拦截弹出 登陆界面
+                    DeviceEventEmitter.emit('shouldLogin')
+                }
                 resolve(result)
             })
         })

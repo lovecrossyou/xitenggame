@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    DeviceEventEmitter
 } from 'react-native';
 
 import HomeController from '../home/homeController'
@@ -52,6 +53,14 @@ export default class RootContainer extends Component {
             selectedTab: '喜腾',
             tabName: ['喜腾','沙龙','发现','我']
         }
+    }
+
+    componentDidMount(){
+        this.listner = DeviceEventEmitter.addListener('shouldLogin',RootContainer.switchToLoginView.bind(this))
+    }
+
+    componentWillUnMount(){
+        this.listner.remove()
     }
 
     static switchToMainView() {

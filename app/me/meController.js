@@ -47,6 +47,8 @@ export default class AboutMe  extends Component{
 
     _requestUserInfo(){
         requestUserInfo().then((user)=>{
+            let errors= user.errors
+            if (errors)return
             this.setState({
                 userinfo:user
             })
