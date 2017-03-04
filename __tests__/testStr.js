@@ -12,25 +12,36 @@
 //
 // console.log(str)
 
-function login() {
-    console.log('xxxxxx')
-    console.log('aaaaaaa')
+// function login() {
+//     console.log('xxxxxx')
+//     console.log('aaaaaaa')
+// }
+
+// function loginP() {
+//     return new Promise((res,rej)=>{
+//         res('loginP ok')
+//     })
+// }
+//
+//
+// loginP().then((response)=>{
+//     console.log('xxxxxxp')
+//     console.log('aaaaaaap')
+//     console.log(response)
+// })
+//
+//
+// login()
+
+let str = {
+    'name':'cross',
+    'age':12
 }
-
-function loginP() {
-    return new Promise((res,rej)=>{
-        res('loginP ok')
-    })
+try{
+    console.log(str.text())
 }
-
-
-loginP().then((response)=>{
-    console.log('xxxxxxp')
-    console.log('aaaaaaap')
-    console.log(response)
-})
-
-
-login()
+catch(e) {
+    console.log(str)
+}
 
 

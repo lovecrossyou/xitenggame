@@ -113,7 +113,9 @@ export default class RootContainer extends Component {
                 renderIcon={()=><Image style={styles.item_img}
                           source={require('../../img/tab/tab_faxian.png')} />}
                 onPress={() => this.setState({ selectedTab:'发现' }) }>
-                <FaXianController />
+                <FaXianController
+                    navigator={this.props.navigator} {...this.props}
+                />
             </TabNavigator.Item>
             <TabNavigator.Item
                 selected={this.state.selectedTab === tabName[3]}
@@ -121,7 +123,9 @@ export default class RootContainer extends Component {
                 renderIcon={()=><Image style={styles.item_img}
                           source={require('../../img/tab/tab_me.png')} />}
                 onPress={() => this.setState({ selectedTab:tabName[3] }) }>
-                <AboutMe />
+                <AboutMe
+                    navigator={this.props.navigator} {...this.props}
+                />
             </TabNavigator.Item>
         </TabNavigator>)
     }

@@ -5,7 +5,7 @@ import * as WeChat from 'react-native-wechat'
 import {GetRandomNum} from '../util/NumberUtil'
 var Realm = require('realm')
 
-import {NativeModules,DeviceEventEmitter} from 'react-native'
+import {NativeModules, DeviceEventEmitter} from 'react-native'
 import  User from '../model/User'
 
 export const WechatAppID = "wx29fb35e25d660f0a"
@@ -15,10 +15,10 @@ const WechatSecret = "64ea45d0b288669706194b3a07726208"
 const AppKey = "b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 //生产环境
-const Base_url  = "http://www.xiteng.com/xitenggame/"
-const ImageUrl  ="http://www.xiteng.com/imageserver/"
+// const Base_url  = "http://www.xiteng.com/xitenggame/"
+const ImageUrl = "http://www.xiteng.com/imageserver/"
 
-// const Base_url = "http://114.251.53.22/xitenggamejar/"
+const Base_url = "http://114.251.53.22/xitenggamejar/"
 // const ImageUrl = "http://114.251.53.22/imageserver/"
 // const Base_url = "http://192.168.1.229:9931/xitenggamejar/"
 
@@ -30,7 +30,16 @@ function sendNetRequest(...props) {
     this.options = props.shift(1);
     return fetch(this.url, Object.assign({}, this.options))
         .then((response) => {
-            return response.json()
+        let result = JSON.stringify(response._bodyInit)
+            if(result == '""'){
+                result={status:200}
+            }
+            else {
+                result = response.json()
+            }
+            return result
+        }).catch(error => {
+            return error
         })
 }
 
@@ -71,14 +80,13 @@ export function uploadImageRequest(url, images) {
 }
 
 export function requestData(url, param, method = 'POST') {
-    var getAccInfo = createAccessInfo()
     return new Promise(function (resolve, reject) {
-        getAccInfo.then((accessInfo) => {
+        createAccessInfo().then((accessInfo) => {
             param["accessInfo"] = accessInfo
             url = Base_url + url
-            netRequest(url, param).then((result) => {
-                let errors= result.errors
-                if(errors == '没有权限'){
+            netRequest(url, param, method).then((result) => {
+                let errors = result.errors
+                if (errors == '没有权限') {
                     //拦截弹出 登陆界面
                     DeviceEventEmitter.emit('shouldLogin')
                 }
@@ -233,13 +241,13 @@ function getWeChatLoginSignature(unionid) {
     })
 }
 
-function createAccessInfo(response) {
+function createAccessInfo() {
     return new Promise((res, rej) => {
         let realm = new Realm({schema: [User]})
         let users = realm.objects('User')
         let hasLogin = false
         let user = {}
-        if(users && users.length){
+        if (users && users.length) {
             user = users[0]
             hasLogin = true
         }
@@ -261,7 +269,7 @@ function createAccessInfo(response) {
             })
         }
         else {
-            let str = AppSecret+'&'+user.access_token_secret
+            let str = AppSecret + '&' + user.access_token_secret
             md5(str).then((signature) => {
                 XTUtil.currentVersion((err, info) => {
                     let version = info[0]
@@ -280,9 +288,9 @@ function createAccessInfo(response) {
     })
 }
 
-function createWechatAccessInfo(wechatinfo,response) {
+function createWechatAccessInfo(wechatinfo, response) {
     return new Promise((res, rej) => {
-        let str = AppSecret + '&'+ response.access_token_secret
+        let str = AppSecret + '&' + response.access_token_secret
         md5(str).then((signature) => {
             XTUtil.currentVersion((err, info) => {
                 let version = info[0]
@@ -306,9 +314,9 @@ function createWechatAccessInfo(wechatinfo,response) {
  * @param tokenInfo
  * @returns {Promise}
  */
-function checkBindPhone(wechatinfo,response={}) {
+function checkBindPhone(wechatinfo, response = {}) {
     return new Promise((res, rej) => {
-        createWechatAccessInfo(wechatinfo,response).then((accessInfo) => {
+        createWechatAccessInfo(wechatinfo, response).then((accessInfo) => {
             accessInfo['loginType'] = 'weixin'
             let params = {
                 'cName': wechatinfo.nickname,
@@ -345,8 +353,8 @@ export function wechatlogin() {
                     }
                     let url = Base_url + 'login'
                     netRequest(url, params).then((response) => {
-                        checkBindPhone(wechatinfo,response).then((bindInfo) => {
-                            res({response, bindInfo,wechatinfo})
+                        checkBindPhone(wechatinfo, response).then((bindInfo) => {
+                            res({response, bindInfo, wechatinfo})
                         })
                     })
                 })
@@ -411,12 +419,26 @@ function netRequest(url, params, method = 'POST') {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-            }).then((result) => resolve(result))
+            }).then((result) => {
+                resolve(result)
+            })
         }
     })
 }
 
-export function requestUserInfo(){
+export function requestUserInfo() {
     // user/info
-    return requestData('user/info',{})
+    return requestData('user/info', {})
 }
+
+
+// ----------------------guessGame------------------------------------
+export function guessGame(stockId, amount, guessType = 0) {
+    let params = {
+        "cathecticAmount": amount,
+        "stockId": stockId,
+        "guessType": guessType
+    }
+    return requestData('guessGame', params)
+}
+

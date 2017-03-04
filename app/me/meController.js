@@ -18,7 +18,8 @@ import {
 import NavigationBar from 'react-native-navbar'
 import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
-import betController from '../home/betController'
+import AssetsController from './AssetsController'
+
  import {requestUserInfo} from '../util/NetUtil'
 class Header extends Component {
     render() {
@@ -74,24 +75,35 @@ export default class AboutMe  extends Component{
         return null
     }
 
+    _goAssets(){
+        this.props.navigator.push({
+            component:AssetsController,
+            title:'投注'
+        })
+    }
+
+    _goxiquePlan(){
+        this.props.navigator.push({
+            component:betController,
+            title:'投注'
+        })
+    }
+
     render(){
-        const {navigator} = this.props;
         return <View style={{flex:1}}>
             <NavigationBar
                 title={{title:'我'}}
                 tintColor="#f7f7f8"/>
             <ScrollView style={{flex:1,backgroundColor:'#f5f5f5'}}>
                 {this._header()}
-                <CellItem title="我的资产" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
+                <CellItem title="我的资产" desc=""
+                          icon={require('../../img/me/me_icon_assets.png')}
+                          click={this._goAssets.bind(this)}
+                />
                 <CellItem marginBot={10} title="投注记录" desc="" icon={require('../../img/me/me_icon-_record.png')}/>
                 <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
                 <CellItem marginBot={10} title="喜鹊计划" desc=""
-                          click={()=>{
-                          navigator.push({
-                                component:betController,
-                                title:'投注'
-                            })
-                      }}
+                          click={this._goxiquePlan.bind(this)}
                           icon={require('../../img/me/me_icon_plan.png')}/>
                 <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
                 <CellItem marginBot={10} title="我的沙龙" desc="发表的评论" icon={require('../../img/me/me_icon_comment.png')}/>

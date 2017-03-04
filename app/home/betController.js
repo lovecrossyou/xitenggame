@@ -9,9 +9,13 @@ import {
     View,
     TextInput,
     Dimensions,
-    TouchableOpacity
+    TouchableOpacity,
+    Keyboard
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
+import PopupDialog, { SlideAnimation,DialogTitle } from 'react-native-popup-dialog'
+import {guessGame} from '../util/NetUtil'
+import Toast, {DURATION} from 'react-native-easy-toast'
 
 const {width, height} = Dimensions.get('window')
 
@@ -25,9 +29,34 @@ class NumberItem extends Component{
 }
 
 export default class betController extends Component{
+    constructor(props){
+        super(props)
+        this.betamount = 0
+    }
+
+    _guessGame(){
+        Keyboard.dismiss()
+        let {stockGameId} = this.props.stock
+        let cathecticAmount = 100
+        let guessType = 0
+        guessGame(stockGameId,cathecticAmount,guessType).then((response)=>{
+            const status = response.status
+            if(status == 200){
+                this.popupDialog.openDialog()
+            }
+            else{
+                let msg = response.message
+                this.refs.toast.show(msg)
+            }
+        })
+    }
+
+    amountInputChange(text){
+        this.betamount = text
+    }
+
     render(){
         const {stock} = this.props;
-        console.log('##stock##',JSON.stringify(stock))
         return <View style={{flex:1,backgroundColor:'gray'}}>
             <NavigationBar
                 title={{title:'投注'}}
@@ -39,7 +68,8 @@ export default class betController extends Component{
                     <TextInput
                         placeholder='请输入/选择数额'
                         style={styles.input}
-                        keyboardType='number-pad'/>
+                        keyboardType='number-pad'
+                        onChangeText={this.amountInputChange.bind(this)}/>
                     <Text>喜腾币</Text>
                 </View>
                 <View style={[styles.row,{justifyContent:'space-around'}]}>
@@ -63,9 +93,7 @@ export default class betController extends Component{
                 </View>
                 <TouchableOpacity
                     style={[styles.center,{marginTop:30,backgroundColor:'yellow',height:45,width:160,justifyContent:'center',borderRadius:20}]}
-                    onPress={()=>{
-                        alert(JSON.stringify(stock))
-                    }}>
+                    onPress={this._guessGame.bind(this)}>
                     <Text style={{color:'black',fontSize:24}}>立即投注</Text>
                 </TouchableOpacity>
             </View>
@@ -74,6 +102,17 @@ export default class betController extends Component{
                     【当前参考】猜涨赔率 0.09 猜跌赔率 9.29
                 </Text>
             </View>
+            <PopupDialog
+                ref={(popupDialog) => { this.popupDialog = popupDialog }}
+                dialogAnimation = { new SlideAnimation({ slideFrom: 'bottom' }) }
+                dialogTitle={<DialogTitle title="投注结果" />}
+
+            >
+                <View>
+                    <Text>投注成功！</Text>
+                </View>
+            </PopupDialog>
+            <Toast ref="toast"  position='bottom'/>
         </View>
     }
 }
