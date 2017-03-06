@@ -18,10 +18,10 @@ import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
 import LoginController from '../login/LoginController'
-
+import AutoScrollListView from '../common/component/AutoScrollListView'
 
 import RootContainer from '../common/tabController'
-import {requestData} from '../util/NetUtil'
+import {requestData,getRecentBetList} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
 var {width,height} = Dimensions.get('window')
 const bannerHeight = 110
@@ -97,6 +97,7 @@ class StockCell extends Component{
                 <TouchableOpacity
                     style={styles.btn}
                     onPress={()=>{
+                        console.log('xxxx')
                         guessDown(stock)
                     }}>
                     <Text>猜跌投注</Text>
@@ -133,23 +134,14 @@ class StockRank extends Component{
     }
 }
 
+
 class RecentBet extends Component{
     render(){
-        return  <Swiper
+        return  <AutoScrollListView
             style={styles.wrapper}
             height={bannerHeight}
-            horizontal={false}
-        >
-            <View style={styles.slide1}>
-                <Text style={styles.text}>Hello Swiper</Text>
-            </View>
-            <View style={styles.slide2}>
-                <Text style={styles.text}>Beautiful</Text>
-            </View>
-            <View style={styles.slide3}>
-                <Text style={styles.text}>And simple</Text>
-            </View>
-        </Swiper>
+            {...this.props}
+        />
     }
 }
 
@@ -222,7 +214,8 @@ export default class HomeController extends Component{
             bannerlist:[],
             stocklist:[],
             rakingList:[],
-            awards:[]
+            awards:[],
+            recentBet:[]
         })
     }
     componentDidMount() {
@@ -262,6 +255,15 @@ export default class HomeController extends Component{
                 rakingList:list
             })
         })
+
+        //getRecentBetList
+        getRecentBetList(0,20).then((data)=>{
+            var list = data["content"]
+            this.setState({
+                recentBet:list
+            })
+        })
+
         //footer peize logo
         param = {
             'awardType':3
@@ -309,7 +311,7 @@ export default class HomeController extends Component{
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
                     guessDown={this._guessDown.bind(this)}/>
-                <RecentBet />
+                {/*<RecentBet list={this.state.recentBet}/>*/}
                 <StockRank list={this.state.rakingList}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>

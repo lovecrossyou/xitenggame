@@ -15,7 +15,6 @@ import {
 export default class RankCell extends Component{
     render(){
         var {rank} = this.props
-        // alert(JSON.stringify(rank))
         return <View style={[styles.row,{justifyContent:'space-between',alignItems:'center',padding:10}]}>
             <View style={[styles.row,{alignItems:'center'}]}>
                 <Text style={{paddingHorizontal:10}}>{rank.ranking}</Text>
@@ -26,8 +25,8 @@ export default class RankCell extends Component{
             </View>
             <View style={[styles.row,{alignItems:'center'}]}>
                 <Image
-                    style={{padding:10,width:7,height:9}}
-                    source={require('../../../img/home/s-currency-gray.png')}/>
+                    style={{width: 10, height: 13, marginRight: 4}}
+                    source={require('../../../img/home/icon_xiteng_s.png')}/>
                 <Text>{rank.bonusXtbAmount}</Text>
             </View>
         </View>

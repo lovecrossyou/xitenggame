@@ -35,6 +35,7 @@ export function dateRemainByNow(dateString) {
 
 export function dateDistanceByNow(dateString){
     var timeDesc = dateString
+    if(dateString == undefined ||timeDesc==null)return ''
     var time = dateString.replace(/-/g,"/")
     var date = new Date(time)
     var now = new Date()

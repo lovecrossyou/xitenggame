@@ -15,10 +15,10 @@ const WechatSecret = "64ea45d0b288669706194b3a07726208"
 const AppKey = "b5958b665e0b4d8cae77d28e1ad3f521"
 const AppSecret = "71838ae252714085bc0fb2fc3f420110"
 //生产环境
-// const Base_url  = "http://www.xiteng.com/xitenggame/"
+const Base_url  = "http://www.xiteng.com/xitenggame/"
 const ImageUrl = "http://www.xiteng.com/imageserver/"
 
-const Base_url = "http://114.251.53.22/xitenggamejar/"
+// const Base_url = "http://114.251.53.22/xitenggamejar/"
 // const ImageUrl = "http://114.251.53.22/imageserver/"
 // const Base_url = "http://192.168.1.229:9931/xitenggamejar/"
 
@@ -158,8 +158,6 @@ function md5(str) {
         })
     })
 }
-
-
 // -------------------------login------------------------------ 
 
 function getLoginSignature(userName, password, md5key) {
@@ -441,4 +439,16 @@ export function guessGame(stockId, amount, guessType = 0) {
     }
     return requestData('guessGame', params)
 }
+
+//recent bet
+// export function getRecentBetList(pageNo, pageSize, method = 'post') {
+//     var params = {
+//         "size": pageSize,
+//         "pageNo": pageNo,
+//         "sortProperties": ["time"],
+//         "direction": "DESC",
+//     }
+//     return requestData('getJustNowWithStockList', params, method)
+// }
+
 
