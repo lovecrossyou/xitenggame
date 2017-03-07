@@ -17,6 +17,7 @@
     "react-native-sglistview": "^0.3.5",
     "react-native-swiper": "^1.5.4",
     "react-native-tab-navigator": "^0.3.3",
+    "react-native-timer-mixin": "^0.11.0",
     "react-native-wechat": "^1.9.0",
     "react-redux": "^5.0.3",
     "realm": "^1.0.2",

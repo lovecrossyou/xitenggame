@@ -20,7 +20,7 @@ export default class BetCell extends Component {
         var time = this.props.data.time
         var timeDesc = dateDistanceByNow(time)
         return <TouchableOpacity
-            style={[styles.cellContainer, styles.row]}
+            style={[styles.cellContainer, styles.row,{overflow:'hidden'}]}
             activeOpacity={1}>
             <View style={[styles.leftContainer, styles.row]}>
                 <TouchableOpacity
