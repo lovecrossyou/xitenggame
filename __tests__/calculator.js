@@ -60,11 +60,11 @@ function plus_single(a,b,carry) {
     return {resultV,carry1}
 }
 
-// 相邻行的相加
+// 获取最大的加数
 function get_max(result_string, line_string) {
     return result_string.length > line_string.length? result_string : line_string
 }
-
+// 相邻行的相加
 function accumulator(result_string,line_string) {
     let result = 0
     let result_arr = []
