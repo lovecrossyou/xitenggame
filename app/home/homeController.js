@@ -115,7 +115,7 @@ class StockCell extends Component{
 class StockRank extends Component{
     render(){
         var ranklist = this.props.list.map((rank,index)=>{
-            return <RankCell key={index} rank={rank}/>
+            return <RankCell key={index} rank={rank} {...this.props}/>
         })
         return <View>
             <View style={[styles.row,{justifyContent:'space-between',alignItems:'center'}]}>
@@ -328,16 +328,22 @@ export default class HomeController extends Component{
                     }
                 }}/>
             <ScrollView>
-                <Banner list={this.state.bannerlist}/>
-                <EndTimeView list={this.state.stocklist}/>
+                <Banner
+                    list={this.state.bannerlist}/>
+                <EndTimeView
+                    list={this.state.stocklist}/>
                 <StockContent
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
                     guessDown={this._guessDown.bind(this)}
                     goDetail={this._goDetail.bind(this)}/>
-                <RecentBet list={this.state.recentBet}/>
-                <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
-                <AnnualPrize awards={this.state.awards}/>
+                <RecentBet
+                    list={this.state.recentBet}/>
+                <StockRank
+                    list={this.state.rakingList}
+                    onPress={this._goToRank.bind(this)}/>
+                <AnnualPrize
+                    awards={this.state.awards}/>
             </ScrollView>
         </View>
     }
