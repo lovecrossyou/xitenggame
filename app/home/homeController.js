@@ -179,7 +179,7 @@ class AnnualPrize extends Component{
 
 class StockContent extends Component{
     render(){
-        var stocklist = this.props.list.map((stock,index)=>{
+        let stocklist = this.props.list.map((stock,index)=>{
             return <StockCell key={index} stock={stock} {...this.props}/>
         })
         return <View>
@@ -333,7 +333,8 @@ export default class HomeController extends Component{
                 <StockContent
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
-                    guessDown={this._guessDown.bind(this)}/>
+                    guessDown={this._guessDown.bind(this)}
+                    goDetail={this._goDetail.bind(this)}/>
                 <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
                 <RecentBet list={this.state.recentBet}/>
                 <AnnualPrize awards={this.state.awards}/>
