@@ -11,7 +11,7 @@ import {
     Navigator,
     ListView
 } from 'react-native'
-import ScrollableTabView, {DefaultTabBar, ScrollableTabBar} from 'react-native-scrollable-tab-view';
+import ScrollableTabView from 'react-native-scrollable-tab-view';
 import NavigationBar from 'react-native-navbar'
 import {requestData} from '../util/NetUtil'
 import AwardListController from './AwardListController'
