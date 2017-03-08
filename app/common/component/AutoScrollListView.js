@@ -15,10 +15,8 @@ import {
 let {width} = Dimensions.get('window')
 import {getRecentBetList} from '../../util/NetUtil'
 import BetCell from './BetCell'
-import TimerMixin from 'react-native-timer-mixin'
 
 export default class AutoScrollListView extends Component{
-    mixins:[TimerMixin]
     constructor(props){
         super(props)
         this.offsetY = 0

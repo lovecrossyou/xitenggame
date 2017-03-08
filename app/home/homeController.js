@@ -18,13 +18,10 @@ import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
 import LoginController from '../login/LoginController'
-import AutoScrollListView from '../common/component/AutoScrollListView'
-<<<<<<< HEAD
-import RankController from './Rank'
 
-=======
+import AutoScrollListView from '../common/component/AutoScrollListView'
+import RankController from './Rank'
 import stockDetailController from '../home/stockDetailController'
->>>>>>> 552e772e337e8601280327f31d7ac24aac127074
 import RootContainer from '../common/tabController'
 import {requestData,getRecentBetList} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
@@ -337,13 +334,8 @@ export default class HomeController extends Component{
                 <StockContent
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
-<<<<<<< HEAD
                     guessDown={this._guessDown.bind(this)}/>
                 <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
-=======
-                    guessDown={this._guessDown.bind(this)}
-                    goDetail={this._goDetail.bind(this)}/>
->>>>>>> 552e772e337e8601280327f31d7ac24aac127074
                 <RecentBet list={this.state.recentBet}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>
