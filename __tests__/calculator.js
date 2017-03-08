@@ -102,4 +102,4 @@ function add_new_line(line_string, offset){
 
 // console.log(plus_single(9,2,1))
 // multiply('123','45')
-console.log(multiply('999999','888888'))
+console.log(multiply('123','45'))
