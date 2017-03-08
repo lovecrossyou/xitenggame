@@ -19,6 +19,7 @@ import RankCell from '../common/component/RankCell'
 import betController from './betController'
 import LoginController from '../login/LoginController'
 import AutoScrollListView from '../common/component/AutoScrollListView'
+import RankController from './Rank'
 
 import RootContainer from '../common/tabController'
 import {requestData,getRecentBetList} from '../util/NetUtil'
@@ -113,16 +114,31 @@ class StockRank extends Component{
         var ranklist = this.props.list.map((rank,index)=>{
             return <RankCell key={index} rank={rank}/>
         })
-
         return <View>
             <View style={[styles.row,{justifyContent:'space-between',alignItems:'center'}]}>
                 <View>
                     <Text style={{padding:10}}>股神争霸</Text>
                 </View>
                 <View style={[styles.row,{paddingRight:15,paddingVertical:10}]}>
-                    <Text>本年排行</Text>
-                    <Text style={{paddingHorizontal:10}}>本月排行</Text>
-                    <Text>本周排行</Text>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(0)
+                    }}>
+                        <Text>本年排行</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(1)
+                    }}>
+                        <Text style={{paddingHorizontal:10}}>本月排行</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(2)
+                    }}>
+                        <Text>本周排行</Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
             <View>
@@ -293,6 +309,13 @@ export default class HomeController extends Component{
     _login(){
         RootContainer.switchToLoginView()
     }
+
+    _goToRank(index){
+        this.props.navigator.push({
+            component:RankController,
+            params:{index:index, isCurrent:true}
+        })
+    }
     render(){
         return <View style={{flex:1}}>
             <NavigationBar
@@ -312,7 +335,7 @@ export default class HomeController extends Component{
                     guessUp={this._guessUp.bind(this)}
                     guessDown={this._guessDown.bind(this)}/>
                 {/*<RecentBet list={this.state.recentBet}/>*/}
-                <StockRank list={this.state.rakingList}/>
+                <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>
         </View>
