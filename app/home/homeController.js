@@ -153,7 +153,6 @@ class StockRank extends Component{
     }
 }
 
-
 class RecentBet extends Component{
     render(){
         return  <AutoScrollListView

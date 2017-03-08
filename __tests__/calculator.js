@@ -61,15 +61,21 @@ function plus_single(a,b,carry) {
 }
 
 // 相邻行的相加
+function get_max(result_string, line_string) {
+    return result_string.length > line_string.length? result_string : line_string
+}
+
 function accumulator(result_string,line_string) {
     let result = 0
     let result_arr = []
 
     let carry = 0
-    for(let i = 0;i<line_string.length;i++){
+
+    let max_line = get_max(result_string,line_string)
+
+    for(let i = 0;i<max_line.length;i++){
         let line_c = getValueAtIndex(line_string,i)
         let result_c = getValueAtIndex(result_string,i)
-
         let {resultV,carry1} = plus_single(line_c,result_c,carry)
         carry = carry1
         result_arr.push(resultV)
@@ -96,4 +102,4 @@ function add_new_line(line_string, offset){
 
 // console.log(plus_single(9,2,1))
 // multiply('123','45')
-console.log(multiply('12345678','2'))
+console.log(multiply('999999','888888'))
