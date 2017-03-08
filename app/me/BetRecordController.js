@@ -21,20 +21,23 @@ class BetCell extends Component{
         let {finalResult,guessResultAmount,guessAmount,guessTime,stockName,guessType,stage} = this.props.record
         return <View style={{backgroundColor:'#F0FFFF',padding:20,marginHorizontal:15,marginVertical:7}}>
             <View style={[styles.row,styles.between]}>
-                <View style={styles.row}>
+                <View style={[styles.row,styles.center]}>
                     <Text>投注时间：{guessTime}</Text>
                     <Text>未收盘</Text>
                 </View>
-                <Text>zan</Text>
+                <Image
+                    style={{width:14,height:14,alignSelf:'center'}}
+                    source={require('../../img/me/icon_likes_d.png')}
+                />
             </View>
-            <View style={[styles.row,styles.between]}>
+            <View style={[styles.row,styles.between,styles.padding]}>
                 <View style={styles.row}>
                     <Text>名称：</Text>
                     <Text>{stockName}</Text>
                 </View>
                 <Text>{stage}期</Text>
             </View>
-            <View style={[styles.row,styles.between]}>
+            <View style={[styles.row,styles.between,styles.padding]}>
                 <View style={styles.row}>
                     <Text>投注：</Text>
                     <Text>{guessType}</Text>
@@ -42,7 +45,7 @@ class BetCell extends Component{
                 <Text>数额</Text>
                 <Text>{guessAmount}</Text>
             </View>
-            <View style={[styles.row,styles.between]}>
+            <View style={[styles.row,styles.between,styles.padding]}>
                 <View style={styles.row}>
                     <Text>收盘：</Text>
                     <Text>{finalResult}</Text>
@@ -258,6 +261,8 @@ const styles = {
     },
     text:{
         color:'#ffe300'
+    },
+    padding:{
+        paddingTop:6
     }
-
 }

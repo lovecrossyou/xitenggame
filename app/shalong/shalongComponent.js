@@ -109,8 +109,6 @@ class Content extends Component {
             picModels.push(contentImages.slice(i,i+picRowCount));
         }
 
-
-
         var rowCells = picModels.map((rowM,index)=>{
             return (<RowImageCell rowM={rowM} key={index} showModal={this.state.showModal} showBigImage={()=>{
                 this.setState({

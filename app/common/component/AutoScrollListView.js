@@ -25,6 +25,7 @@ export default class AutoScrollListView extends Component{
         this.datalist = []
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
+            offsetY:0,
             dataSource: this.ds.cloneWithRows([])
         }
     }
@@ -33,10 +34,10 @@ export default class AutoScrollListView extends Component{
         InteractionManager.runAfterInteractions(()=>{
             this._requestData()
         })
-        // this.timer = setInterval(()=>{
-        //     this.offsetY += 10
-        //     this.scrollV.scrollTo({y:this.offsetY})
-        // },500)
+        this.timer = setInterval(()=>{
+            this.offsetY += 5
+            this.scrollV.scrollTo({y:this.offsetY})
+        },200)
     }
 
     componentWillUnMount(){
