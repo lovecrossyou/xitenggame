@@ -19,8 +19,12 @@ import RankCell from '../common/component/RankCell'
 import betController from './betController'
 import LoginController from '../login/LoginController'
 import AutoScrollListView from '../common/component/AutoScrollListView'
+<<<<<<< HEAD
 import RankController from './Rank'
 
+=======
+import stockDetailController from '../home/stockDetailController'
+>>>>>>> 552e772e337e8601280327f31d7ac24aac127074
 import RootContainer from '../common/tabController'
 import {requestData,getRecentBetList} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
@@ -48,8 +52,10 @@ class Banner extends Component{
 
 class StockCell extends Component{
     render(){
-        var {guessUp,guessDown,stock} = this.props
-        return <View style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}>
+        var {guessUp,guessDown,stock,goDetail} = this.props
+        return <TouchableOpacity
+            style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}
+            onPress={()=>{goDetail(stock)}}>
             <View style={[styles.center,{marginVertical:15}]}>
                 <Text>{stock.stockGameName}</Text>
             </View>
@@ -104,7 +110,7 @@ class StockCell extends Component{
                     <Text>猜跌投注</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     }
 }
 
@@ -297,6 +303,13 @@ export default class HomeController extends Component{
         })
     }
 
+    _goDetail(stock){
+        this.props.navigator.push({
+            component:stockDetailController,
+            params:{stock:stock}
+        })
+    }
+
     _login(){
         RootContainer.switchToLoginView()
     }
@@ -324,8 +337,13 @@ export default class HomeController extends Component{
                 <StockContent
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
+<<<<<<< HEAD
                     guessDown={this._guessDown.bind(this)}/>
                 <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
+=======
+                    guessDown={this._guessDown.bind(this)}
+                    goDetail={this._goDetail.bind(this)}/>
+>>>>>>> 552e772e337e8601280327f31d7ac24aac127074
                 <RecentBet list={this.state.recentBet}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>
