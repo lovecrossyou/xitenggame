@@ -286,7 +286,6 @@ export default class HomeController extends Component{
     _goDetail(stock){
         this.props.navigator.push({
             component:stockDetailController,
-            title:'',
             params:{stock:stock}
         })
     }

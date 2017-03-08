@@ -34,10 +34,10 @@ export default class AutoScrollListView extends Component{
         InteractionManager.runAfterInteractions(()=>{
             this._requestData()
         })
-        this.timer = setInterval(()=>{
-            this.offsetY += 5
-            this.scrollV.scrollTo({y:this.offsetY})
-        },200)
+        // this.timer = setInterval(()=>{
+        //     this.offsetY += 5
+        //     this.scrollV.scrollTo({y:this.offsetY})
+        // },200)
     }
 
     componentWillUnMount(){
