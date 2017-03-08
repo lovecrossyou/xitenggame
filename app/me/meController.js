@@ -19,8 +19,8 @@ import NavigationBar from 'react-native-navbar'
 import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
 import AssetsController from './AssetsController'
-
- import {requestUserInfo} from '../util/NetUtil'
+import BetRecordController from './BetRecordController'
+import {requestUserInfo} from '../util/NetUtil'
 class Header extends Component {
     render() {
         let {userinfo} = this.props
@@ -82,6 +82,13 @@ export default class AboutMe  extends Component{
         })
     }
 
+    _goBetRecord(){
+        this.props.navigator.push({
+            component:BetRecordController,
+            title:'投注记录'
+        })
+    }
+
     _goxiquePlan(){
         this.props.navigator.push({
             component:betController,
@@ -100,7 +107,9 @@ export default class AboutMe  extends Component{
                           icon={require('../../img/me/me_icon_assets.png')}
                           click={this._goAssets.bind(this)}
                 />
-                <CellItem marginBot={10} title="投注记录" desc="" icon={require('../../img/me/me_icon-_record.png')}/>
+                <CellItem marginBot={10} title="投注记录" desc=""
+                          icon={require('../../img/me/me_icon-_record.png')}
+                          click={this._goBetRecord.bind(this)}/>
                 <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
                 <CellItem marginBot={10} title="喜鹊计划" desc=""
                           click={this._goxiquePlan.bind(this)}

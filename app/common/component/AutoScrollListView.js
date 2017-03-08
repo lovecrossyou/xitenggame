@@ -9,20 +9,19 @@ import {
     View,
     Animated,
     Dimensions,
-    ListView
+    ListView,
+    InteractionManager
 } from 'react-native';
 let {width} = Dimensions.get('window')
 import {getRecentBetList} from '../../util/NetUtil'
 import BetCell from './BetCell'
+import TimerMixin from 'react-native-timer-mixin'
 
 export default class AutoScrollListView extends Component{
+    mixins:[TimerMixin]
     constructor(props){
         super(props)
         this.offsetY = 0
-        let {recentBet} = this.props
-        if(recentBet == undefined){
-            recentBet  = []
-        }
         this.datalist = []
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
@@ -31,11 +30,17 @@ export default class AutoScrollListView extends Component{
     }
 
     componentDidMount(){
-        this._requestData()
-        setInterval(()=>{
-            this.offsetY += 5
-            this.scrollV.scrollTo({y:this.offsetY})
-        },100)
+        InteractionManager.runAfterInteractions(()=>{
+            this._requestData()
+        })
+        // this.timer = setInterval(()=>{
+        //     this.offsetY += 10
+        //     this.scrollV.scrollTo({y:this.offsetY})
+        // },500)
+    }
+
+    componentWillUnMount(){
+        this.timer && clearInterval(this.timer)
     }
 
     renderData(data){
@@ -53,18 +58,11 @@ export default class AutoScrollListView extends Component{
     }
 
     _loadMore(){
-        let {recentBet} = this.props
-        if(recentBet == undefined){
-            recentBet = []
-        }
-        let oldlist = this.datalist
-        if(oldlist.length==0){
-            oldlist = recentBet
-        }
+        if (this.datalist.length == 0)return
         this.offsetY = 0
         this.scrollV.scrollTo({y:this.offsetY})
         this.setState({
-            dataSource:this.ds.cloneWithRows(oldlist)
+            dataSource:this.ds.cloneWithRows(this.datalist)
         })
     }
 
@@ -77,6 +75,7 @@ export default class AutoScrollListView extends Component{
                 renderRow={this.renderData.bind(this)}
                 onEndReached={this._loadMore.bind(this)}
                 onEndReachedThreshold={10}
+                removeClippedSubviews={true}
                 enableEmptySections={true}>
             </ListView>
         </View>

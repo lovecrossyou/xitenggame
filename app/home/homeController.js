@@ -36,6 +36,7 @@ class Banner extends Component{
         })
         return (
             <Swiper
+                autoplay={true}
                 style={styles.wrapper}
                 height={bannerHeight}
             >
@@ -98,7 +99,6 @@ class StockCell extends Component{
                 <TouchableOpacity
                     style={styles.btn}
                     onPress={()=>{
-                        console.log('xxxx')
                         guessDown(stock)
                     }}>
                     <Text>猜跌投注</Text>
@@ -230,8 +230,7 @@ export default class HomeController extends Component{
             bannerlist:[],
             stocklist:[],
             rakingList:[],
-            awards:[],
-            recentBet:[]
+            awards:[]
         })
     }
     componentDidMount() {
@@ -269,14 +268,6 @@ export default class HomeController extends Component{
             var list = json['content']
             this.setState({
                 rakingList:list
-            })
-        })
-
-        //getRecentBetList
-        getRecentBetList(0,20).then((data)=>{
-            var list = data["content"]
-            this.setState({
-                recentBet:list
             })
         })
 
@@ -334,8 +325,8 @@ export default class HomeController extends Component{
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
                     guessDown={this._guessDown.bind(this)}/>
-                {/*<RecentBet list={this.state.recentBet}/>*/}
                 <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
+                <RecentBet list={this.state.recentBet}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>
         </View>

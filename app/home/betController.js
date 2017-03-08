@@ -14,15 +14,20 @@ import {
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import PopupDialog, { SlideAnimation,DialogTitle } from 'react-native-popup-dialog'
-import {guessGame} from '../util/NetUtil'
+import {guessGame,requestData} from '../util/NetUtil'
 import Toast, {DURATION} from 'react-native-easy-toast'
 
 const {width, height} = Dimensions.get('window')
 
 class NumberItem extends Component{
     render(){
-        var {text} = this.props
-        return <TouchableOpacity style={[styles.center,{height:45,width:98,backgroundColor:'#f5f5f5',marginHorizontal:8,marginVertical:10,borderRadius:4,justifyContent:'center'}]}>
+        var {handler,text} = this.props
+
+        return <TouchableOpacity
+            style={[styles.center,{height:45,width:98,backgroundColor:'#f5f5f5',marginHorizontal:8,marginVertical:10,borderRadius:4,justifyContent:'center'}]}
+            onPress={()=>{
+                handler(text)
+            }}>
             <Text>{text}</Text>
         </TouchableOpacity>
     }
@@ -32,13 +37,48 @@ export default class betController extends Component{
     constructor(props){
         super(props)
         this.betamount = 0
+
+        this.state = {
+            amountValue:'',
+            xtbTotalAmount:'-',
+            upOdds:'-',
+            downOdds:'-'
+        }
+    }
+
+    componentDidMount(){
+        this._fetchAccountXTB()
+    }
+
+    _fetchAccountXTB(){
+        let {stockGameId} = this.props.stock
+        //获取用户喜腾币数量
+        requestData('account/info',{}).then((userInfo)=>{
+            let {xtbTotalAmount} = userInfo
+            this.setState({
+                xtbTotalAmount:xtbTotalAmount
+            })
+        })
+        // 获取当前赔率
+        requestData('stockGameBaseInfo',{stockGameId:stockGameId}).then((stockOdds)=>{
+            let {upOdds,downOdds} = stockOdds
+            this.setState({
+                upOdds:upOdds,
+                downOdds:downOdds
+            })
+        })
     }
 
     _guessGame(){
         Keyboard.dismiss()
         let {stockGameId} = this.props.stock
-        let cathecticAmount = 100
+        let cathecticAmount = this.betamount
         let guessType = 0
+        if(cathecticAmount == '' || cathecticAmount==undefined ||cathecticAmount==0)
+        {
+            this.refs.toast.show('请输入投注金额！')
+            return
+        }
         guessGame(stockGameId,cathecticAmount,guessType).then((response)=>{
             const status = response.status
             if(status == 200){
@@ -53,6 +93,9 @@ export default class betController extends Component{
 
     amountInputChange(text){
         this.betamount = text
+        this.setState({
+            amountValue:text
+        })
     }
 
     render(){
@@ -68,20 +111,25 @@ export default class betController extends Component{
                     <TextInput
                         placeholder='请输入/选择数额'
                         style={styles.input}
+                        value={this.state.amountValue}
                         keyboardType='number-pad'
+                        ref={(amountInput)=>this.amountInput = amountInput}
                         onChangeText={this.amountInputChange.bind(this)}/>
                     <Text>喜腾币</Text>
                 </View>
                 <View style={[styles.row,{justifyContent:'space-around'}]}>
-                    <NumberItem text="100"/>
-                    <NumberItem text="1000"/>
-                    <NumberItem text="10000"/>
+                    <NumberItem text="100" handler={this.amountInputChange.bind(this)}/>
+                    <NumberItem text="1000" handler={this.amountInputChange.bind(this)}/>
+                    <NumberItem text="10000" handler={this.amountInputChange.bind(this)}/>
                 </View>
                 <View style={[styles.row,{width:width-32,paddingVertical:10,justifyContent:'space-between'}]}>
                     <View style={styles.row}>
                         <Text>余额</Text>
-                        <Text style={{paddingHorizontal:10}}>999</Text>
-                        <TouchableOpacity>
+                        <Text style={{paddingHorizontal:10}}>{this.state.xtbTotalAmount}</Text>
+                        <TouchableOpacity
+                           onPress={()=>{
+                               this.amountInputChange(this.state.xtbTotalAmount+'')
+                           }}>
                             <Text style={{color:'yellow'}}>全部投注</Text>
                         </TouchableOpacity>
                     </View>
@@ -99,7 +147,7 @@ export default class betController extends Component{
             </View>
             <View style={{alignItems:'center',paddingBottom:15}}>
                 <Text style={{fontSize:12}}>
-                    【当前参考】猜涨赔率 0.09 猜跌赔率 9.29
+                    【当前参考】猜涨赔率 {this.state.upOdds} 猜跌赔率 {this.state.downOdds}
                 </Text>
             </View>
             <PopupDialog

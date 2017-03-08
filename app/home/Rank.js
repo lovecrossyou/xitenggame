@@ -89,19 +89,20 @@ class Award extends Component {
         this.getAwardPic()
     }
     getAwardType(type) {
-        if (type == 'currentYear') {
+        if (type=='currentYear' || type=='preYear') {
             return 3
         }
-        if (type == 'currentMonth') {
+        if (type=='currentMonth' || type=='preMonth') {
             return 2
         }
-        if (type == 'currentWeek') {
+        if (type=='currentWeek' || type=='preWeek') {
             return 1
         }
     }
     getAwardPic(){
+
         var param = {
-            'awardType':this.getAwardType(this.props.type)
+            'awardType': this.getAwardType(this.props.type)
         }
         requestData('award/list',param).then((json)=>{
             var list = json['awards']
@@ -267,26 +268,26 @@ export default class RankController extends Component {
     _goToAwardList(index){
         this.props.navigator.push({
             component:AwardListController,
-            params:{index:index}
+            params:{index:index, isCurrent:this.props.isCurrent}
         })
     }
     render(){
         const {index, isCurrent} = this.props;
         return <View>
-            <NavigationBar title={{title:'股神争霸'}}
+            <NavigationBar title={{title:isCurrent?'股神争霸':'往期争霸'}}
                            tintColor="#f7f7f8"
                            rightButton={{title:isCurrent? '往期' : '',
                                          handler:()=>{
                                              this._goToPreviousRank()
                                          }
                 }}/>
-            <Image style={{width:ScreenWidth, height:ScreenHeight}}
+            <Image style={{width:ScreenWidth, height:ScreenHeight-64}}
                    source={require('../../img/home/ranking_lg.png')}>
                 <ScrollableTabView initialPage={index}
                                    renderTabBar={() => <SelectView onPress={this._goToAwardList.bind(this)}/>}>
-                    <RankList tabLabel='年度排行' type='currentYear' onPress={this._goToAwardList.bind(this)}></RankList>
-                    <RankList tabLabel='本月排行' type='currentMonth' onPress={this._goToAwardList.bind(this)}></RankList>
-                    <RankList tabLabel='本周排行' type='currentWeek' onPress={this._goToAwardList.bind(this)}></RankList>
+                    <RankList tabLabel={isCurrent?'年度排行':'上周排行'} type={isCurrent?'currentYear':'preWeek'} onPress={this._goToAwardList.bind(this)}></RankList>
+                    <RankList tabLabel={isCurrent?'本月排行':'上月排行'} type={isCurrent?'currentMonth':'preMonth'} onPress={this._goToAwardList.bind(this)}></RankList>
+                    <RankList tabLabel={isCurrent?'本周排行':'上年排行'} type={isCurrent?'currentWeek':'preYear'} onPress={this._goToAwardList.bind(this)}></RankList>
                 </ScrollableTabView>
             </Image>
         </View>
