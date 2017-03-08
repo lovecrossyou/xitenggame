@@ -335,8 +335,8 @@ export default class HomeController extends Component{
                     guessUp={this._guessUp.bind(this)}
                     guessDown={this._guessDown.bind(this)}
                     goDetail={this._goDetail.bind(this)}/>
-                <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
                 <RecentBet list={this.state.recentBet}/>
+                <StockRank list={this.state.rakingList} onPress={this._goToRank.bind(this)}/>
                 <AnnualPrize awards={this.state.awards}/>
             </ScrollView>
         </View>
