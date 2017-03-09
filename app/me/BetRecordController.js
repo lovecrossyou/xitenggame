@@ -9,7 +9,8 @@ import {
     View,
     ListView,
     Image,
-    Dimensions
+    Dimensions,
+    InteractionManager
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
@@ -199,11 +200,13 @@ export default class BetRecordController extends Component{
 
     componentDidMount() {
         //投注记录数据
-        this._requestRecordList(0).then((listModel)=>{
-            let list = listModel['content']
-            this.setState({
-                dataSource:this.ds.cloneWithRows(list),
-                isLoading:false
+        InteractionManager.runAfterInteractions(()=>{
+            this._requestRecordList(0).then((listModel)=>{
+                let list = listModel['content']
+                this.setState({
+                    dataSource:this.ds.cloneWithRows(list),
+                    isLoading:false
+                })
             })
         })
     }
