@@ -82,7 +82,7 @@ export default class MessageCenter extends Component{
     }
 
     render(){
-        return <View style={{flex:1}}>
+        return <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
             <NavigationBar
                 title={{title:'消息'}}
                 tintColor="#f7f7f8"/>

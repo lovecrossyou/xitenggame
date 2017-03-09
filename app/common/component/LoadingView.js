@@ -11,8 +11,12 @@ import {
 
 export default class LoadingView extends Component{
     render(){
+        let {bgColor} = this.props
+        if(!bgColor){
+            bgColor = '#fff'
+        }
         return (<View
-            style={[styles.flex,styles.center,{backgroundColor:'#fff'}]}>
+            style={[styles.flex,styles.center,{backgroundColor:bgColor}]}>
             <Text
                 style={{fontSize:12,paddingTop:10}}>
                 正在加载...

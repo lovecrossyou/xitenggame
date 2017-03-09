@@ -137,14 +137,14 @@ export default class FriendCircle extends Component{
             enableEmptySections={true}>
         </SGListView>)
         if(this.state.list.length==0){
-            datalist = (<LoadingView />)
+            datalist = (<LoadingView bgColor='#f5f5f5'/>)
         }
         return <View style={{flex:1}}>
             <NavigationBar
                 title={{title:'朋友圈'}}
                 tintColor="#f7f7f8"/>
             <ParallaxView
-                style={{flex:1}}
+                style={{flex:1,backgroundColor:'#f5f5f5'}}
                 backgroundSource={require('../../img/me/betting-record_bg.png')}
                 windowHeight={140}
                 header={<Header />}>
