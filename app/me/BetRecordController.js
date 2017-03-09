@@ -179,6 +179,7 @@ export default class BetRecordController extends Component{
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
             dataSource: this.ds.cloneWithRows([]),
+            isLoading:true,
             userInfo:{
                 cumulativeBetAmount:0,
                 yields:0,
@@ -201,7 +202,8 @@ export default class BetRecordController extends Component{
         this._requestRecordList(0).then((listModel)=>{
             let list = listModel['content']
             this.setState({
-                dataSource:this.ds.cloneWithRows(list)
+                dataSource:this.ds.cloneWithRows(list),
+                isLoading:false
             })
         })
     }
@@ -221,12 +223,7 @@ export default class BetRecordController extends Component{
     }
 
     render(){
-        return <ParallaxView
-            style={{flex:1}}
-            backgroundSource={require('../../img/me/betting-record_bg.png')}
-            windowHeight={200+30+30}
-            header={<BetHeader />}
-        >
+        let mainView = (
             <ListView
                 ref={(scroll)=>this.scrollV = scroll}
                 style={{backgroundColor:'#F7F7F7'}}
@@ -237,6 +234,19 @@ export default class BetRecordController extends Component{
                 removeClippedSubviews={true}
                 enableEmptySections={true}>
             </ListView>
+        )
+        if(this.state.isLoading){
+            mainView = (<View style={[styles.flex,styles.center,{marginTop:20}]}>
+                <Text style={{color:'gray',fontSize:13}}>正在加载...</Text>
+            </View>)
+        }
+        return <ParallaxView
+            style={{flex:1}}
+            backgroundSource={require('../../img/me/betting-record_bg.png')}
+            windowHeight={200+30+30}
+            header={<BetHeader />}
+        >
+            {mainView}
         </ParallaxView>
     }
 }
