@@ -13,10 +13,17 @@ import {
 import CellItem from '../common/component/CommonCell'
 import NavigationBar from 'react-native-navbar'
 import FriendCircle from './FriendCircle'
+import DailyFortune from './DailyFortune'
 export default class FaXianController extends Component{
     _goFrindCircle(){
         this.props.navigator.push({
             component:FriendCircle
+        })
+    }
+
+    _goFortune(){
+        this.props.navigator.push({
+            component:DailyFortune
         })
     }
 
@@ -39,7 +46,10 @@ export default class FaXianController extends Component{
                 <CellItem title="购买钻石"   desc="" marginBot={10} icon={require('../../img/me/me_icon-_order.png')}/>
                 <CellItem title="零元夺宝"  desc="" icon={require('../../img/me/me_icon_comment.png')}/>
                 <CellItem title="礼品商城" marginBot={10} desc="" icon={require('../../img/me/me_icon-_news.png')}/>
-                <CellItem title="每日运程" desc="" icon={require('../../img/me/me_icon_common.png')}/>
+                <CellItem title="每日运程" desc=""
+                          icon={require('../../img/me/me_icon_common.png')}
+                          click={this._goFortune.bind(this)}
+                />
             </ScrollView>
         </View>
     }
