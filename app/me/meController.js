@@ -20,6 +20,7 @@ import CellItem from '../common/component/CommonCell'
 var personManager = NativeModules.PersonManager
 import AssetsController from './AssetsController'
 import BetRecordController from './BetRecordController'
+import myOrderController from './myOrderController'
 import {requestUserInfo} from '../util/NetUtil'
 class Header extends Component {
     render() {
@@ -96,6 +97,13 @@ export default class AboutMe  extends Component{
         })
     }
 
+    _goOrder(){
+        this.props.navigator.push({
+            component:myOrderController,
+            title:'订单'
+        })
+    }
+
     render(){
         return <View style={{flex:1}}>
             <NavigationBar
@@ -109,12 +117,17 @@ export default class AboutMe  extends Component{
                 />
                 <CellItem marginBot={10} title="投注记录" desc=""
                           icon={require('../../img/me/me_icon-_record.png')}
-                          click={this._goBetRecord.bind(this)}/>
+                          click={this._goBetRecord.bind(this)}
+                />
                 <CellItem title="邀请朋友" desc="" icon={require('../../img/me/me_icon_assets.png')}/>
                 <CellItem marginBot={10} title="喜鹊计划" desc=""
                           click={this._goxiquePlan.bind(this)}
-                          icon={require('../../img/me/me_icon_plan.png')}/>
-                <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
+                          icon={require('../../img/me/me_icon_plan.png')}
+                />
+                <CellItem title="订单" desc="兑换礼品 订单详情"
+                          icon={require('../../img/me/me_icon-_order.png')}
+                          click={this._goOrder.bind(this)}
+                />
                 <CellItem marginBot={10} title="我的沙龙" desc="发表的评论" icon={require('../../img/me/me_icon_comment.png')}/>
                 <CellItem title="消息" desc="" icon={require('../../img/me/me_icon-_news.png')}/>
                 <CellItem title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}/>
