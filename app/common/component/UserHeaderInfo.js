@@ -13,7 +13,7 @@ import {
 
 export class UserHeaderInfo extends Component{
     render() {
-        const {userIconUrl, userName, time, sex}  = this.props.data
+        const {userIconUrl, userName, time, sex,iconUrl}  = this.props.data
         var sexUrl = require('../../../img/shalong/man.png')
         if (sex != '男') {
             sexUrl = require('../../../img/shalong/woman.png')
@@ -24,7 +24,7 @@ export class UserHeaderInfo extends Component{
             }}>
                 <Image
                     style={{width: 40, height: 40, borderRadius: 3, marginLeft: 10}}
-                    source={{uri: userIconUrl}}/>
+                    source={{uri: userIconUrl?userIconUrl:iconUrl}}/>
             </TouchableOpacity>
             <View style={{marginLeft: 10,justifyContent:'center'}}>
                 <View style={{flexDirection: 'row',alignItems:'flex-start'}}>
