@@ -13,7 +13,8 @@ import NavigationBar from 'react-native-navbar'
 import CellItem from '../../common/component/CommonCell'
 import UserProtocolComponent from './UserProtocolComponent'
 import AboutXTComponent from './AboutXTComponent'
-export default class SettingComponent extends Component{
+import SettingComponent from './SettingComponent'
+export default class GeneralComponent extends Component{
 
     _goUserProtocol(){
         this.props.navigator.push({
@@ -24,6 +25,12 @@ export default class SettingComponent extends Component{
     _goAbout(){
         this.props.navigator.push({
             component:AboutXTComponent,
+        })
+    }
+
+    _goSetting(){
+        this.props.navigator.push({
+            component:SettingComponent,
         })
     }
 
@@ -46,7 +53,7 @@ export default class SettingComponent extends Component{
                           click={this._goUserProtocol.bind(this)}/>
                 <CellItem title="设置" desc=""
                           icon={require('../../../img/me/me_icon_assets.png')}
-                          click={this._goUserProtocol.bind(this)}/>
+                          click={this._goSetting.bind(this)}/>
                 </ScrollView>
 
         </View>
