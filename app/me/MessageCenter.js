@@ -14,7 +14,7 @@ import {
 import NavigationBar from 'react-native-navbar'
 import {requestData} from '../util/NetUtil'
 import SGListView from 'react-native-sglistview'
-
+import LoadingView from '../common/component/LoadingView'
 class MessageCell extends Component{
     render(){
         let {content,time} = this.props.msg
@@ -39,9 +39,6 @@ class MessageCell extends Component{
         </View>
     }
 }
-
-
-
 
 export default class MessageCenter extends Component{
 
@@ -82,10 +79,7 @@ export default class MessageCenter extends Component{
     }
 
     render(){
-        return <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
-            <NavigationBar
-                title={{title:'消息'}}
-                tintColor="#f7f7f8"/>
+        let datalist = (
             <SGListView
                 dataSource={this.state.dataSource.cloneWithRows(this.state.list) }
                 renderRow={this.renderData.bind(this)}
@@ -97,6 +91,15 @@ export default class MessageCenter extends Component{
                 stickyHeaderIndices={[]}
                 enableEmptySections={true}>
             </SGListView>
+        )
+        if(this.state.list.length==0){
+            datalist = (<LoadingView bgColor='#f5f5f5'/>)
+        }
+        return <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
+            <NavigationBar
+                title={{title:'消息'}}
+                tintColor="#f7f7f8"/>
+            {datalist}
         </View>
     }
 }
