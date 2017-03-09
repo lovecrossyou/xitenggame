@@ -19,7 +19,6 @@ export default class UserProtocolComponent extends Component {
         }
     }
 
-
     render() {
         let mainView = (<WebView
             source={{uri: 'https://github.com/facebook/react-native'}}
