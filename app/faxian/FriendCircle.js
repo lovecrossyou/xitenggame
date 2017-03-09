@@ -18,7 +18,7 @@ import {UserHeaderInfo} from '../common/component/UserHeaderInfo'
 import {CommentMoreFooter} from '../common/component/CommentMoreFooter'
 import SGListView from 'react-native-sglistview'
 import {requestData} from '../util/NetUtil'
-
+import LoadingView from '../common/component/LoadingView'
 class StockCell extends Component{
     render(){
         return <View>
@@ -125,6 +125,20 @@ export default class FriendCircle extends Component{
     }
 
     render(){
+        let datalist = (<SGListView
+            dataSource={this.state.dataSource.cloneWithRows(this.state.list) }
+            renderRow={this.renderData.bind(this)}
+            initialListSize={1}
+            onEndReached={this.fetchData.bind(this)}
+            onEndReachedThreshold={10}
+            pageSize={20}
+            scrollRenderAheadDistance={1}
+            stickyHeaderIndices={[]}
+            enableEmptySections={true}>
+        </SGListView>)
+        if(this.state.list.length==0){
+            datalist = (<LoadingView />)
+        }
         return <View style={{flex:1}}>
             <NavigationBar
                 title={{title:'朋友圈'}}
@@ -135,17 +149,7 @@ export default class FriendCircle extends Component{
                 windowHeight={140}
                 header={<Header />}>
                 <Banner />
-                <SGListView
-                    dataSource={this.state.dataSource.cloneWithRows(this.state.list) }
-                    renderRow={this.renderData.bind(this)}
-                    initialListSize={1}
-                    onEndReached={this.fetchData.bind(this)}
-                    onEndReachedThreshold={10}
-                    pageSize={20}
-                    scrollRenderAheadDistance={1}
-                    stickyHeaderIndices={[]}
-                    enableEmptySections={true}>
-                </SGListView>
+                {datalist}
             </ParallaxView>
         </View>
     }
