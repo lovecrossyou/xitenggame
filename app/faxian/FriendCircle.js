@@ -7,12 +7,15 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ListView
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
 import {UserHeaderInfo} from '../common/component/UserHeaderInfo'
+import {CommentMoreFooter} from '../common/component/CommentMoreFooter'
+import SGListView from 'react-native-sglistview'
 
 class StockCell extends Component{
     render(){
@@ -36,10 +39,10 @@ class StockCell extends Component{
                     <Text>等待开奖</Text>
                 </View>
             </View>
+            <CommentMoreFooter />
         </View>
     }
 }
-
 
 class FriendCircleCell extends Component{
     render(){
@@ -83,6 +86,27 @@ class Banner extends Component{
 }
 
 export default class FriendCircle extends Component{
+
+    constructor() {
+        super()
+        this.pageNo = 0
+        this.pageSize=20
+        this.state = {
+            list: [],
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            })
+        }
+    }
+
+    renderData(data){
+        return <StockCell data={data}/>
+    }
+
+    fetchData(){
+
+    }
+
     render(){
         let data = {
             userIconUrl:'http://common.cnblogs.com/images/wechat.png',
@@ -100,9 +124,17 @@ export default class FriendCircle extends Component{
                 windowHeight={140}
                 header={<Header />}>
                 <Banner />
-                <FriendCircleCell data={data}/>
-                <FriendCircleCell data={data}/>
-                <StockCell data={data}/>
+                <SGListView
+                    dataSource={this.state.dataSource.cloneWithRows([data,data,data,data]) }
+                    renderRow={this.renderData.bind(this)}
+                    initialListSize={1}
+                    onEndReached={this.fetchData.bind(this)}
+                    onEndReachedThreshold={10}
+                    pageSize={this.pageSize}
+                    scrollRenderAheadDistance={1}
+                    stickyHeaderIndices={[]}
+                    enableEmptySections={true}>
+                </SGListView>
             </ParallaxView>
         </View>
     }
