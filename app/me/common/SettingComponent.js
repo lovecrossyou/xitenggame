@@ -13,6 +13,7 @@ import {
 
 import NavigationBar from 'react-native-navbar'
 import CellItem from '../../common/component/CommonCell'
+import RootContainer from '../../common/tabController'
 
 export default class SettingComponent extends Component{
 
@@ -46,7 +47,13 @@ export default class SettingComponent extends Component{
                 <CellItem title="清除缓存" desc=""
                           marginBot={10}
                           click={this._clearCache.bind(this)}/>
-                <TouchableOpacity style={{justifyContent:'center',height:40,alignItems:'center',backgroundColor:'white',marginHorizontal:10}}>
+                <TouchableOpacity
+                    style={{justifyContent:'center',height:40,alignItems:'center',backgroundColor:'white',marginHorizontal:10}}
+                    onPress={()=>{
+                        //回到首页  弹出登陆
+                        this.props.navigator.popToTop()
+                    }}
+                >
                         <Text style={{color:'gray',fontSize:15}}>退出登陆</Text>
                 </TouchableOpacity>
             </ScrollView>

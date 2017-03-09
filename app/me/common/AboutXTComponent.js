@@ -12,11 +12,13 @@ import NavigationBar from 'react-native-navbar'
 
 export default class AboutXTComponent extends Component{
     render(){
-        return <View>
+        return <View style={{backgroundColor:'#f5f5f5'}}>
             <NavigationBar
                 title={{title:'关于喜腾'}}
                 tintColor="#f7f7f8"/>
+            <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
 
+            </View>
         </View>
     }
 }

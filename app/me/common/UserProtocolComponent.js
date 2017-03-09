@@ -22,9 +22,11 @@ export default class UserProtocolComponent extends Component {
     render() {
         let mainView = (<WebView
             source={{uri: 'https://github.com/facebook/react-native'}}
-            onLoad={()=>{
-                    this.setState({isLoading:false})
-                }}
+            renderLoading={()=>{
+                return (<View style={{flex:1,marginTop:80}}>
+                        <Text>loading....</Text>
+                    </View>)
+            }}
         />)
         if(this.state.isLoading){
             mainView = (<View style={{marginTop:20,flex:1,justifyContent:'center',alignItems}}>

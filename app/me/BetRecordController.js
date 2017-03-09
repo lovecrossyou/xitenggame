@@ -239,12 +239,12 @@ export default class BetRecordController extends Component{
             </ListView>
         )
         if(this.state.isLoading){
-            mainView = (<View style={[styles.flex,styles.center,{marginTop:20}]}>
-                <Text style={{color:'gray',fontSize:13}}>正在加载...</Text>
+            mainView = (<View style={[styles.flex,styles.center,{backgroundColor:'#f5f5f5'}]}>
+                <Text style={{color:'gray',fontSize:12,paddingTop:10}}>正在加载...</Text>
             </View>)
         }
         return <ParallaxView
-            style={{flex:1}}
+            style={{flex:1,backgroundColor:'#f5f5f5'}}
             backgroundSource={require('../../img/me/betting-record_bg.png')}
             windowHeight={200+30+30}
             header={<BetHeader />}
