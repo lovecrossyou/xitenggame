@@ -19,8 +19,8 @@ class MessageCell extends Component{
     render(){
         let {content,time} = this.props.msg
         return <View style={{backgroundColor:'#f5f5f5'}}>
-            <View style={{justifyContent:'center',alignItems:'center',paddingVertical:15}}>
-                <Text>{time}</Text>
+            <View style={{justifyContent:'center',alignItems:'center',paddingVertical:7}}>
+                <Text style={{fontSize:12,color:'gray'}}>{time}</Text>
             </View>
             <View style={{flexDirection:'row'}}>
                 <Image

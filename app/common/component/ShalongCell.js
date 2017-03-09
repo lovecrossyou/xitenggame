@@ -22,35 +22,8 @@ const picRowCount = 4
 let pageNo = 1
 const pageSize = 45
 const picSize = (width - picMargin * (picRowCount + 1)) / picRowCount
+import {UserHeaderInfo} from './UserHeaderInfo'
 
-
-class Header extends Component {
-    render() {
-        const {userIconUrl, userName, time, sex}  = this.props.data
-        var sexUrl = require('../../../img/shalong/man.png')
-        if (sex != '男') {
-            sexUrl = require('../../../img/shalong/woman.png')
-        }
-        return <View style={styles.userinfo_container}>
-            <TouchableOpacity onPress={()=>{
-
-            }}>
-                <Image
-                    style={{width: 40, height: 40, borderRadius: 3, marginLeft: 10}}
-                    source={{uri: userIconUrl}}/>
-            </TouchableOpacity>
-            <View style={{marginLeft: 10,justifyContent:'center'}}>
-                <View style={{flexDirection: 'row',alignItems:'flex-start'}}>
-                    <Text style={{color: '#333333', fontSize: 14}}>{userName}</Text>
-                    <Image
-                        style={[{width: 14, height: 14, marginLeft: 6},styles.border_1]}
-                        source={sexUrl}/>
-                </View>
-                <Text style={{color: '#333333', fontSize: 11}}>{time}</Text>
-            </View>
-        </View>
-    }
-}
 
 class ImageItem extends Component{
     render(){
@@ -195,7 +168,7 @@ export default class ShalongCell extends Component {
         return <TouchableOpacity
             style={[styles.container]}
             onPress={cellClick}>
-            <Header data={data}/>
+            <UserHeaderInfo data={data}/>
             <Content data={data}/>
             <Footer data={data}/>
         </TouchableOpacity>
@@ -209,14 +182,6 @@ const styles = {
     row: {
         flex: 1,
         flexDirection: 'row'
-    },
-    userinfo_container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomColor: '#f5f5f5',
-        borderBottomWidth: 1,
-        paddingBottom: 10,
-        paddingTop: 10
     },
     imageItem: {
         width: picSize,
