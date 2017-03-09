@@ -8,7 +8,8 @@ import {
     Text,
     View,
     Image,
-    ListView
+    ListView,
+    InteractionManager
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
@@ -16,6 +17,7 @@ import CellItem from '../common/component/CommonCell'
 import {UserHeaderInfo} from '../common/component/UserHeaderInfo'
 import {CommentMoreFooter} from '../common/component/CommentMoreFooter'
 import SGListView from 'react-native-sglistview'
+import {requestData} from '../util/NetUtil'
 
 class StockCell extends Component{
     render(){
@@ -90,7 +92,6 @@ export default class FriendCircle extends Component{
     constructor() {
         super()
         this.pageNo = 0
-        this.pageSize=20
         this.state = {
             list: [],
             dataSource: new ListView.DataSource({
@@ -99,21 +100,31 @@ export default class FriendCircle extends Component{
         }
     }
 
+    componentDidMount(){
+        InteractionManager.runAfterInteractions(()=>{
+            this.fetchData()
+        })
+    }
+
     renderData(data){
         return <StockCell data={data}/>
     }
 
     fetchData(){
-
+        requestData('client/friendCircle/friendCircleList',{
+            commentTypeId:0,
+            commentType:'userSelf',
+            pageNo:this.pageNo,
+            size:20
+        }).then((list)=>{
+            let lists = list['content']
+            this.setState({
+                list:lists
+            })
+        })
     }
 
     render(){
-        let data = {
-            userIconUrl:'http://common.cnblogs.com/images/wechat.png',
-            userName:'猪猪侠',
-            time:'2017-09-24',
-            sex:'man'
-        }
         return <View style={{flex:1}}>
             <NavigationBar
                 title={{title:'朋友圈'}}
@@ -125,12 +136,12 @@ export default class FriendCircle extends Component{
                 header={<Header />}>
                 <Banner />
                 <SGListView
-                    dataSource={this.state.dataSource.cloneWithRows([data,data,data,data]) }
+                    dataSource={this.state.dataSource.cloneWithRows(this.state.list) }
                     renderRow={this.renderData.bind(this)}
                     initialListSize={1}
                     onEndReached={this.fetchData.bind(this)}
                     onEndReachedThreshold={10}
-                    pageSize={this.pageSize}
+                    pageSize={20}
                     scrollRenderAheadDistance={1}
                     stickyHeaderIndices={[]}
                     enableEmptySections={true}>
