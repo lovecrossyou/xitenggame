@@ -12,16 +12,9 @@ import {
 } from 'react-native';
 import CellItem from '../common/component/CommonCell'
 import NavigationBar from 'react-native-navbar'
-<<<<<<< HEAD
 import GiftMall from './mall/GiftMall'
 
-export default class FaXianController extends Component{
-    _goToGiftMall() {
-        this.props.navigator.push({
-            component:GiftMall
-        })
-    }
-=======
+
 import FriendCircle from './FriendCircle'
 import DailyFortune from './DailyFortune'
 export default class FaXianController extends Component{
@@ -30,14 +23,16 @@ export default class FaXianController extends Component{
             component:FriendCircle
         })
     }
-
     _goFortune(){
         this.props.navigator.push({
             component:DailyFortune
         })
     }
-
->>>>>>> 263a941ee2ba726d2697195379265dc32c8bbcfa
+    _goToGiftMall() {
+        this.props.navigator.push({
+            component:GiftMall
+        })
+    }
     render(){
         return <View style={{flex:1}}>
             <NavigationBar
@@ -56,16 +51,11 @@ export default class FaXianController extends Component{
                           icon={require('../../img/me/me_icon_plan.png')}/>
                 <CellItem title="购买钻石"   desc="" marginBot={10} icon={require('../../img/me/me_icon-_order.png')}/>
                 <CellItem title="零元夺宝"  desc="" icon={require('../../img/me/me_icon_comment.png')}/>
-<<<<<<< HEAD
                 <CellItem title="礼品商城" marginBot={10} desc="" icon={require('../../img/me/me_icon-_news.png')} click={()=>{this._goToGiftMall()}}/>
-                <CellItem title="每日运程" desc="" icon={require('../../img/me/me_icon_common.png')}/>
-=======
-                <CellItem title="礼品商城" marginBot={10} desc="" icon={require('../../img/me/me_icon-_news.png')}/>
                 <CellItem title="每日运程" desc=""
                           icon={require('../../img/me/me_icon_common.png')}
                           click={this._goFortune.bind(this)}
                 />
->>>>>>> 263a941ee2ba726d2697195379265dc32c8bbcfa
             </ScrollView>
         </View>
     }
