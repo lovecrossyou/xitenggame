@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar'
-import SettingComponent from './common/GeneralComponent'
+import GeneralComponent from './common/GeneralComponent'
 import CellItem from '../common/component/CommonCell'
 import MessageCenter from './MessageCenter'
 var personManager = NativeModules.PersonManager
@@ -94,7 +94,7 @@ export default class AboutMe  extends Component{
 
     _goxiquePlan(){
         this.props.navigator.push({
-            component:betController,
+            component:BetRecordController,
             title:'投注'
         })
     }
@@ -144,8 +144,8 @@ export default class AboutMe  extends Component{
                     title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}
                     click={()=>{
                         this.props.navigator.push({
-                            component:SettingComponent,
-                            title:'投注'
+                            component: GeneralComponent,
+                            title: '投注'
                         })
                     }}
                 />

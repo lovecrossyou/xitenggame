@@ -32,10 +32,10 @@ const SelectView = React.createClass({
                      {this.props.tabs.map((tab, i)=> {
                       return <TouchableOpacity activeOpacity={1}
                                                style={SelectStyle.selectBtnS}
-                                               key={tab}
                                                onPress={()=> {
                                                  this.props.goToPage(i)
-                                               }}>
+                                               }}
+                                               key={tab}>
 
                                 <Image style={{flexDirection: 'row',
                                                width: (ScreenWidth - 106) / 3,
