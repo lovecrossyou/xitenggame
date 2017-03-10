@@ -14,7 +14,7 @@ import {
 import HomeController from '../home/homeController'
 import ShaLongController from '../shalong/shalongComponent'
 import FaXianController from '../faxian/faxianController'
-import AboutMe from '../me/meController'
+import AboutMe from '../me/MeController'
 import LoginController from '../login/LoginController'
 import TabNavigator from 'react-native-tab-navigator'
 

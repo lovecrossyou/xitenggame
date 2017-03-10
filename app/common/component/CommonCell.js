@@ -16,6 +16,13 @@ import {
 export default class CellItem extends Component{
     render(){
         var {title,desc,click,icon,marginBot}  = this.props
+        let imgView = (<Image
+            style={[styles.cell_img]}
+            source={icon}/>)
+        if(!icon){
+            imgView = null
+        }
+
         return <TouchableOpacity
             style={{
                 flexDirection:'row',
@@ -30,10 +37,8 @@ export default class CellItem extends Component{
                 }}
             onPress={click}>
             <View style={{flexDirection:'row',alignItems:'center'}}>
-                <Image
-                    style={[styles.cell_img]}
-                    source={icon}/>
-                <Text style={{fontSize:14}}>{title}</Text>
+                {imgView}
+                <Text style={{fontSize:14,marginHorizontal:7}}>{title}</Text>
             </View>
             <View style={{flexDirection:'row',alignItems:'center'}}>
                 <Text style={{color:'gray',fontSize:12}}>{desc}</Text>
@@ -49,7 +54,7 @@ const styles = {
     cell_img:{
         width: 25,
         height: 21,
-        marginHorizontal:15,
+        marginHorizontal:7,
         marginVertical:10
 
     }

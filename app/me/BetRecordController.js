@@ -9,7 +9,8 @@ import {
     View,
     ListView,
     Image,
-    Dimensions
+    Dimensions,
+    InteractionManager
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
@@ -179,6 +180,7 @@ export default class BetRecordController extends Component{
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
             dataSource: this.ds.cloneWithRows([]),
+            isLoading:true,
             userInfo:{
                 cumulativeBetAmount:0,
                 yields:0,
@@ -198,10 +200,13 @@ export default class BetRecordController extends Component{
 
     componentDidMount() {
         //投注记录数据
-        this._requestRecordList(0).then((listModel)=>{
-            let list = listModel['content']
-            this.setState({
-                dataSource:this.ds.cloneWithRows(list)
+        InteractionManager.runAfterInteractions(()=>{
+            this._requestRecordList(0).then((listModel)=>{
+                let list = listModel['content']
+                this.setState({
+                    dataSource:this.ds.cloneWithRows(list),
+                    isLoading:false
+                })
             })
         })
     }
@@ -221,12 +226,7 @@ export default class BetRecordController extends Component{
     }
 
     render(){
-        return <ParallaxView
-            style={{flex:1}}
-            backgroundSource={require('../../img/me/betting-record_bg.png')}
-            windowHeight={200+30+30}
-            header={<BetHeader />}
-        >
+        let mainView = (
             <ListView
                 ref={(scroll)=>this.scrollV = scroll}
                 style={{backgroundColor:'#F7F7F7'}}
@@ -237,6 +237,19 @@ export default class BetRecordController extends Component{
                 removeClippedSubviews={true}
                 enableEmptySections={true}>
             </ListView>
+        )
+        if(this.state.isLoading){
+            mainView = (<View style={[styles.flex,styles.center,{backgroundColor:'#f5f5f5'}]}>
+                <Text style={{color:'gray',fontSize:12,paddingTop:10}}>正在加载...</Text>
+            </View>)
+        }
+        return <ParallaxView
+            style={{flex:1,backgroundColor:'#f5f5f5'}}
+            backgroundSource={require('../../img/me/betting-record_bg.png')}
+            windowHeight={200+30+30}
+            header={<BetHeader />}
+        >
+            {mainView}
         </ParallaxView>
     }
 }

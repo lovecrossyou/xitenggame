@@ -16,7 +16,9 @@ import {
 } from 'react-native';
 
 import NavigationBar from 'react-native-navbar'
+import SettingComponent from './common/GeneralComponent'
 import CellItem from '../common/component/CommonCell'
+import MessageCenter from './MessageCenter'
 var personManager = NativeModules.PersonManager
 import AssetsController from './AssetsController'
 import BetRecordController from './BetRecordController'
@@ -116,8 +118,24 @@ export default class AboutMe  extends Component{
                           icon={require('../../img/me/me_icon_plan.png')}/>
                 <CellItem title="订单" desc="兑换礼品 订单详情" icon={require('../../img/me/me_icon-_order.png')}/>
                 <CellItem marginBot={10} title="我的沙龙" desc="发表的评论" icon={require('../../img/me/me_icon_comment.png')}/>
-                <CellItem title="消息" desc="" icon={require('../../img/me/me_icon-_news.png')}/>
-                <CellItem title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}/>
+                <CellItem
+                    title="消息" desc="" icon={require('../../img/me/me_icon-_news.png')}
+                    click={()=>{
+                        this.props.navigator.push({
+                            component:MessageCenter,
+                            title:'投注'
+                        })
+                    }}
+                />
+                <CellItem
+                    title="通用" desc="" icon={require('../../img/me/me_icon_common.png')}
+                    click={()=>{
+                        this.props.navigator.push({
+                            component:SettingComponent,
+                            title:'投注'
+                        })
+                    }}
+                />
             </ScrollView>
         </View>
     }
