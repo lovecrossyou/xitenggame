@@ -7,7 +7,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Picker
+    Picker,
+    TouchableOpacity
 } from 'react-native';
 
 //日期生成
@@ -35,8 +36,17 @@ export default class FortuneDatePicker extends Component{
     render(){
         let {datas}= this.props
         return <View>
-            <View style={{height:40,backgroundColor:'red'}}>
-
+            <View
+                style={{height:40,backgroundColor:'#f5f5f5',justifyContent:'space-around',flexDirection:'row',alignItems:'center'}}>
+                <TouchableOpacity>
+                    <Text>阴历</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Text>阳历</Text>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Text>确定</Text>
+                </TouchableOpacity>
             </View>
             <View style={styles.pickerContainer}>
                 <Picker
