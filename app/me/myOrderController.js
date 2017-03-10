@@ -5,16 +5,15 @@ import React,{Component} from 'react';
 import {AppRegistry,Text,Image,View,TouchableOpacity} from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import {requestData} from '../util/NetUtil'
-
+import OrderListController from './OrderListController'
 
 class OrderItem extends Component{
     render() {
         let {number,status,imageIcon}=this.props
-        let pageHidden = number <= 0 ? true:false
-        var {click}=this.props
+        // var {click} = this.props.click
         return <TouchableOpacity style={{alignItems:'center'}}
                 onPress = {()=>{
-                    click()
+                    this.props.click()
                 }}
         >
             <Image style={{overflow:'visible',flexDirection:'row',width:26,height:26,justifyContent:'flex-end'}}
@@ -29,54 +28,81 @@ class OrderItem extends Component{
 }
 class OrderType extends Component{
 
+    constructor(props){
+        super(props)
+        this.state={
+            orderInfo:{}
+        }
+    }
+    componentDidMount(){
+        this.getOrderInfo()
+    }
+    getOrderInfo(){
+        requestData("order/info",{'version':'new'}).then((json)=>{
+            var order = json
+            this.setState({
+                orderInfo:order
+            })
+        })
+    }
+
     render(){
-        // let {
-        //     firstNum,
-        //     secondNum,
-        //     thirdNum,
-        //     status,
-        //     firstStatus,
-        //     secondStatus,
-        //     thirdStatus,
-        //     imageIcon,
-        //     firstImage,
-        //     secondImage,
-        //     thirdImage,
-        // } = this.props
-        // if (status == '礼品订单'){
-        //         firstStatus = '待发货',
-        //         secondStatus='待收货',
-        //         thirdStatus = '待晒单',
-        //             imageIcon=require('../../img/order/me_order_gift.png'),
-        //             firstImage=require('../../img/order/giftOrder1.png'),
-        //             secondImage=require('../../img/order/me_daishouhuo.png'),
-        //             thirdImage=require('../../img/order/me_daishaidan.png')
-        // }else if (status == '夺宝订单'){
-        //         firstStatus = '待揭晓',
-        //         secondStatus='待领奖',
-        //         thirdStatus = '待晒单',
-        //     imageIcon= require('../../img/order/me_duobao.png'),
-        //             firstImage=require('../../img/order/me_jinixngzhong.png'),
-        //             secondImage=require('../../img/order/me_yijiexiao.png'),
-        //             thirdImage=require('../../img/order/me_daishaidan.png')
-        //
-        // }else {
-        //         firstStatus = '待领奖',
-        //         secondStatus='待收货',
-        //         thirdStatus = '待晒单',
-        //     imageIcon= require('../../img/order/me_zhongjiangorder.png'),
-        //             firstImage=require('../../img/order/me_yijiexiao.png'),
-        //             secondImage=require('../../img/order/me_daishouhuo.png'),
-        //             thirdImage=require('../../img/order/me_daishaidan.png')
-        //
-        // }
-        var order = this.props.orderInfo
-        alert(JSON.stringify(this.props.orderInfo))
+        var order = this.state.orderInfo
+
+        let {
+            firstNum,
+            secondNum,
+            thirdNum,
+            status,
+            firstStatus,
+            secondStatus,
+            thirdStatus,
+            imageIcon,
+            firstImage,
+            secondImage,
+            thirdImage,
+        } = this.props
+        if (status == '礼品订单'){
+            firstStatus = '待发货',
+                secondStatus='待收货',
+                thirdStatus = '待晒单',
+                imageIcon=require('../../img/order/me_order_gift.png'),
+                firstImage=require('../../img/order/giftOrder1.png'),
+                secondImage=require('../../img/order/me_daishouhuo.png'),
+                thirdImage=require('../../img/order/me_daishaidan.png'),
+                firstNum = order.presentWaitEvaluateCount,
+                secondNum = order.presentWaitReceiveCount,
+                thirdNum = order.presentWaitSendCount
+        }else if (status == '夺宝订单'){
+            firstStatus = '待揭晓',
+                secondStatus='待领奖',
+                thirdStatus = '待晒单',
+                imageIcon= require('../../img/order/me_duobao.png'),
+                firstImage=require('../../img/order/me_jinixngzhong.png'),
+                secondImage=require('../../img/order/me_yijiexiao.png'),
+                thirdImage=require('../../img/order/me_daishaidan.png'),
+                firstNum = order.bidOrderWaitAcceptCount,
+                secondNum = order.bidOrderWaitEvaluateCount,
+                thirdNum = order.bidOrderWaitLotteryCount
+
+        }else {
+            firstStatus = '待领奖',
+                secondStatus='待收货',
+                thirdStatus = '待晒单',
+                imageIcon= require('../../img/order/me_zhongjiangorder.png'),
+                firstImage=require('../../img/order/me_yijiexiao.png'),
+                secondImage=require('../../img/order/me_daishouhuo.png'),
+                thirdImage=require('../../img/order/me_daishaidan.png'),
+                firstNum = order.stockWinOrderWaitSendCount,
+                secondNum = order.stockWinOrderWaitReceiveCount,
+                thirdNum = order.stockWinOrderWaitEvaluateCount
+
+        }
         return <View style={{borderBottomColor:'#d0d0d0',borderBottomWidth:12}}>
             <View style={styles.typeTop}>
                 <View style={{flexDirection:'row',alignItems:'center',marginLeft:12}}>
-                    <Image style={{width:20,height:20}} source={null}/>
-                    <Text style={{color:'#4964ef',fontSize:14,marginLeft:10}}>{'1'}</Text>
+                    <Image style={{width:20,height:20}} source={imageIcon}/>
+                    <Text style={{color:'#4964ef',fontSize:14,marginLeft:10}}>{status}</Text>
                 </View>
                 <View style={{flexDirection:'row',alignItems:'center',marginRight:12}}>
                     <Text style={{color:'#aaaaaa',fontSize:12}}>查看订单</Text>
@@ -84,9 +110,9 @@ class OrderType extends Component{
                 </View>
             </View>
             <View style={styles.typeBotton}>
-                <OrderItem number={order.presentWaitSendCount} status={'待送货'} imageIcon = {null}></OrderItem>
-                <OrderItem number={'1'} status={'1'} imageIcon = {null}></OrderItem>
-                <OrderItem number={'1'} status={'1'} imageIcon = {null}></OrderItem>
+                <OrderItem number={firstNum} status = {firstStatus}  imageIcon={firstImage} click={this.props.click}></OrderItem>
+                <OrderItem number={secondNum} status = {secondStatus}  imageIcon={secondImage} click={this.props.click}></OrderItem>
+                <OrderItem number={thirdNum} status = {thirdStatus}  imageIcon={thirdImage} click={this.props.click}></OrderItem>
             </View>
         </View>
     }
@@ -94,57 +120,20 @@ class OrderType extends Component{
 
 
 export default class myOrderController extends Component{
-    constructor(){
-        super()
-        this.state = {
-            orderInfo:{
-                //礼品订单待评价数量
-                // presentWaitEvaluateCount:0,
-                //礼品订单待收货数量
-                // presentWaitReceiveCount:0,
-                //礼品订单待发货数量
-                // presentWaitSendCount:0,
-
-                //夺宝订单待领奖数量
-                // bidOrderWaitAcceptCount:0,
-                //夺宝订单待晒单数量
-                // bidOrderWaitEvaluateCount:0,
-                //夺宝订单待揭晓数量
-                // bidOrderWaitLotteryCount:0,
-
-                //猜涨跌中奖订单待发货数量
-                // stockWinOrderWaitSendCount:0,
-                //猜涨跌中奖订单待收货数量
-                // stockWinOrderWaitReceiveCount:0,
-                //猜涨跌中奖订单待评价数量
-                // stockWinOrderWaitEvaluateCount:0,
-            }
-        }
-    }
-    componentDidMount(){
-        this._requestOrderInfo().then((infoM)=>{
-             this.setState({
-                 orderInfo:infoM
-             })
+    _goToOrderList(){
+        this.props.navigator.push({
+            component:OrderListController
         })
     }
-    _requestOrderInfo(){
-      let params = {
-          version:'new'
-      }
-      return requestData("order/info",params)
-    }
-
     render(){
-        // alert(JSON.stringify(this.state.orderInfo))
         return <View>
             <NavigationBar
                 title={{title:'订单'}}
                 tintColor='#999999'
             />
-                <OrderType style={styles.myOrder}  orderInfo={this.state.orderInfo} status='礼品订单'></OrderType>
-                <OrderType style={styles.myOrder} orderInfo={this.state.orderInfo} status='夺宝订单'></OrderType>
-                <OrderType style={styles.myOrder} orderInfo={this.state.orderInfo} status='中奖订单'></OrderType>
+                <OrderType style={styles.myOrder} status='礼品订单' click={this._goToOrderList.bind(this)}></OrderType>
+                <OrderType style={styles.myOrder} status='夺宝订单' click={this._goToOrderList.bind(this)}></OrderType>
+                <OrderType style={styles.myOrder} status='中奖订单' click={this._goToOrderList.bind(this)}></OrderType>
         </View>
     }
 }

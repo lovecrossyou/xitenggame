@@ -9,13 +9,18 @@ import {
     TextInput,
     View,
     PixelRatio,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 
 export default class RankCell extends Component{
     render(){
-        var {rank} = this.props
-        return <View style={[styles.row,{justifyContent:'space-between',alignItems:'center',padding:10}]}>
+        var {rank,onPress} = this.props
+        return <TouchableOpacity
+            style={[styles.row,{justifyContent:'space-between',alignItems:'center',padding:10}]}
+            onPress={()=>{
+                onPress(0)
+            }}>
             <View style={[styles.row,{alignItems:'center'}]}>
                 <Text style={{paddingHorizontal:10}}>{rank.ranking}</Text>
                 <Image
@@ -29,7 +34,7 @@ export default class RankCell extends Component{
                     source={require('../../../img/home/icon_xiteng_s.png')}/>
                 <Text>{rank.bonusXtbAmount}</Text>
             </View>
-        </View>
+        </TouchableOpacity>
     }
 }
 

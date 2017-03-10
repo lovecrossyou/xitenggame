@@ -18,8 +18,10 @@ import NavigationBar from 'react-native-navbar'
 import RankCell from '../common/component/RankCell'
 import betController from './betController'
 import LoginController from '../login/LoginController'
-import AutoScrollListView from '../common/component/AutoScrollListView'
 
+import AutoScrollListView from '../common/component/AutoScrollListView'
+import RankController from './Rank'
+import stockDetailController from '../home/stockDetailController'
 import RootContainer from '../common/tabController'
 import {requestData,getRecentBetList} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
@@ -47,8 +49,10 @@ class Banner extends Component{
 
 class StockCell extends Component{
     render(){
-        var {guessUp,guessDown,stock} = this.props
-        return <View style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}>
+        var {guessUp,guessDown,stock,goDetail} = this.props
+        return <TouchableOpacity
+            style={{backgroundColor:'#f5f5f5',borderRadius:4,marginHorizontal:15,marginBottom:20}}
+            onPress={()=>{goDetail(stock)}}>
             <View style={[styles.center,{marginVertical:15}]}>
                 <Text>{stock.stockGameName}</Text>
             </View>
@@ -103,7 +107,7 @@ class StockCell extends Component{
                     <Text>猜跌投注</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     }
 }
 
@@ -111,18 +115,33 @@ class StockCell extends Component{
 class StockRank extends Component{
     render(){
         var ranklist = this.props.list.map((rank,index)=>{
-            return <RankCell key={index} rank={rank}/>
+            return <RankCell key={index} rank={rank} {...this.props}/>
         })
-
         return <View>
             <View style={[styles.row,{justifyContent:'space-between',alignItems:'center'}]}>
                 <View>
                     <Text style={{padding:10}}>股神争霸</Text>
                 </View>
                 <View style={[styles.row,{paddingRight:15,paddingVertical:10}]}>
-                    <Text>本年排行</Text>
-                    <Text style={{paddingHorizontal:10}}>本月排行</Text>
-                    <Text>本周排行</Text>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(0)
+                    }}>
+                        <Text>本年排行</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(1)
+                    }}>
+                        <Text style={{paddingHorizontal:10}}>本月排行</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity activeOpacity={1}
+                                      onPress={()=>{
+                        this.props.onPress(2)
+                    }}>
+                        <Text>本周排行</Text>
+                    </TouchableOpacity>
+
                 </View>
             </View>
             <View>
@@ -133,7 +152,6 @@ class StockRank extends Component{
         </View>
     }
 }
-
 
 class RecentBet extends Component{
     render(){
@@ -161,7 +179,7 @@ class AnnualPrize extends Component{
 
 class StockContent extends Component{
     render(){
-        var stocklist = this.props.list.map((stock,index)=>{
+        let stocklist = this.props.list.map((stock,index)=>{
             return <StockCell key={index} stock={stock} {...this.props}/>
         })
         return <View>
@@ -281,8 +299,22 @@ export default class HomeController extends Component{
         })
     }
 
+    _goDetail(stock){
+        this.props.navigator.push({
+            component:stockDetailController,
+            params:{stock:stock}
+        })
+    }
+
     _login(){
         RootContainer.switchToLoginView()
+    }
+
+    _goToRank(index){
+        this.props.navigator.push({
+            component:RankController,
+            params:{index:index, isCurrent:true}
+        })
     }
     render(){
         return <View style={{flex:1}}>
@@ -296,15 +328,22 @@ export default class HomeController extends Component{
                     }
                 }}/>
             <ScrollView>
-                <Banner list={this.state.bannerlist}/>
-                <EndTimeView list={this.state.stocklist}/>
+                <Banner
+                    list={this.state.bannerlist}/>
+                <EndTimeView
+                    list={this.state.stocklist}/>
                 <StockContent
                     list={this.state.stocklist}
                     guessUp={this._guessUp.bind(this)}
-                    guessDown={this._guessDown.bind(this)}/>
-                <RecentBet list={this.state.recentBet}/>
-                <StockRank list={this.state.rakingList}/>
-                <AnnualPrize awards={this.state.awards}/>
+                    guessDown={this._guessDown.bind(this)}
+                    goDetail={this._goDetail.bind(this)}/>
+                <RecentBet
+                    list={this.state.recentBet}/>
+                <StockRank
+                    list={this.state.rakingList}
+                    onPress={this._goToRank.bind(this)}/>
+                <AnnualPrize
+                    awards={this.state.awards}/>
             </ScrollView>
         </View>
     }

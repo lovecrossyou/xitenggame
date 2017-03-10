@@ -15,16 +15,15 @@ import {
 let {width} = Dimensions.get('window')
 import {getRecentBetList} from '../../util/NetUtil'
 import BetCell from './BetCell'
-import TimerMixin from 'react-native-timer-mixin'
 
 export default class AutoScrollListView extends Component{
-    mixins:[TimerMixin]
     constructor(props){
         super(props)
         this.offsetY = 0
         this.datalist = []
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
         this.state = {
+            offsetY:0,
             dataSource: this.ds.cloneWithRows([])
         }
     }
@@ -33,10 +32,10 @@ export default class AutoScrollListView extends Component{
         InteractionManager.runAfterInteractions(()=>{
             this._requestData()
         })
-        // this.timer = setInterval(()=>{
-        //     this.offsetY += 10
-        //     this.scrollV.scrollTo({y:this.offsetY})
-        // },500)
+        this.timer = setInterval(()=>{
+            this.offsetY += 5
+            this.scrollV.scrollTo({y:this.offsetY})
+        },600)
     }
 
     componentWillUnMount(){
