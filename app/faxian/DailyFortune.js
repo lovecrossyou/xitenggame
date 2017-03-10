@@ -9,22 +9,19 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Picker
+    Modal
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
 import FortuneDatePicker from './FortuneDatePicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+// import Modal from 'react-native-modalbox';
 
 var radio_props = [
     {label: '男', value: 0 },
     {label: '女', value: 1 }
 ];
-// var PickerItemIOS = PickerIOS.Item;
-var years = ['2001','2012']
-var months = ['1','12']
-
 class Header extends Component{
     render(){
         return <View style={{marginTop:60}}>
@@ -59,7 +56,10 @@ export default class DailyFortune extends Component{
     constructor(){
         super()
         this.state = {
+            showPicker:false,
             sexvalue:0,
+            birthday:'1987-05-12',
+            fortuneday:'2017-05-12'
         }
     }
 
@@ -69,6 +69,13 @@ export default class DailyFortune extends Component{
 
     onDateChange(){
 
+    }
+    onClose(){
+
+    }
+    onOpen(){
+        alert(this.refs.pickermodal)
+        //this.pickermodal.open()
     }
     render(){
         return <ParallaxView
@@ -88,13 +95,13 @@ export default class DailyFortune extends Component{
                     onPress={(value) => {this.setState({sexvalue:value})}}
                 />
             </View>
-            <CellItem title="八字" desc=""
+            <CellItem title="八字" desc={this.state.birthday}
                       icon={require('../../img/me/me_icon_assets.png')}
-                      click={this._goAssets.bind(this)}
+                      click={this.onOpen.bind(this)}
             />
-            <CellItem title="运程日" desc=""
+            <CellItem title="运程日" desc={this.state.fortuneday}
                       icon={require('../../img/me/me_icon_assets.png')}
-                      click={this._goAssets.bind(this)}
+                      click={this.onOpen.bind(this)}
             />
             <View style={{alignItems:'center',marginTop:20}}>
                 <Image
@@ -105,8 +112,9 @@ export default class DailyFortune extends Component{
                 </TouchableOpacity>
             </View>
             <FortuneDatePicker onDateChange={(date)=>{
-                alert(date)
-            }}/>
+                this.setState({
+                    birthday:date
+                })}}/>
         </ParallaxView>
     }
 }

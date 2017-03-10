@@ -10,7 +10,7 @@ import {
     TextInput,
     Dimensions,
     TouchableOpacity,
-    Keyboard
+    Keyboard,
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import PopupDialog, { SlideAnimation,DialogTitle } from 'react-native-popup-dialog'
