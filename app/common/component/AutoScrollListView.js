@@ -10,7 +10,7 @@ import {
     Animated,
     Dimensions,
     ListView,
-    InteractionManager
+    InteractionManager,
 } from 'react-native';
 let {width} = Dimensions.get('window')
 import {getRecentBetList} from '../../util/NetUtil'
@@ -32,10 +32,10 @@ export default class AutoScrollListView extends Component{
         InteractionManager.runAfterInteractions(()=>{
             this._requestData()
         })
-        this.timer = setInterval(()=>{
-            this.offsetY += 5
-            this.scrollV.scrollTo({y:this.offsetY})
-        },600)
+        // this.timer = setInterval(()=>{
+        //     this.offsetY += 20
+        //     this.scrollV.scrollTo({y:this.offsetY})
+        // },800)
     }
 
     componentWillUnMount(){
@@ -43,7 +43,8 @@ export default class AutoScrollListView extends Component{
     }
 
     renderData(data){
-        return <BetCell data={data}/>
+        let {callback} = this.props
+        return <BetCell data={data} callback={callback}/>
     }
 
     _requestData(){
