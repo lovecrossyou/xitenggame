@@ -9,19 +9,23 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Modal
+    Picker
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
 import FortuneDatePicker from './FortuneDatePicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
-// import Modal from 'react-native-modalbox';
+import Modal from 'react-native-modalbox';
 
 var radio_props = [
     {label: '男', value: 0 },
     {label: '女', value: 1 }
 ];
+// var PickerItemIOS = PickerIOS.Item;
+var years = ['2001','2012']
+var months = ['1','12']
+
 class Header extends Component{
     render(){
         return <View style={{marginTop:60}}>
@@ -71,11 +75,10 @@ export default class DailyFortune extends Component{
 
     }
     onClose(){
-
+        this.pickermodal.close()
     }
     onOpen(){
-        alert(this.refs.pickermodal)
-        //this.pickermodal.open()
+        this.pickermodal.open()
     }
     render(){
         return <ParallaxView
@@ -111,10 +114,19 @@ export default class DailyFortune extends Component{
                         <Text >立即测算</Text>
                 </TouchableOpacity>
             </View>
-            <FortuneDatePicker onDateChange={(date)=>{
+            <Modal
+                style={{height:300}}
+                isOpen={false}
+                position="bottom"
+                ref={(m)=>this.pickermodal=m}>
+                <FortuneDatePicker
+                    onComfirm={this.onClose.bind(this)}
+                    onDateChange={(date)=>{
                 this.setState({
                     birthday:date
-                })}}/>
+                })
+            }}/>
+            </Modal>
         </ParallaxView>
     }
 }
@@ -126,5 +138,9 @@ const styles = {
     },
     text:{
         color:'#fff'
+    },
+    modal:{
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 }

@@ -34,7 +34,7 @@ export default class FortuneDatePicker extends Component{
     }
 
     render(){
-        let {onDateChange} = this.props
+        let {onDateChange,onComfirm} = this.props
         return <View>
             <View
                 style={{height:40,backgroundColor:'#f5f5f5',justifyContent:'space-around',flexDirection:'row',alignItems:'center'}}>
@@ -44,7 +44,11 @@ export default class FortuneDatePicker extends Component{
                 <TouchableOpacity>
                     <Text>阳历</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={()=>{
+                        onComfirm()
+                    }}
+                >
                     <Text>确定</Text>
                 </TouchableOpacity>
             </View>
