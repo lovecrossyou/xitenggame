@@ -9,18 +9,19 @@ import {
     View,
     Image,
     TouchableOpacity,
-    PickerIOS
+    Picker
 } from 'react-native';
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
+import FortuneDatePicker from './FortuneDatePicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 
 var radio_props = [
     {label: '男', value: 0 },
     {label: '女', value: 1 }
 ];
-var PickerItemIOS = PickerIOS.Item;
+// var PickerItemIOS = PickerIOS.Item;
 var years = ['2001','2012']
 var months = ['1','12']
 
@@ -59,8 +60,6 @@ export default class DailyFortune extends Component{
         super()
         this.state = {
             sexvalue:0,
-            language:'',
-            selectedValue:'2012'
         }
     }
 
@@ -68,6 +67,9 @@ export default class DailyFortune extends Component{
 
     }
 
+    onDateChange(){
+
+    }
     render(){
         return <ParallaxView
             style={{flex:1,backgroundColor:'#f5f5f5'}}
@@ -102,16 +104,7 @@ export default class DailyFortune extends Component{
                         <Text >立即测算</Text>
                 </TouchableOpacity>
             </View>
-            <PickerIOS
-                selectedValue={this.state.selectedValue}>
-                {years.map((date)=>{
-                    return <PickerItemIOS
-                        key={date}
-                        value={date}
-                        label={date}
-                    />
-                })}
-            </PickerIOS>
+            <FortuneDatePicker datas={[['00','01']]}/>
         </ParallaxView>
     }
 }

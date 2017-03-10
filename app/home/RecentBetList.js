@@ -15,12 +15,9 @@ import {
     InteractionManager
 } from 'react-native';
 
-// import codePush from "react-native-code-push"
 import {dateDistanceByNow} from '../util/DateUtil'
 import LoadingView from '../common/component/LoadingView'
-// var personManager = NativeModules.PersonManager
 import NavigationBar from 'react-native-navbar'
-
 import {getRecentBetList} from '../util/NetUtil'
 let _pageNo = 0;
 const _pageSize = 20;
