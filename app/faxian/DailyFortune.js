@@ -91,7 +91,7 @@ export default class DailyFortune extends Component{
                 <CellItem title="性别" desc=""
                           hiddenArrow={true}
                           icon={require('../../img/me/me_icon_assets.png')}
-                          click={this._goAssets.bind(this)} />
+                          click={this.onOpen.bind(this)} />
                 <RadioForm
                     radio_props={radio_props}
                     initial={0}

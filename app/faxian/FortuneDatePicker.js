@@ -30,7 +30,8 @@ export default class FortuneDatePicker extends Component {
         this.state = {
             year: '1990年',
             month: '5月',
-            day: '12日'
+            day: '12日',
+            display:false
         }
     }
 
@@ -38,7 +39,7 @@ export default class FortuneDatePicker extends Component {
         let {onDateChange, onComfirm} = this.props
         return <Modal style={{height:200}}
                       position={"bottom"}
-                      isOpen={true}
+                      isOpen={this.state.display}
                       ref={"pickermodal"}
                       swipeArea={20}>
             <View
