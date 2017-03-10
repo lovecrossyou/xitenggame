@@ -237,11 +237,13 @@ export default class HomeController extends Component{
             awards:[]
         })
     }
+
     componentDidMount() {
         InteractionManager.runAfterInteractions(()=>{
             this.fetchData()
         })
     }
+
     fetchData() {
         //banner data
         var param = {
@@ -288,6 +290,7 @@ export default class HomeController extends Component{
             })
         })
     }
+
     _guessUp(stock){
         this.props.navigator.push({
             component:betController,
@@ -295,6 +298,7 @@ export default class HomeController extends Component{
             params:{stock:stock}
         })
     }
+    
     _guessDown(stock){
         this.props.navigator.push({
             component:betController,

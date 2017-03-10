@@ -104,7 +104,9 @@ export default class DailyFortune extends Component{
                         <Text >立即测算</Text>
                 </TouchableOpacity>
             </View>
-            <FortuneDatePicker datas={[['00','01']]}/>
+            <FortuneDatePicker onDateChange={(date)=>{
+                alert(date)
+            }}/>
         </ParallaxView>
     }
 }

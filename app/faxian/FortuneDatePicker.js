@@ -21,20 +21,20 @@ function dateGenerator(from,to,suffix) {
 }
 const years = dateGenerator(1970,2017,'年')
 const months = dateGenerator(1,12,'月')
-const days = dateGenerator(1,31,'')
+const days = dateGenerator(1,31,'日')
 
 export default class FortuneDatePicker extends Component{
     constructor(){
         super()
         this.state = {
-            year:'',
-            month:'',
-            day:''
+            year:'1990年',
+            month:'5月',
+            day:'12日'
         }
     }
 
     render(){
-        let {datas}= this.props
+        let {onDateChange} = this.props
         return <View>
             <View
                 style={{height:40,backgroundColor:'#f5f5f5',justifyContent:'space-around',flexDirection:'row',alignItems:'center'}}>
@@ -52,7 +52,10 @@ export default class FortuneDatePicker extends Component{
                 <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.year}
-                    onValueChange={(year) => this.setState({year: year})}>
+                    onValueChange={(year) => {
+                        this.setState({year: year})
+                        onDateChange(year + this.state.month + this.state.day)
+                    }}>
                     {
                         years.map((year,index)=>{
                             return <Picker.Item label={year} value={year} key={index}/>
@@ -62,7 +65,10 @@ export default class FortuneDatePicker extends Component{
                 <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.month}
-                    onValueChange={(month) => this.setState({month: month})}>
+                    onValueChange={(month) => {
+                        this.setState({month: month})
+                        onDateChange(this.state.year + month + this.state.day)
+                    }}>
                     {
                         months.map((month,index)=>{
                             return <Picker.Item label={month} value={month} key={index}/>
@@ -72,7 +78,10 @@ export default class FortuneDatePicker extends Component{
                 <Picker
                     style={styles.pickerStyle}
                     selectedValue={this.state.day}
-                    onValueChange={(day) => this.setState({day: day})}>
+                    onValueChange={(day) => {
+                        this.setState({day: day})
+                        onDateChange(this.state.year + this.state.month + day)
+                    }}>
                     {
                         days.map((day,index)=>{
                             return <Picker.Item label={day} value={day} key={index}/>
