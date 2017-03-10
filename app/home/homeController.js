@@ -11,7 +11,8 @@ import {
     Image,
     TouchableOpacity,
     Dimensions,
-    Navigator
+    Navigator,
+    InteractionManager
 } from 'react-native';
 import Swiper from 'react-native-swiper'
 import NavigationBar from 'react-native-navbar'
@@ -237,7 +238,9 @@ export default class HomeController extends Component{
         })
     }
     componentDidMount() {
-        this.fetchData()
+        InteractionManager.runAfterInteractions(()=>{
+            this.fetchData()
+        })
     }
     fetchData() {
         //banner data

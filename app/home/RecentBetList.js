@@ -11,7 +11,8 @@ import {
     Image,
     ListView,
     TouchableOpacity,
-    NativeModules
+    NativeModules,
+    InteractionManager
 } from 'react-native';
 
 // import codePush from "react-native-code-push"
@@ -72,7 +73,9 @@ export default class RecentBetList extends Component {
     }
 
     componentDidMount() {
-        this.fetchData();
+        InteractionManager.runAfterInteractions(()=> {
+            this.fetchData();
+        })
     }
 
     fetchData() {
@@ -103,16 +106,20 @@ export default class RecentBetList extends Component {
     }
 
     render() {
+        let listview = (<ListView
+            style={styles.container}
+            dataSource={this.state.dataSource}
+            renderRow={this.renderData}
+            onEndReached={this.fetchData.bind(this)}
+            onEndReachedThreshold={10}
+        />)
+        if(this.state.datas.length==0){
+            listview = <LoadingView />
+        }
         return <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
             <NavigationBar
                 title={{title:'最新投注'}}/>
-            <ListView
-                style={styles.container}
-                dataSource={this.state.dataSource}
-                renderRow={this.renderData}
-                onEndReached={this.fetchData.bind(this)}
-                onEndReachedThreshold={10}
-            />
+            {listview}
         </View>
     }
 }
