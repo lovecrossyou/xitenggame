@@ -23,6 +23,7 @@ import AutoScrollListView from '../common/component/AutoScrollListView'
 import RankController from './Rank'
 import stockDetailController from '../home/stockDetailController'
 import RootContainer from '../common/tabController'
+import RecentBetList from './RecentBetList'
 import {requestData,getRecentBetList} from '../util/NetUtil'
 import {dateRemainByNow} from '../util/DateUtil'
 var {width,height} = Dimensions.get('window')
@@ -310,6 +311,12 @@ export default class HomeController extends Component{
         RootContainer.switchToLoginView()
     }
 
+    _goRecentBet(){
+        this.props.navigator.push({
+            component:RecentBetList,
+        })
+    }
+
     _goToRank(index){
         this.props.navigator.push({
             component:RankController,
@@ -338,6 +345,7 @@ export default class HomeController extends Component{
                     guessDown={this._guessDown.bind(this)}
                     goDetail={this._goDetail.bind(this)}/>
                 <RecentBet
+                    callback={this._goRecentBet.bind(this)}
                     list={this.state.recentBet}/>
                 <StockRank
                     list={this.state.rakingList}

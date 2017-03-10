@@ -16,10 +16,14 @@ import {dateDistanceByNow} from '../../util/DateUtil'
 
 export default class BetCell extends Component {
     render() {
+        let {callback} = this.props
         var userIconUrl = this.props.data.userIconUrl
         var time = this.props.data.time
         var timeDesc = dateDistanceByNow(time)
         return <TouchableOpacity
+            onPress={()=>{
+                callback()
+            }}
             style={[styles.cellContainer, styles.row,{overflow:'hidden'}]}
             activeOpacity={1}>
             <View style={[styles.leftContainer, styles.row]}>

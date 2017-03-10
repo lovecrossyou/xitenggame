@@ -15,14 +15,21 @@ import {
 
 export default class CellItem extends Component{
     render(){
-        var {title,desc,click,icon,marginBot}  = this.props
+        var {title,desc,click,icon,marginBot,hiddenArrow}  = this.props
         let imgView = (<Image
             style={[styles.cell_img]}
             source={icon}/>)
+        let arrowView = (
+            <Image
+                style={[styles.cell_img,{width:8,height:17}]}
+                source={require('../../../img/arrow_right.png')}/>
+        )
         if(!icon){
             imgView = null
         }
-
+        if(hiddenArrow){
+            arrowView= null
+        }
         return <TouchableOpacity
             style={{
                 flexDirection:'row',
@@ -42,9 +49,7 @@ export default class CellItem extends Component{
             </View>
             <View style={{flexDirection:'row',alignItems:'center'}}>
                 <Text style={{color:'gray',fontSize:12}}>{desc}</Text>
-                <Image
-                    style={[styles.cell_img,{width:8,height:17}]}
-                    source={require('../../../img/arrow_right.png')}/>
+                {arrowView}
             </View>
         </TouchableOpacity>
     }
