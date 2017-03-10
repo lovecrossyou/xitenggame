@@ -74,7 +74,6 @@ class AwardCell extends Component{
                         <Text style={AwardCellStyle.presentDescS}>{data.rankStr}:
                             <Text style={AwardCellStyle.presentNameS}>{data.awardName}</Text></Text>
                     </View>
-
                 </View>}
                 <Image style={AwardCellStyle.imgS}
                        source={{uri:this.props.isCurrent?data.picUrl:data.pic}}/>

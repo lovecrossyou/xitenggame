@@ -364,14 +364,14 @@ var styles = {
         justifyContent: 'center',
         alignItems: 'center'
     },
-    slide: {
+    slide:{
         height:bannerHeight,
         width:width,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#9DD6EB',
     },
-    text: {
+    text:{
         color: '#fff',
         fontSize: 30,
         fontWeight: 'bold',

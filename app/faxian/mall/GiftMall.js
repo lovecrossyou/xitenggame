@@ -13,7 +13,7 @@ import {
 } from 'react-native'
 import NavigationBar from 'react-native-navbar'
 var Dimensions = require('Dimensions');
-import {requestData} from '../util/NetUtil'
+import {requestData} from '../../util/NetUtil'
 var ScreenWidth = Dimensions.get('window').width;
 var ScreenHeight = Dimensions.get('window').height;
 
