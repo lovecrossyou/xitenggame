@@ -93,7 +93,7 @@ export default class AboutMe  extends Component{
 
     _goxiquePlan(){
         this.props.navigator.push({
-            component:betController,
+            component:BetRecordController,
             title:'投注'
         })
     }
