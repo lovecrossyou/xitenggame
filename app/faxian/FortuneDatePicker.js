@@ -8,9 +8,11 @@ import {
     Text,
     View,
     Picker,
-    TouchableOpacity
+    TouchableOpacity,
+    Dimensions
 } from 'react-native';
 import Modal from 'react-native-modalbox';
+var CalendarPicker = require('react-native-calendar-picker')
 
 //日期生成
 function dateGenerator(from, to, suffix) {
@@ -24,15 +26,23 @@ const years = dateGenerator(1970, 2017, '年')
 const months = dateGenerator(1, 12, '月')
 const days = dateGenerator(1, 31, '日')
 
-export default class FortuneDatePicker extends Component {
+export class FortuneDatePicker extends Component {
     constructor() {
         super()
         this.state = {
             year: '1990年',
             month: '5月',
             day: '12日',
-            display:false
+            display: false
         }
+    }
+
+    onClose() {
+        this.refs.pickermodal.close()
+    }
+
+    onOpen() {
+        this.refs.pickermodal.open()
     }
 
     render() {
@@ -51,9 +61,7 @@ export default class FortuneDatePicker extends Component {
                     <Text>阳历</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={()=>{
-                        onComfirm()
-                    }}
+                    onPress={this.onClose.bind(this)}
                 >
                     <Text>确定</Text>
                 </TouchableOpacity>
@@ -103,6 +111,43 @@ export default class FortuneDatePicker extends Component {
     }
 }
 
+export class FortuneCalendarPicker extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            date: new Date(),
+            display: true
+        }
+    }
+
+    onClose() {
+        this.refs.pickermodal.close()
+    }
+
+    onOpen() {
+        this.refs.pickermodal.open()
+    }
+
+    onDateChange(date) {
+        this.setState({date: date});
+    }
+
+    render() {
+        return <Modal style={{height:240}}
+                      position={"bottom"}
+                      isOpen={this.state.display}
+                      ref={"pickermodal"}
+                      swipeArea={20}>
+            <CalendarPicker
+                selectedDate={this.state.date}
+                onDateChange={this.onDateChange.bind(this)}
+                screenWidth={Dimensions.get('window').width}
+                selectedBackgroundColor={'#5ce600'}/>
+            <Text style={styles.selectedDate}> Date: { this.state.date.toString() } </Text>
+        </Modal>
+    }
+}
 
 const styles = {
     pickerContainer: {
@@ -110,5 +155,12 @@ const styles = {
     },
     pickerStyle: {
         flex: 1
+    },
+    container: {
+        marginTop: 30,
+    },
+    selectedDate: {
+        backgroundColor: 'rgba(0,0,0,0)',
+        color: '#000',
     }
 }

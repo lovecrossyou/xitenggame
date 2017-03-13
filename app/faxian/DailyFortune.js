@@ -16,7 +16,7 @@ import {
 import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
-import FortuneDatePicker from './FortuneDatePicker'
+import {FortuneDatePicker,FortuneCalendarPicker} from './FortuneDatePicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Modal from 'react-native-modalbox';
 
@@ -24,7 +24,6 @@ var radio_props = [
     {label: '男', value: 0 },
     {label: '女', value: 1 }
 ];
-// var PickerItemIOS = PickerIOS.Item;
 var years = ['2001','2012']
 var months = ['1','12']
 
@@ -78,20 +77,25 @@ export default class DailyFortune extends Component{
 
     }
     onClose(){
-        this.refs.pickermodal.close()
+
     }
-    onOpen(){
-        this.refs.pickermodal.open()
+    onOpenDate(){
+        this.refs.datepicker.onOpen()
+    }
+
+    onOpenCalendar(){
+        this.refs.calendarpicker.onOpen()
+
     }
     render(){
         return <View
             style={{flex:1,backgroundColor:'#f5f5f5'}}>
             <Header />
-            <View style={styles.row}>
+            <View style={[styles.row,{backgroundColor:'#fff',marginHorizontal:10}]}>
                 <CellItem title="性别" desc=""
                           hiddenArrow={true}
                           icon={require('../../img/me/me_icon_assets.png')}
-                          click={this.onOpen.bind(this)} />
+                          click={this.onOpenDate.bind(this)} />
                 <RadioForm
                     radio_props={radio_props}
                     initial={0}
@@ -101,11 +105,11 @@ export default class DailyFortune extends Component{
             </View>
             <CellItem title="八字" desc={this.state.birthday}
                       icon={require('../../img/me/me_icon_assets.png')}
-                      click={this.onOpen.bind(this)}
+                      click={this.onOpenDate.bind(this)}
             />
             <CellItem title="运程日" desc={this.state.fortuneday}
                       icon={require('../../img/me/me_icon_assets.png')}
-                      click={this.onOpen.bind(this)}
+                      click={this.onOpenCalendar.bind(this)}
             />
             <View style={{alignItems:'center',marginTop:20}}>
                 <Image
@@ -116,56 +120,17 @@ export default class DailyFortune extends Component{
                 </TouchableOpacity>
             </View>
             <FortuneDatePicker
+                ref={'datepicker'}
                 onComfirm={this.onClose.bind(this)}
                 onDateChange={(date)=>{
                 this.setState({
                     birthday:date
                 })
             }}/>
+            <FortuneCalendarPicker
+                ref={'calendarpicker'}
+            />
         </View>
-
-
-        return <ParallaxView
-            style={{flex:1,backgroundColor:'#f5f5f5'}}
-            backgroundSource={require('../../img/me/betting-record_bg.png')}
-            windowHeight={200}
-            header={<Header />}>
-            <View style={styles.row}>
-                <CellItem title="性别" desc=""
-                          hiddenArrow={true}
-                          icon={require('../../img/me/me_icon_assets.png')}
-                          click={this._goAssets.bind(this)} />
-                <RadioForm
-                    radio_props={radio_props}
-                    initial={0}
-                    formHorizontal={true}
-                    onPress={(value) => {this.setState({sexvalue:value})}}
-                />
-            </View>
-            <CellItem title="八字" desc={this.state.birthday}
-                      icon={require('../../img/me/me_icon_assets.png')}
-                      click={this.onOpen.bind(this)}
-            />
-            <CellItem title="运程日" desc={this.state.fortuneday}
-                      icon={require('../../img/me/me_icon_assets.png')}
-                      click={this.onOpen.bind(this)}
-            />
-            <View style={{alignItems:'center',marginTop:20}}>
-                <Image
-                    style={{width: 45, height: 45,marginBottom:10}}
-                    source={require('../../img/home/icon_xiteng_s.png')}/>
-                <TouchableOpacity >
-                        <Text >立即测算</Text>
-                </TouchableOpacity>
-            </View>
-            <FortuneDatePicker
-                onComfirm={this.onClose.bind(this)}
-                onDateChange={(date)=>{
-                this.setState({
-                    birthday:date
-                })
-            }}/>
-        </ParallaxView>
     }
 }
 
