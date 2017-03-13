@@ -26,17 +26,18 @@ export default class shalongDetail extends Component{
     }
 
     renderData(comment){
-        return <ShalongCell data={this.props.data}/>
-    }
-
-    fetchData(){
-        // alert(JSON.stringify(this.props.data))
-    }
-
-    renderHeader(){
         return <View>
 
         </View>
+    }
+
+    fetchData(){
+
+    }
+
+    renderHeader(){
+        return <ShalongCell data={this.props.data}/>
+
     }
 
     render(){
