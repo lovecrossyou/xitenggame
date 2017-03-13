@@ -6,21 +6,37 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    ListView
 } from 'react-native';
 import SGListView from 'react-native-sglistview'
 import NavigationBar from 'react-native-navbar'
+import ShalongCell from '../common/component/ShalongCell'
 
-
+const pageSize = 20
 export default class shalongDetail extends Component{
-    renderData(comment){
-        return <View style={{height:44,backgroundColor:'red'}}>
+    constructor(props){
+        super(props)
+        this.state = {
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2,
+            }),
+            isLast:false
+        }
+    }
 
-        </View>
+    renderData(comment){
+        return <ShalongCell data={this.props.data}/>
     }
 
     fetchData(){
+        // alert(JSON.stringify(this.props.data))
+    }
 
+    renderHeader(){
+        return <View>
+
+        </View>
     }
 
     render(){
@@ -29,7 +45,7 @@ export default class shalongDetail extends Component{
                 title={{title:'沙龙'}}
                 tintColor="#f7f7f8"/>
             <SGListView
-                dataSource={this.state.dataSource.cloneWithRows(list) }
+                dataSource={this.state.dataSource.cloneWithRows(['']) }
                 renderRow={this.renderData.bind(this)}
                 initialListSize={1}
                 onEndReached={this.fetchData.bind(this)}
@@ -37,12 +53,8 @@ export default class shalongDetail extends Component{
                 pageSize={pageSize}
                 scrollRenderAheadDistance={1}
                 stickyHeaderIndices={[]}
-                enableEmptySections={true}
-                renderFooter={()=>{
-                if(this.state.isLast)return null
-                return <LoadMoreFooter/>
-            }}>
-            </SGListView>
+                renderHeader={this.renderHeader.bind(this)}
+                enableEmptySections={true}/>
         </View>
     }
 }

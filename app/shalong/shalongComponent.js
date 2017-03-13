@@ -25,7 +25,7 @@ import {shalongcommentlist} from '../util/NetUtil'
 import {types} from './reducer/shalongReducer'
 import NavigationBar from 'react-native-navbar'
 import {shalongAction} from './action/shalongAction'
-
+import shalongDetail from './shalongDetail'
 import ShalongCell from '../common/component/ShalongCell'
 const {width, height} = Dimensions.get('window')
 
@@ -55,14 +55,17 @@ export default class ShaLongController extends Component {
 
     renderData(data) {
         return <ShalongCell data={data} cellClick={()=>{
-
+            this.props.navigator.push({
+            component:shalongDetail,
+            title:'详情',
+            params:{data}
+        })
         }}/>
     }
 
     fetchData(){
         InteractionManager.runAfterInteractions(() => {
             this.props.actions.shalongAction(pageNo,pageSize,false,true);
-            // pageNo++
         });
     }
 
