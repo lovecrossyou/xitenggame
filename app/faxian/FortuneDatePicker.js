@@ -134,7 +134,9 @@ export class FortuneCalendarPicker extends Component {
     onDateChange(date) {
         let {onDateChange} = this.props
         this.setState({date: date})
-        onDateChange(date.toString())
+        let localDateStr = date.toLocaleDateString()
+        const time = localDateStr.replace(/\//g,"-")
+        onDateChange(time)
     }
 
     render() {
@@ -154,7 +156,7 @@ export class FortuneCalendarPicker extends Component {
                         display:false
                     })
                 }}>
-                    <Text>取消</Text>
+                    <Text>确定</Text>
                 </TouchableOpacity>
             </View>
         </Modal>

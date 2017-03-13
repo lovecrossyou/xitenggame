@@ -13,16 +13,19 @@ import {
     ScrollView,
     Dimensions
 } from 'react-native';
-import NavigationBar from 'react-native-navbar'
 import ParallaxView from 'react-native-parallax-view'
 import CellItem from '../common/component/CommonCell'
 import {FortuneDatePicker,FortuneCalendarPicker} from './FortuneDatePicker'
 import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
 import Modal from 'react-native-modalbox';
+import {dateFormat} from '../util/DateUtil'
+import {requestData} from '../util/NetUtil'
+import Toast, {DURATION} from 'react-native-easy-toast'
+import NavigationBar from 'react-native-navbar'
 
 var radio_props = [
-    {label: '男', value: 0 },
-    {label: '女', value: 1 }
+    {label: '男', value: 1 },
+    {label: '女', value: 2 }
 ];
 var years = ['2001','2012']
 var months = ['1','12']
@@ -30,7 +33,7 @@ var months = ['1','12']
 let {width} = Dimensions.get('window')
 class Header extends Component{
     render(){
-        return <Image style={{marginTop:60 ,width:width,height:200}} source={require('../../img/me/betting-record_bg.png')}>
+        return <Image style={{width:width,height:200}} source={require('../../img/me/betting-record_bg.png')}>
             <View style={{alignItems:'center'}}>
                 <Image
                     style={{width: 45, height: 45,marginBottom:10}}
@@ -63,7 +66,7 @@ export default class DailyFortune extends Component{
         super()
         this.state = {
             showPicker:false,
-            sexvalue:0,
+            sexvalue:1,
             birthday:'1987-05-12',
             fortuneday:'2017-05-12'
         }
@@ -89,6 +92,9 @@ export default class DailyFortune extends Component{
     render(){
         return <View
             style={{flex:1,backgroundColor:'#f5f5f5'}}>
+            <NavigationBar
+                title={{title:'每日运程'}}
+                tintColor="#f7f7f8"/>
             <Header />
             <View style={[styles.row,{backgroundColor:'#fff',marginHorizontal:10}]}>
                 <CellItem title="性别" desc=""
@@ -114,7 +120,20 @@ export default class DailyFortune extends Component{
                 <Image
                     style={{width: 45, height: 45,marginBottom:10}}
                     source={require('../../img/home/icon_xiteng_s.png')}/>
-                <TouchableOpacity >
+                <TouchableOpacity
+                    onPress={()=>{
+                        requestData('fortune/computeFortune',{
+                            birthday:this.state.birthday+' 12:00:00',
+                            fortuneDay:this.state.fortuneday,
+                            sex:this.state.sexvalue,
+                        }).then((result)=>{
+                            let status = result.status
+                            if(status==500){
+                                this.refs.toast.show(result.message)
+                            }
+                        })
+                    }}
+                >
                     <Text >立即测算</Text>
                 </TouchableOpacity>
             </View>
@@ -134,6 +153,7 @@ export default class DailyFortune extends Component{
                     })
                 }}
             />
+            <Toast ref="toast"  position='bottom'/>
         </View>
     }
 }
