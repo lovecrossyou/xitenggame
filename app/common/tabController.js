@@ -50,8 +50,7 @@ export default class RootContainer extends Component {
         RootContainer.switchToLoginView = RootContainer.switchToLoginView.bind(this);
         RootContainer.switchToMainView = RootContainer.switchToMainView.bind(this);
         this.state = {
-            selectedTab: '喜腾',
-            tabName: ['喜腾','沙龙','发现','我']
+            selectedTab: tabBarItems[0].title,
         }
     }
 
@@ -84,7 +83,7 @@ export default class RootContainer extends Component {
 
     render() {
         const {selectedColor} = this.props;
-        const {tabName} = this.state;
+        // const {tabName} = this.state;
         return (<TabNavigator
             tabBarStyle={{ height: 50}}
             hidesTabTouch={false}
@@ -94,8 +93,8 @@ export default class RootContainer extends Component {
                     let Com = item.component
                     return <TabNavigator.Item
                         key={index}
-                        selected={this.state.selectedTab === tabName[index]}
-                        title={tabName[index]}
+                        selected={this.state.selectedTab === item.title}
+                        title={item.title}
                         renderIcon={item.icon}
                         onPress={() => this.setState({ selectedTab:item.title }) }>
                         <Com
