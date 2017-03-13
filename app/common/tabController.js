@@ -83,7 +83,6 @@ export default class RootContainer extends Component {
 
     render() {
         const {selectedColor} = this.props;
-        // const {tabName} = this.state;
         return (<TabNavigator
             tabBarStyle={{ height: 50}}
             hidesTabTouch={false}
