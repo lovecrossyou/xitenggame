@@ -117,7 +117,7 @@ export class FortuneCalendarPicker extends Component {
         super(props)
         this.state = {
             date: new Date(),
-            display: true
+            display: false
         }
     }
 
