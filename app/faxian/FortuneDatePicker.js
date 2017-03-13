@@ -122,29 +122,41 @@ export class FortuneCalendarPicker extends Component {
     }
 
     onClose() {
-        this.refs.pickermodal.close()
+        // this.refs.calendarpicker.close()
     }
 
     onOpen() {
-        this.refs.pickermodal.open()
+        this.setState({
+            display:true
+        })
     }
 
     onDateChange(date) {
-        this.setState({date: date});
+        let {onDateChange} = this.props
+        this.setState({date: date})
+        onDateChange(date.toString())
     }
 
     render() {
-        return <Modal style={{height:240}}
+        return <Modal style={{height:360}}
                       position={"bottom"}
                       isOpen={this.state.display}
-                      ref={"pickermodal"}
+                      ref={"calendarpicker"}
                       swipeArea={20}>
             <CalendarPicker
                 selectedDate={this.state.date}
                 onDateChange={this.onDateChange.bind(this)}
                 screenWidth={Dimensions.get('window').width}
                 selectedBackgroundColor={'#5ce600'}/>
-            <Text style={styles.selectedDate}> Date: { this.state.date.toString() } </Text>
+            <View style={styles.center}>
+                <TouchableOpacity onPress={()=>{
+                    this.setState({
+                        display:false
+                    })
+                }}>
+                    <Text>取消</Text>
+                </TouchableOpacity>
+            </View>
         </Modal>
     }
 }
@@ -162,5 +174,9 @@ const styles = {
     selectedDate: {
         backgroundColor: 'rgba(0,0,0,0)',
         color: '#000',
+    },
+    center:{
+        justifyContent:'center',
+        alignItems:'center'
     }
 }

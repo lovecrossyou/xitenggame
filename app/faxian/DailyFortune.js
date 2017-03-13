@@ -31,7 +31,7 @@ let {width} = Dimensions.get('window')
 class Header extends Component{
     render(){
         return <Image style={{marginTop:60 ,width:width,height:200}} source={require('../../img/me/betting-record_bg.png')}>
-            <View style={{alignItems:'center',}}>
+            <View style={{alignItems:'center'}}>
                 <Image
                     style={{width: 45, height: 45,marginBottom:10}}
                     source={require('../../img/home/icon_xiteng_s.png')}/>
@@ -85,7 +85,6 @@ export default class DailyFortune extends Component{
 
     onOpenCalendar(){
         this.refs.calendarpicker.onOpen()
-
     }
     render(){
         return <View
@@ -129,6 +128,11 @@ export default class DailyFortune extends Component{
             }}/>
             <FortuneCalendarPicker
                 ref={'calendarpicker'}
+                onDateChange={(date)=>{
+                    this.setState({
+                        fortuneday:date
+                    })
+                }}
             />
         </View>
     }
