@@ -32,7 +32,7 @@ const {width, height} = Dimensions.get('window')
 const picMargin = 10
 const picRowCount = 4
 let pageNo = 1
-const pageSize = 45
+const pageSize = 10
 const picSize = (width - picMargin * (picRowCount + 1)) / picRowCount
 
 
@@ -66,6 +66,7 @@ export default class ShaLongController extends Component {
     fetchData(){
         InteractionManager.runAfterInteractions(() => {
             this.props.actions.shalongAction(pageNo,pageSize,false,true);
+            pageNo++
         });
     }
 

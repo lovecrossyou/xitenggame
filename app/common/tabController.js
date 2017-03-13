@@ -89,44 +89,20 @@ export default class RootContainer extends Component {
             tabBarStyle={{ height: 50}}
             hidesTabTouch={false}
             sceneStyle={{ paddingBottom: 50 }}>
-            <TabNavigator.Item
-                selected={this.state.selectedTab === tabName[0]}
-                title={tabName[0]}
-                renderIcon={()=><Image style={styles.item_img}
-                          source={require('../../img/tab/tab_xiteng.png')} />}
-                onPress={() => this.setState({ selectedTab:'喜腾' }) }>
-                <HomeController
-                    navigator={this.props.navigator} {...this.props} />
-            </TabNavigator.Item>
-            <TabNavigator.Item
-                selected={this.state.selectedTab === tabName[1]}
-                title={tabName[1]}
-                renderIcon={()=><Image style={styles.item_img}
-                          source={require('../../img/tab/tab_shalong.png')} />}
-                onPress={() => this.setState({ selectedTab:'沙龙' }) }>
-                <ShaLongController
-                    navigator={this.props.navigator} {...this.props} />
-            </TabNavigator.Item>
-            <TabNavigator.Item
-                selected={this.state.selectedTab === tabName[2]}
-                title={tabName[2]}
-                renderIcon={()=><Image style={styles.item_img}
-                          source={require('../../img/tab/tab_faxian.png')} />}
-                onPress={() => this.setState({ selectedTab:'发现' }) }>
-                <FaXianController
-                    navigator={this.props.navigator} {...this.props}
-                />
-            </TabNavigator.Item>
-            <TabNavigator.Item
-                selected={this.state.selectedTab === tabName[3]}
-                title={tabName[3]}
-                renderIcon={()=><Image style={styles.item_img}
-                          source={require('../../img/tab/tab_me.png')} />}
-                onPress={() => this.setState({ selectedTab:tabName[3] }) }>
-                <AboutMe
-                    navigator={this.props.navigator} {...this.props}
-                />
-            </TabNavigator.Item>
+            {
+                tabBarItems.map((item, index) => {
+                    let Com = item.component
+                    return <TabNavigator.Item
+                        key={index}
+                        selected={this.state.selectedTab === tabName[index]}
+                        title={tabName[index]}
+                        renderIcon={item.icon}
+                        onPress={() => this.setState({ selectedTab:item.title }) }>
+                        <Com
+                            navigator={this.props.navigator} {...this.props} />
+                    </TabNavigator.Item>
+                })
+            }
         </TabNavigator>)
     }
 }

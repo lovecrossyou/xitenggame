@@ -36,12 +36,12 @@ export default class shalongDetail extends Component{
     }
 
     renderHeader(){
-        return <ShalongCell data={this.props.data}/>
+        return <ShalongCell data={this.props.data} numberOfLines={0}/>
 
     }
 
     render(){
-        return <View style={{flex:1,justifyContent:'space-between'}}>
+        return <View style={{flex:1,justifyContent:'space-between',backgroundColor:'#f5f5f5'}}>
             <NavigationBar
                 title={{title:'沙龙'}}
                 tintColor="#f7f7f8"/>

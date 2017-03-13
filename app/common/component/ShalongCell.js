@@ -60,20 +60,20 @@ class Content extends Component {
     }
 
     render() {
-        const {content, contentImages}  = this.props.data
-        var imgUrls = []
+        const {content, contentImages,numberOfLines}  = this.props.data
+        let imgUrls = []
         contentImages.forEach(function (img,index) {
             imgUrls.push({
                 'url': img.big_img
             })
         })
 
-        var picModels = [];
-        for(var i=0,len=contentImages.length;i<len;i+=picRowCount){
+        let picModels = [];
+        for(let i=0,len=contentImages.length;i<len;i+=picRowCount){
             picModels.push(contentImages.slice(i,i+picRowCount));
         }
 
-        var rowCells = picModels.map((rowM,index)=>{
+        const rowCells = picModels.map((rowM,index)=>{
             return (<RowImageCell rowM={rowM} key={index} showModal={this.state.showModal} showBigImage={()=>{
                 this.setState({
                      showModal:true
@@ -83,7 +83,7 @@ class Content extends Component {
         let rows = rowCells.length
         return <View style={styles.container}>
             <View>
-                <Text numberOfLines={9} style={{marginHorizontal:10,marginVertical:10}}>{content}</Text>
+                <Text numberOfLines={numberOfLines} style={{marginHorizontal:10,marginVertical:10}}>{content}</Text>
             </View>
             {rowCells}
             <Modal visible={this.state.showModal} transparent={false}>
@@ -109,7 +109,7 @@ export default class ShalongCell extends Component {
             style={[styles.container]}
             onPress={cellClick}>
             <UserHeaderInfo data={data}/>
-            <Content data={data}/>
+            <Content data={data} {...this.props}/>
             <CommentMoreFooter data={data}/>
         </TouchableOpacity>
     }
