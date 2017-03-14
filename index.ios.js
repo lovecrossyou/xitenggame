@@ -11,12 +11,12 @@ import {
 
 import {Provider} from 'react-redux'
 import store from './app/store/configure-store'
-import {Navigation} from './app/common/entry'
+import Entry from './app/common/entry'
 
 export default class xitenggame extends Component {
     render() {
         return <Provider store={store}>
-            <Navigation/>
+            <Entry/>
         </Provider>
     }
 }

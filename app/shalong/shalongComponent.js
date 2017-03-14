@@ -22,11 +22,10 @@ import Image from 'react-native-image-progress'
 import SGListView from 'react-native-sglistview'
 import ImageViewer from 'react-native-image-zoom-viewer'
 import {shalongcommentlist} from '../util/NetUtil'
-import {types} from './reducer/shalongReducer'
 import NavigationBar from 'react-native-navbar'
-import {shalongAction} from './action/shalongAction'
 import shalongDetail from './shalongDetail'
 import ShalongCell from '../common/component/ShalongCell'
+import UserDetailInfo from '../me/UserDetailInfo'
 const {width, height} = Dimensions.get('window')
 
 const picMargin = 10
@@ -54,13 +53,21 @@ export default class ShaLongController extends Component {
 
 
     renderData(data) {
-        return <ShalongCell data={data} cellClick={()=>{
+        return <ShalongCell
+            data={data}
+            cellClick={()=>{
             this.props.navigator.push({
             component:shalongDetail,
             title:'详情',
             params:{data}
-        })
-        }}/>
+            })}}
+            headerClick={()=>{
+            this.props.navigator.push({
+            component:UserDetailInfo,
+            title:'详细资料',
+            params:{data}
+            })}}
+        />
     }
 
     fetchData(){
@@ -85,11 +92,7 @@ export default class ShaLongController extends Component {
                 pageSize={pageSize}
                 scrollRenderAheadDistance={1}
                 stickyHeaderIndices={[]}
-                enableEmptySections={true}
-                renderFooter={()=>{
-                if(this.state.isLast)return null
-                return <LoadMoreFooter/>
-            }}>
+                enableEmptySections={true}>
             </SGListView>
         </View>
     }

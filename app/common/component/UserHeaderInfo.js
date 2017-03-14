@@ -13,14 +13,14 @@ import {
 
 export class UserHeaderInfo extends Component{
     render() {
-        const {userIconUrl, userName, time, sex,iconUrl}  = this.props.data
+        const {userIconUrl, userName, time, sex,iconUrl,headerClick}  = this.props.data
         var sexUrl = require('../../../img/shalong/man.png')
         if (sex != '男') {
             sexUrl = require('../../../img/shalong/woman.png')
         }
         return <View style={styles.userinfo_container}>
             <TouchableOpacity onPress={()=>{
-
+                this.props.headerClick()
             }}>
                 <Image
                     style={{width: 40, height: 40, borderRadius: 3, marginLeft: 10}}

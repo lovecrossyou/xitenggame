@@ -108,7 +108,7 @@ export default class ShalongCell extends Component {
         return <TouchableOpacity
             style={[styles.container]}
             onPress={cellClick}>
-            <UserHeaderInfo data={data}/>
+            <UserHeaderInfo data={data} {...this.props}/>
             <Content data={data} {...this.props}/>
             <CommentMoreFooter data={data}/>
         </TouchableOpacity>

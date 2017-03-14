@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 import HomeController from '../home/homeController'
-import ShaLongController from '../shalong/shalongComponent'
+import {ShaLongContainer} from '../container/ShaLongContainer'
 import FaXianController from '../faxian/faxianController'
 import AboutMe from '../me/MeController'
 import LoginController from '../login/LoginController'
@@ -29,7 +29,7 @@ const tabBarItems = [
         title: '沙龙',
         icon:() => <Image style={styles.item_img}
                           source={require('../../img/tab/tab_shalong.png')} /> ,
-        component: ShaLongController
+        component: ShaLongContainer
     },
     {
         title: '发现',

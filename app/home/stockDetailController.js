@@ -61,7 +61,7 @@ export default class stockDetailController extends Component{
         let commentlist = this.state.commentlist.map((comment,index)=>{
             return <ShalongCell data={comment} key={index}/>
         })
-        return <View style={{flex:1}}>
+        return <View style={{flex:1,backgroundColor:'#f5f5f5'}}>
             <NavigationBar
                 tintColor="#f7f7f8"
                 title={{title:stockGameName}}
